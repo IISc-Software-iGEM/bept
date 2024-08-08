@@ -14,16 +14,32 @@ def p_exec(pdb_file):
         pdb_file - input pdb file
     """
     pdb_name = os.path.splitext(os.path.basename(pdb_file))[0]
-    cmd_temp = f"pdb2pqr --ff=AMBER --apbs-input={pdb_name}.in --keep-chain --whitespace --drop-water --titration-state-method=propka --with-ph=7 {pdb_name}.pdb {pdb_name}.pqr"
+    pdb2pqr_template = f"pdb2pqr --ff=AMBER --apbs-input={pdb_name}.in --keep-chain --whitespace --drop-water --titration-state-method=propka --with-ph=7 {pdb_name}.pdb {pdb_name}.pqr"
 
     CONSOLE.print(
-        "Input the pdb2pqr command to run on input PDB file. You can edit this template command for ease.",
+        "Input the pdb2pqr command to run on input PDB file. You can edit this template command for ease. For more information on parameters, see pdb2pqr --help.",
         style="bold blue",
     )
-    cmd = prompt("PDB2PQR COMMAND: ", initial_value=cmd_temp)
+    cmd = prompt("PDB2PQR COMMAND: ", initial_value=pdb2pqr_template)
     print(f"Executing command: {cmd}")
 
     subprocess.run(cmd.split())
 
 
-p_exec("7y6i.pdb")
+def apbs_exec(input_file):
+    """
+    Execution of apbs command on input flag
+    Args:
+        input_file: .in input file for apbs
+    """
+
+    input_name = os.path.basename(input_file)
+    apbs_template = f"apbs {input_name}"
+
+    CONSOLE.print(
+        "Input the apbs command to run for APBS input file. You can edit this template command for ease. For more information on parameters, see apbs --help."
+    )
+    cmd = prompt("APBS COMMAND: {cmd}", initial_value=apbs_template)
+    print(f"Executing command: {cmd}")
+
+    subprocess.run(cmd.split())
