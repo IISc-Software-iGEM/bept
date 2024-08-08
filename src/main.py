@@ -2,6 +2,8 @@ import os
 
 import rich_click as click
 
+from .analysis.pot_main import *
+
 
 @click.group(context_settings={"help_option_names": ["-h", "--help"]})
 @click.version_option("some_name v1.0.0", "--version", "-v")
@@ -16,7 +18,7 @@ def main():
 
 @main.command(short_help="Generate pdb2pqr, apbs commands interactively")
 @click.option(
-    "--pdb",
+    "--pdb2pqr",
     "-p",
     is_flag=True,
     type=click.Path(exists=True),
@@ -41,7 +43,14 @@ def gen(pdb, apbs, interactive_gen):
 
 @main.command(short_help="Automate calculation of pdb2pqr and APBS.")
 @click.option(
-    "--pdb",
+    "--clear-history",
+    "-cl",
+    is_flag=True,
+    default=False,
+    short_help="Clear command history stored of pdb2pqr or apbs commands used previously.",
+)
+@click.option(
+    "--pdb2pqr",
     "-p",
     is_flag=True,
     type=click.Path(exists=True),
@@ -67,7 +76,7 @@ def gen(pdb, apbs, interactive_gen):
     type=click.Path(exists=True),
     help="Load list of protein or input files to automate.",
 )
-def auto(pdb, apbs, cmd_history, file_load):
+def auto(clear_history, pdb, apbs, cmd_history, file_load):
     """
     Automate pdb2pqr, apbs commands for multiple proteins. You can run this command as ....
     """

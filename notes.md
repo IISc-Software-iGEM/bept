@@ -19,6 +19,7 @@ Note the order of the below matters a lot
 
 ### auto for Automation
 
+- --clear-history, -ch : clears history of -p or -a flag
 - -p : pdb2pqr, req args: input PDB FILE, output file name
 - -a : apbs, req args: INPUT FILE
 - -c : command history load, that will be run, with file name, output name as mentioned in -p and -a flag.

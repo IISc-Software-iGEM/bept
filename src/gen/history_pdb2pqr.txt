@@ -1,0 +1,2 @@
+pdb2pqr --ff=AMBER --apbs-input=protein.in --keep-chain --whitespace --drop-water --titration-state-method=propka --with-ph=7 protein.pdb protein.pqr
+pdb2pqr --ff=AMBER --with-ph=7.0 --apbs-input=protein.in protein.pdb protein.pqr

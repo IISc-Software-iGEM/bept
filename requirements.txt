@@ -1,0 +1,7 @@
+pandas
+click
+rich-click
+beaupy
+pdb2pqr
+functools
+tabulate

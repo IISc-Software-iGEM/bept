@@ -63,7 +63,6 @@ def csv_make(pqr_file, pot_dx_file, destination_path):
     with open(pqr_file, "r") as f:
         pqr_data = f.readlines()
 
-    xmin, ymin, zmin, hx, hy, hz, nx, ny, nz = extract(pot_dx_file)
     with open(destination_path, "w", newline="") as p:
         writer = csv.writer(p)
         print("Written Header Files.")
@@ -92,6 +91,7 @@ def csv_make(pqr_file, pot_dx_file, destination_path):
         )
 
         for line in pqr_data:
+
             line = line.split()
             cx, cy, cz, q, r = line[-5], line[-4], line[-3], line[-2], line[-1]
             x, y, z = coord_to_int(cx, cy, cz, pot_dx_file)
