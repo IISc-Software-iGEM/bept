@@ -1,0 +1,3 @@
+pdb2pqr 7y6i.pdb
+apbs 7y6i.in
+

@@ -1,8 +1,8 @@
-import os
-
 import rich_click as click
 
 from .analysis.pot_main import *
+from .auto.auto_execute import *
+from .auto.auto_file import *
 from .auto.his_main import *
 
 
@@ -53,12 +53,14 @@ def validate_apbs(ctx, param, value):
     "--pdb2pqr",
     "-p",
     multiple=True,
+    type=click.Path(exists=True),
     callback=validate_pdb2pqr,
     help="Run pdb2pqr command. Input PDB file path.",
 )
 @click.option(
     "--apbs",
     "-a",
+    type=click.Path(exists=True),
     multiple=True,
     callback=validate_apbs,
     help="Run apbs command. Input APBS input file path.",
@@ -72,8 +74,8 @@ def validate_apbs(ctx, param, value):
 @click.option(
     "--file-load",
     "-f",
-    is_flag=True,
     type=click.Path(exists=True),
+    required=True,
     help="Load list of protein or input files to automate.",
 )
 def auto(clear_history, pdb2pqr, apbs, cmd_history, file_load):
@@ -83,6 +85,10 @@ def auto(clear_history, pdb2pqr, apbs, cmd_history, file_load):
     # clear history
     if clear_history:
         history_clear()
+        return
+
+    if file_load:
+        file_runner(file_load)
         return
 
     if not (apbs or pdb2pqr) and not cmd_history:
@@ -98,9 +104,13 @@ def auto(clear_history, pdb2pqr, apbs, cmd_history, file_load):
     # Command processing based on provided arguments or history
     if apbs:
         input_file = apbs[0]
+        apbs_exec(input_file)
+        return
 
     if pdb2pqr:
         pdb_file = pdb2pqr[0]
+        p_exec(pdb_file)
+        return
 
 
 @main.command(short_help="Generate pdb2pqr, apbs commands interactively")
