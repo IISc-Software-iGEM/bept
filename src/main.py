@@ -97,11 +97,10 @@ def auto(clear_history, pdb2pqr, apbs, cmd_history, file_load):
 
     # Command processing based on provided arguments or history
     if apbs:
-        input_file = apbs[0]  # the single .in file
-        # Process the apbs command with input_file
+        input_file = apbs[0]
 
     if pdb2pqr:
-        pdb_file = pdb2pqr  # the .pdb and .pqr files
+        pdb_file = pdb2pqr[0]
 
 
 @main.command(short_help="Generate pdb2pqr, apbs commands interactively")
