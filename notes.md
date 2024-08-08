@@ -13,17 +13,17 @@
 
 Note the order of the below matters a lot
 
-- -p : pdb2pqr, req args: input PDB FILE, output file name
-- -a : apbs, req args: INPUT FILE
-- -i : interactive, req args: None
+- [ ] -p : pdb2pqr, req args: input PDB FILE, output file name
+- [ ] -a : apbs, req args: INPUT FILE
+- [ ] -i : interactive, req args: None
 
 ### auto for Automation
 
-- --clear-history, -ch : clears history of -p or -a flag
-- -p : pdb2pqr, req args: input PDB FILE, output file name
-- -a : apbs, req args: INPUT FILE
-- -c : command history load, that will be run, with file name, output name as mentioned in -p and -a flag.
-- -f : file load, whith each line as file names. Outputs will be ran for each line.
+- [x] --clear-history, -ch : clears history of -p or -a flag
+- [x] -p : pdb2pqr, req args: input PDB FILE, output file name
+- [ ] -a : apbs, req args: INPUT FILE
+- [x] -c : command history load, that will be run, with file name, output name as mentioned in -p and -a flag.
+- [ ] -f : file load, whith each line as file names. Outputs will be ran for each line.
 
 ### out for Output files
 

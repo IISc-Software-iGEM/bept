@@ -3,6 +3,7 @@ import os
 import rich_click as click
 
 from .analysis.pot_main import *
+from .auto.his_main import *
 
 
 @click.group(context_settings={"help_option_names": ["-h", "--help"]})
@@ -16,29 +17,28 @@ def main():
     pass
 
 
-@main.command(short_help="Generate pdb2pqr, apbs commands interactively")
-@click.option(
-    "--pdb2pqr",
-    "-p",
-    is_flag=True,
-    type=click.Path(exists=True),
-    help="Path to the pdb file",
-)
-@click.option(
-    "--apbs",
-    "-a",
-    is_flag=True,
-    type=click.Path(exists=True),
-    help="Path to the apbs input file",
-)
-@click.option(
-    "--interactive", "-i", is_flag=True, help="Generate commands interactively"
-)
-def gen(pdb, apbs, interactive_gen):
-    """
-    Generate pdb2pqr, apbs commands interactively. You can run this command as ....
-    """
-    pass
+def validate_pdb2pqr(ctx, param, value):
+    if ctx.params.get("cmd_history"):
+        return value
+    if value:
+        if len(value) != 1:
+            raise click.BadParameter(
+                "pdb2pqr requires exactly one arguments: <pdb_filepath>.pdb."
+            )
+        if not (value[0].endswith(".pdb")):
+            raise click.BadParameter("The first argument must be a .pdb file.")
+    return value
+
+
+def validate_apbs(ctx, param, value):
+    if ctx.params.get("cmd_history"):
+        return value
+    if value:
+        if len(value) != 1 or not value[0].endswith(".in"):
+            raise click.BadParameter(
+                "apbs requires exactly one argument with .in file type."
+            )
+    return value
 
 
 @main.command(short_help="Automate calculation of pdb2pqr and APBS.")
@@ -47,21 +47,21 @@ def gen(pdb, apbs, interactive_gen):
     "-cl",
     is_flag=True,
     default=False,
-    short_help="Clear command history stored of pdb2pqr or apbs commands used previously.",
+    help="Clear command history stored of pdb2pqr or apbs commands used previously.",
 )
 @click.option(
     "--pdb2pqr",
     "-p",
-    is_flag=True,
-    type=click.Path(exists=True),
-    help="Path to the pdb file",
+    multiple=True,
+    callback=validate_pdb2pqr,
+    help="Run pdb2pqr command. Input PDB file path.",
 )
 @click.option(
     "--apbs",
     "-a",
-    is_flag=True,
-    type=click.Path(exists=True),
-    help="Path to the apbs input file",
+    multiple=True,
+    callback=validate_apbs,
+    help="Run apbs command. Input APBS input file path.",
 )
 @click.option(
     "--cmd-history",
@@ -76,9 +76,55 @@ def gen(pdb, apbs, interactive_gen):
     type=click.Path(exists=True),
     help="Load list of protein or input files to automate.",
 )
-def auto(clear_history, pdb, apbs, cmd_history, file_load):
+def auto(clear_history, pdb2pqr, apbs, cmd_history, file_load):
     """
     Automate pdb2pqr, apbs commands for multiple proteins. You can run this command as ....
+    """
+    # clear history
+    if clear_history:
+        history_clear()
+        return
+
+    if not (apbs or pdb2pqr) and not cmd_history:
+        click.echo(
+            "Either one of -a or -p must be chosen, or use -c for command history."
+        )
+        return
+
+    tool = "apbs" if apbs else "pdb2pqr"
+    if cmd_history:
+        history_choose(tool)
+
+    # Command processing based on provided arguments or history
+    if apbs:
+        input_file = apbs[0]  # the single .in file
+        # Process the apbs command with input_file
+
+    if pdb2pqr:
+        pdb_file = pdb2pqr  # the .pdb and .pqr files
+
+
+@main.command(short_help="Generate pdb2pqr, apbs commands interactively")
+@click.option(
+    "--pdb2pqr",
+    "-p",
+    multiple=True,
+    callback=validate_pdb2pqr,
+    help="Run pdb2pqr command. Input PDB file path.",
+)
+@click.option(
+    "--apbs",
+    "-a",
+    multiple=True,
+    callback=validate_apbs,
+    help="Run apbs command. Input APBS input file path.",
+)
+@click.option(
+    "--interactive", "-i", is_flag=True, help="Generate commands interactively"
+)
+def gen(pdb2qr, apbs, interactive):
+    """
+    Generate pdb2pqr, apbs commands interactively. You can run this command as ....
     """
     pass
 
