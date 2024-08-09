@@ -9,7 +9,7 @@ from .pot_extract import extract
 from .pot_val import val_potential
 
 
-def filemaker(protein, pqr_file, pot_dx_file, input_csv, destination_file):
+def bept_make(pqr_file, pot_dx_file, input_csv):
     """
     This will make our custom potential file.
     We want the coordinate, and the potential at that coordinate.
@@ -27,6 +27,8 @@ def filemaker(protein, pqr_file, pot_dx_file, input_csv, destination_file):
     xmin, ymin, zmin, hx, hy, hz, nx, ny, nz = extract(pot_dx_file)
 
     # Write metadata to the destination file
+    protein = pqr_file.split(".")[0]
+    destination_file = protein + ".bept"
     with open(destination_file, "w") as p:
         p.write("Protein structure: " + protein + "\n")
         p.write(
@@ -55,13 +57,17 @@ def filemaker(protein, pqr_file, pot_dx_file, input_csv, destination_file):
     with open(destination_file, "a") as p:
         p.write(table)
 
+    return destination_file
 
-def csv_make(pqr_file, pot_dx_file, destination_path):
+
+def csv_make(pqr_file, pot_dx_file):
     """
     This will make the csv file containing all the info
     """
     with open(pqr_file, "r") as f:
         pqr_data = f.readlines()
+
+    destination_path = pqr_file.split(".")[0] + ".csv"
 
     with open(destination_path, "w", newline="") as p:
         writer = csv.writer(p)
@@ -121,3 +127,5 @@ def csv_make(pqr_file, pot_dx_file, destination_path):
                     potential,
                 ]
             )
+
+    return destination_path
