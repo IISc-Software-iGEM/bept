@@ -70,7 +70,7 @@ def auto(clear_history, pdb2pqr, apbs, cmd_history, file_load):
 
     if not (apbs or pdb2pqr) and not cmd_history:
         click.echo(
-            "Either one of -a or -p must be chosen, or use -c for command history."
+            "Either one of -a or -p must be chosen, or use -c for command history. Refer bept auto -h for more information."
         )
         return
 
