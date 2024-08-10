@@ -60,47 +60,53 @@ if naming_scheme != "[red]Internal naming scheme[/red]":
     naming_scheme_str = f"--ffout={naming_scheme}"
     result.append(naming_scheme_str)
 
-    
+#If PARSE is the forcefield
+if forcefield == "PARSE":
+    console.print("Options required for PARSE Forcefield")
+    parse_options = {"Make the protein's N-terminus neutral" : "--neutraln",
+            "Make the protein's C-terminus neutral" : "--neutralc",
+            }
+
+    # Choose multiple options from a list
+    items1 = select_multiple(list(parse_options.keys()), tick_character='🎒', ticked_indices=[0], maximal_count=len(parse_options))
+
+    for key, value in parse_options.items():
+        if key in items1:
+            result.append(value)
+
 #Additional Options
-if not confirm("Ensure that new atoms are not rebuilt too close to existing atoms"):
-    #making the cl prompt
-    result.append(f"--nodebump")
+console.print("Additional Options")
 
-if not confirm("Optimize the hydrogen bonding network"):
-    #making the cl prompt
-    result.append(f"--noopt")
+add_options = ["Ensure that new atoms are not rebuilt too close to existing atoms",
+               "Optimize the hydrogen bonding network",
+               "Assign charges to the ligand specified in a MOL2 file",
+               "Enter the name for your APBS input file",
+               "Add/keep chain IDs in the PQR file",
+               "Insert whitespaces between atom name and residue name, between x and y, and between y and z",
+               "Remove the waters from the output file"]
 
-if confirm("Assign charges to the ligand specified in a MOL2 file"):
-    #Need to somehow get the ligand file from user
-    ligand_file = None
-    #making the cl prompt
-    result.append(f"--ligand={ligand_file}")
+values = ["--nodebump",
+          "--noopt",
+          "",
+          "",
+          "--keep-chain",
+          "--whitespace",
+          "--drop-water"]
 
-if confirm("Create an APBS input file"):
-    apbs_input_filename = prompt('Enter the name for your APBS input file:', target_type=str, validator=lambda string: len(string) < 20 )
-    #making the cl prompt
-    result.append(f"--ligand={apbs_input_filename}")
+# Choose multiple options from a list
+items2 = select_multiple(add_options, tick_character='🎒', ticked_indices=[0], maximal_count=len(add_options))
 
-if confirm("Add/keep chain IDs in the PQR file"):
-    #making the cl prompt
-    result.append(f"--keep-chain")
+for i in range(len(add_options)):
+    if i == 0 or i == 1:
+        if add_options[i] not in items2:
+            result.append(values[i])
+    elif i == 2 or i == 3:
+        #CODE TO GET INPUT FILES FROM USER
+        pass
+    else: 
+        if add_options[i] in items2:
+            result.append(values[i])
 
-if confirm("Insert whitespaces between atom name and residue name, between x and y, and between y and z"):
-    #making the cl prompt
-    result.append(f"--whitespace")
-
-if forcefield == 'PARSE':
-    if confirm("Make the protein's N-terminus neutral"):
-        #making the cl prompt
-        result.append(f"--neutraln")
-
-    if confirm("Make the protein's C-terminus neutral"):
-        #making the cl prompt
-        result.append(f"--neutralc")
-
-if confirm("Remove the waters from the output file"):
-        #making the cl prompt
-        result.append(f"--drop-water")
 
 #pdb2pqr command generation
 cl = " ".join(result)
