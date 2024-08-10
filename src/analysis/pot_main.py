@@ -1,12 +1,15 @@
 import csv
 
 import pandas as pd
+from rich.console import Console
 from tabulate import tabulate
 
 from .coord_conv import coord_to_int
 from .elec_calc import elec
 from .pot_extract import extract
 from .pot_val import val_potential
+
+CONSOLE = Console()
 
 
 def bept_make(pqr_file, pot_dx_file, input_csv):
@@ -64,15 +67,25 @@ def csv_make(pqr_file, pot_dx_file):
     """
     This will make the csv file containing all the info
     """
-    with open(pqr_file, "r") as f:
-        pqr_data = f.readlines()
+    try:
+        with open(pqr_file, "r") as f:
+            pqr_data = f.readlines()
+        with open(post_dx_file, "r") as g:
+            pass
+        CONSOLE.print(f"Input PQR File: {pqr_file}")
+        CONSOLE.print(f"Input Potential DX file: {pot_dx_file}")
+    except Exception as e:
+        CONSOLE.print(
+            f"Error in accepting input files.\n Recieved paths: {pqr_file} & {pot_dx_file}. Error: {e}",
+            style="red",
+        )
 
     destination_path = pqr_file.split(".")[0] + ".csv"
 
-    with open(destination_path, "w", newline="") as p:
-        writer = csv.writer(p)
-        print("Written Header Files.")
-
+    try:
+        with open(destination_path, "w", newline="") as p:
+            writer = csv.writer(p)
+        CONSOLE.print(f"Successfully generated BEPT CSV file at: {destination_path}")
         # Write column headers for the data
         writer.writerow(
             [
@@ -127,5 +140,8 @@ def csv_make(pqr_file, pot_dx_file):
                     potential,
                 ]
             )
+
+    except Exception as e:
+        CONSOLE.print(f"Error in generating BEPT CSV file. Error: {e}", style="red")
 
     return destination_path

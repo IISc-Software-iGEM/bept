@@ -14,7 +14,7 @@ def main():
     """
     BEPT is a Beginner friendly Protein Analysis Tool to start with protein analysis. You can perform APBS calculations using pdb2pqr and apbs interactively along with automating your work on multiple input proteins. <more_stuff>
 
-    This was built as part of the project IMPROVISeD, by IISc-Software-iGEM Team 2024, by Anirudh Gupta.
+    This was built as part of the project IMPROVISeD, by IISc-Software-iGEM Team 2024.
     """
     pass
 
@@ -169,4 +169,7 @@ def out(interactive, dx, all):
 
 
 if __name__ == "__main__":
+
+    header_msg_1 = "Thanks for running BEPT - your beginner friendly neighbourhood protein analysis tool.\n"
+    CONSOLE.print(header_msg_1, style="bold green")
     main()

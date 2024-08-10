@@ -13,7 +13,9 @@ def history_clear():
     """
     Clears command history from history_{ana_cmd}.txt
     """
-    CONSOLE.print("Clear command history of which of the following commands - ")
+    CONSOLE.print(
+        "Clear command history of which of the following commands - ", style="yellow"
+    )
     cmd_choice = select(
         ["apbs", "pdb2pqr", "all", "exit with clearing any"],
         cursor=">",
