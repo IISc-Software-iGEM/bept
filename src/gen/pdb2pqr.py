@@ -36,6 +36,7 @@ forcefield = select(forcefields, cursor="🢧", cursor_style="cyan")
 if forcefield != "[red]User-defined Forcefield[/red]":
     forcefield_str = f"--ff={forcefield}"
     result.append(forcefield_str)
+    
 else:
     pass #still have to do something
 
