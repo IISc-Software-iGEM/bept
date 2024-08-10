@@ -13,11 +13,33 @@ def history_clear():
     """
     Clears command history from history_{ana_cmd}.txt
     """
-    cmd_choice = select(["apbs", "pdb2pqr"], cursor=">", cursor_style="bold cyan")
-    his_path = os.path.join(history_dir, f"history_{cmd_choice}.txt")
-    with open(his_path, "w") as file:
-        file.write("")
-    CONSOLE.print(f"Successfully cleared {cmd_choice} command history.")
+    CONSOLE.print(
+        "Clear command history of which of the following commands - ", style="yellow"
+    )
+    cmd_choice = select(
+        ["apbs", "pdb2pqr", "all", "exit with clearing any"],
+        cursor=">",
+        cursor_style="bold cyan",
+    )
+    if cmd_choice == "exit with clearing any":
+        return
+
+    cmds_to_clear = [cmd_choice]
+    if cmd_choice == "all":
+        cmds_to_clear = ["apbs", "pdb2pqr"]
+
+    for cmd in cmds_to_clear:
+        his_path = os.path.join(history_dir, f"history_{cmd}.txt")
+        try:
+            with open(his_path, "w") as file:
+                file.write("")
+            CONSOLE.print(
+                f"Successfully cleared {cmd} command history.", style="bold green"
+            )
+        except Exception as e:
+            CONSOLE.print(
+                f"Error in clearing {cmd} command history. Error: {e}", style="bold red"
+            )
 
 
 def history_choose(ana_cmd: str):

@@ -1,44 +1,22 @@
 import rich_click as click
 
-from .analysis.pot_main import *
-from .auto.auto_execute import *
-from .auto.auto_file import *
-from .auto.his_main import *
+from src.analysis.pot_main import *
+from src.analysis.xyz import xyz_make
+from src.auto.auto_execute import *
+from src.auto.auto_file import *
+from src.auto.his_main import *
+from src.validator import validate_apbs, validate_dx, validate_pdb2pqr
 
 
 @click.group(context_settings={"help_option_names": ["-h", "--help"]})
 @click.version_option("some_name v1.0.0", "--version", "-v")
 def main():
     """
-    <my_tool> is a beginner friendly CLI to start with protein analysis. You can perform APBS calculations using pdb2pqr and apbs interactively along with automating your work on multiple input proteins. <more_stuff>
+    BEPT is a Beginner friendly Protein Analysis Tool to start with protein analysis. You can perform APBS calculations using pdb2pqr and apbs interactively along with automating your work on multiple input proteins. <more_stuff>
 
     This was built as part of the project IMPROVISeD, by IISc-Software-iGEM Team 2024.
     """
     pass
-
-
-def validate_pdb2pqr(ctx, param, value):
-    if ctx.params.get("cmd_history"):
-        return value
-    if value:
-        if len(value) != 1:
-            raise click.BadParameter(
-                "pdb2pqr requires exactly one arguments: <pdb_filepath>.pdb."
-            )
-        if not (value[0].endswith(".pdb")):
-            raise click.BadParameter("The first argument must be a .pdb file.")
-    return value
-
-
-def validate_apbs(ctx, param, value):
-    if ctx.params.get("cmd_history"):
-        return value
-    if value:
-        if len(value) != 1 or not value[0].endswith(".in"):
-            raise click.BadParameter(
-                "apbs requires exactly one argument with .in file type."
-            )
-    return value
 
 
 @main.command(short_help="Automate calculation of pdb2pqr and APBS.")
@@ -75,7 +53,6 @@ def validate_apbs(ctx, param, value):
     "--file-load",
     "-f",
     type=click.Path(exists=True),
-    required=True,
     help="Load list of protein or input files to automate.",
 )
 def auto(clear_history, pdb2pqr, apbs, cmd_history, file_load):
@@ -93,7 +70,7 @@ def auto(clear_history, pdb2pqr, apbs, cmd_history, file_load):
 
     if not (apbs or pdb2pqr) and not cmd_history:
         click.echo(
-            "Either one of -a or -p must be chosen, or use -c for command history."
+            "Either one of -a or -p must be chosen, or use -c for command history. Refer bept auto -h for more information."
         )
         return
 
@@ -140,18 +117,59 @@ def gen(pdb2qr, apbs, interactive):
 
 @main.command(short_help="Output File generation for potential output files")
 @click.option(
+    "--dx",
+    "-d",
+    type=click.Path(exists=True),
+    required=True,
+    nargs=2,
+    callback=validate_dx,
+    help="Input PQR file and corresponding APBS pot_dx file.",
+)
+@click.option(
     "--interactive",
     "-i",
     is_flag=True,
-    help="Interactively select which files to generate.",
+    help="Interactively select which files to generate. Default: only .bept",
 )
-@click.option("--all", "-a", is_flag=True, help="Generate all output files.")
-def out(interactive, all):
+@click.option(
+    "--all",
+    "-a",
+    is_flag=True,
+    help="Generate all other supported output files.",
+)
+def out(interactive, dx, all):
     """
     Generate output files for potential output files. You can run this command as ....
     """
-    pass
+    # using dx direcly since its REQUIRED
+    input_pqr, input_dx = dx
+
+    file_options = [
+        "cube: Gaussian .cube file",
+        "xyz: .xyz format for input protein",
+    ]
+    types = "bept: .bept file containing all data"
+    if all:
+        types = file_options
+
+    if interactive:
+        CONSOLE.print(
+            "A csv containing all data will be generated. Choose among the following types of files you would also like to choose.",
+            style="bold blue",
+        )
+        types = select_multiple(file_options)
+
+    bept_csv = csv_make(input_pqr, input_dx)
+    bept_main_path = bept_make(input_pqr, input_dx, bept_csv)
+    for _typ in types:
+        # if _typ == file_options[0]:
+        #   cube_make(input_pqr, input_dx)
+        if _typ == file_options[1]:
+            xyz_make(bept_csv, bept_main_path)
 
 
 if __name__ == "__main__":
+
+    header_msg_1 = "Thanks for running BEPT - your beginner friendly neighbourhood protein analysis tool.\n"
+    CONSOLE.print(header_msg_1, style="bold green")
     main()

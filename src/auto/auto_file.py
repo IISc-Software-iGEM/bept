@@ -14,7 +14,6 @@ def file_runner(input_file):
         FORMAT:
             pdb2pqr protein.
             apbs protein1.in
-            ...
 
     """
     with open(input_file, "r") as f:

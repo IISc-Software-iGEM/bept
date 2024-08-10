@@ -10,7 +10,7 @@ from .pot_val import val_potential as U
 def compute_field(filepath):
 
     if not compute_field.cache_info().hits:
-        print("Field is being generated...")
+        print("Generating Field data. ")
 
     xmin, ymin, zmin, hx, hy, hz, nx, ny, nz = extract(filepath)
 
@@ -32,7 +32,7 @@ def compute_field(filepath):
     # Ex, Ey, Ez = grad_x, grad_y, grad_z
 
     if not compute_field.cache_info().hits:
-        print("Field generation complete.")
+        print("Field generation successful.")
 
     return Ex, Ey, Ez
 
@@ -41,4 +41,3 @@ def elec(cx, cy, cz, filepath):
     Ex, Ey, Ez = compute_field(filepath)
     field = Ex[cx, cy, cz], Ey[cx, cy, cz], Ez[cx, cy, cz]
     return field
-
