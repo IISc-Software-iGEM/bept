@@ -1,17 +1,10 @@
 
 #easy way to get pdb2pqr on CLI
-import time
+import time, os
 from beaupy import confirm, prompt, select, select_multiple
 #from beaupy.spinners import *
 from rich.console import Console
 
-def get_file_path():
-    if confirm("Do you have the necessary file downlowded on your device?"):
-        file_path = prompt('Enter the path to your file', target_type=str)      
-    else:
-        pass #yet to do
-
-    return file_path
 
 def inter_pqr_gen(input_pdb:str):
     """
@@ -25,7 +18,14 @@ def inter_pqr_gen(input_pdb:str):
     console = Console()
     #making the cl prompt
     result = ['pdb2pqr']
-    
+
+    def get_file_path():
+        file_path = prompt('Enter the path to your file', target_type=str)  
+        while not os.path.exists(file_path):
+            console.print("The path you entered does not exist")
+            file_path = prompt('Enter the path to your file', target_type=str)     
+        return file_path
+  
     #pKa Options
     if confirm("Would you like to use PROPKA to assign protonation states at provided pH?"):
         #get pH from user
@@ -33,8 +33,7 @@ def inter_pqr_gen(input_pdb:str):
         #making the cl prompt
         pH_str = f"--titration-state-method=propka --with-ph={pH}"
         result.append(pH_str)
-    
-    
+        
     #forcefield options
     forcefields = [
             "AMBER",
@@ -55,13 +54,13 @@ def inter_pqr_gen(input_pdb:str):
         
     else:
         console.print("Input the Forcefield file")
-        file_path = get_file_path()
-        user_forcefield_str = f"--userff={file_path}"
+        ff_path = get_file_path()
+        user_forcefield_str = f"--userff={ff_path}"
         result.append(user_forcefield_str)
 
         console.print("Input the Names file")
-        file_path = get_file_path()
-        user_names_str = f"--usernames={file_path}"
+        n_path = get_file_path()
+        user_names_str = f"--usernames={n_path}"
         result.append(user_names_str)
         
     
@@ -91,7 +90,7 @@ def inter_pqr_gen(input_pdb:str):
                 }
     
         # Choose multiple options from a list
-        items1 = select_multiple(list(parse_options.keys()), tick_character='🎒', ticked_indices=[0], maximal_count=len(parse_options))
+        items1 = select_multiple(list(parse_options.keys()), tick_character='*', ticked_indices=[0], maximal_count=len(parse_options))
     
         for key, value in parse_options.items():
             if key in items1:
@@ -125,20 +124,21 @@ def inter_pqr_gen(input_pdb:str):
                 result.append(values[i])
 
         elif i == 2:
-            console.print("Input the Ligand file")
-            file_path = get_file_path()
-            ligand_str = f"--ligand={file_path}"
-            result.append(ligand_str)
+            if add_options[i] in items2:
+                console.print("Input the Ligand file")
+                lig_path = get_file_path()
+                ligand_str = f"--ligand={lig_path}"
+                result.append(ligand_str)
 
         elif i == 3:
-            apbs_input_file = prompt('Enter the name for your APBS input file', target_type=str)
-            apbs_input_file_str = f"--apbs-input={apbs_input_file}"
-            result.append(apbs_input_file_str)
+            if add_options[i] in items2:
+                apbs_input_file = prompt('Enter the name for your APBS input file', target_type=str)
+                apbs_input_file_str = f"--apbs-input={apbs_input_file}"
+                result.append(apbs_input_file_str)
 
         else: 
             if add_options[i] in items2:
                 result.append(values[i])
-    
     
     #pdb2pqr command generation
     final_cmd = " ".join(result)
