@@ -3,8 +3,11 @@
 These are some of the resources for reading basic about Computational Biology, APBS and IMPROVISeD project.
 These resources can range from articles, documentations to Research Papers. Various references of papers will also be mentioned in this file(or be taken from mentioned links)
 
-## Computational Biology
-
+## Computational Biology'
+- https://nvlpubs.nist.gov/nistpubs/jres/094/jresv94n1p85_A1b.pdf
+- Ten simple rules collection - https://widdowquinn.github.io/ten_great_papers/
+- https://link.springer.com/protocol/10.1007/978-1-59745-524-4_7 (use iisc mail id for access if required)
+  
 ## APBS and PDB2PQR
 
 1. Official Documentation APBS - https://apbs.readthedocs.io/en/latest/background.html
