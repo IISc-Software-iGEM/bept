@@ -5,6 +5,14 @@ from beaupy import confirm, prompt, select, select_multiple
 #from beaupy.spinners import *
 from rich.console import Console
 
+def get_file_path():
+    if confirm("Do you have the necessary file downlowded on your device?"):
+        file_path = prompt('Enter the path to your file', target_type=str)      
+    else:
+        pass #yet to do
+
+    return file_path
+
 def inter_pqr_gen(input_pdb:str):
     """
     This is an interactive pdb2pqr command generation with input pdb, making it easy to use & giving it a webserver feeling.
@@ -19,9 +27,9 @@ def inter_pqr_gen(input_pdb:str):
     result = ['pdb2pqr']
     
     #pKa Options
-    if confirm("Would you like to use PROPKA to assign protonation states at provided pH? Default: pH = 7.0 ):
+    if confirm("Would you like to use PROPKA to assign protonation states at provided pH?"):
         #get pH from user
-        pH = prompt('Input pH value in float: ', target_type=float, validator=lambda count: count > 0 and count < 14)
+        pH = prompt('Input pH value in float (Default value = 7.0):', target_type=float, validator=lambda count: count > 0 and count < 14)
         #making the cl prompt
         pH_str = f"--titration-state-method=propka --with-ph={pH}"
         result.append(pH_str)
@@ -46,9 +54,16 @@ def inter_pqr_gen(input_pdb:str):
         result.append(forcefield_str)
         
     else:
-        pass #still have to do something
-    
-    
+        console.print("Input the Forcefield file")
+        file_path = get_file_path()
+        user_forcefield_str = f"--userff={file_path}"
+        result.append(user_forcefield_str)
+
+        console.print("Input the Names file")
+        file_path = get_file_path()
+        user_names_str = f"--usernames={file_path}"
+        result.append(user_names_str)
+        
     
     #output naming scheme options
     naming_schemes = [
@@ -88,15 +103,15 @@ def inter_pqr_gen(input_pdb:str):
     add_options = ["Ensure that new atoms are not rebuilt too close to existing atoms",
                    "Optimize the hydrogen bonding network",
                    "Assign charges to the ligand specified in a MOL2 file",
-                   "Enter the name for your APBS input file",
+                   "Create an APBS input file",
                    "Add/keep chain IDs in the PQR file",
                    "Insert whitespaces between atom name and residue name, between x and y, and between y and z",
                    "Remove the waters from the output file"]
     
     values = ["--nodebump",
               "--noopt",
-              "",
-              "",
+              "--ligand=",
+              "--apbs-input=",
               "--keep-chain",
               "--whitespace",
               "--drop-water"]
@@ -108,9 +123,18 @@ def inter_pqr_gen(input_pdb:str):
         if i <= 1:
             if add_options[i] not in items2:
                 result.append(values[i])
-        elif 2 <= i <= 3:
-            #CODE TO GET INPUT FILES FROM USER
-            pass
+
+        elif i == 2:
+            console.print("Input the Ligand file")
+            file_path = get_file_path()
+            ligand_str = f"--ligand={file_path}"
+            result.append(ligand_str)
+
+        elif i == 3:
+            apbs_input_file = prompt('Enter the name for your APBS input file', target_type=str)
+            apbs_input_file_str = f"--apbs-input={apbs_input_file}"
+            result.append(apbs_input_file_str)
+
         else: 
             if add_options[i] in items2:
                 result.append(values[i])
