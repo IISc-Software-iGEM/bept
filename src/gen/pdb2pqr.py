@@ -19,11 +19,11 @@ def inter_pqr_gen(input_pdb:str):
     #making the cl prompt
     result = ['pdb2pqr']
 
-    def get_file_path():
-        file_path = prompt('Enter the path to your file', target_type=str)  
+    def get_file_path(attr=""):
+        file_path = prompt(f'Enter the path to your {attr} file', target_type=str)  
         while not os.path.exists(file_path):
             console.print("The path you entered does not exist")
-            file_path = prompt('Enter the path to your file', target_type=str)     
+            file_path = prompt(f'Enter the path to your {attr} file', target_type=str)     
         return file_path
   
     #pKa Options
@@ -54,7 +54,7 @@ def inter_pqr_gen(input_pdb:str):
         
     else:
         console.print("Input the Forcefield file")
-        ff_path = get_file_path()
+        ff_path = get_file_path("force field")
         user_forcefield_str = f"--userff={ff_path}"
         result.append(user_forcefield_str)
 
@@ -85,9 +85,11 @@ def inter_pqr_gen(input_pdb:str):
     #If PARSE is the forcefield
     if forcefield == "PARSE":
         console.print("Options required for PARSE Forcefield")
-        parse_options = {"Make the protein's N-terminus neutral" : "--neutraln",
-                "Make the protein's C-terminus neutral" : "--neutralc",
-                }
+        parse_options = {
+            "Make the protein's N-terminus neutral" : "--neutraln",
+            "Make the protein's C-terminus neutral" : "--neutralc",
+            "Skip, choose None" : "",
+        }
     
         # Choose multiple options from a list
         items1 = select_multiple(list(parse_options.keys()), tick_character='*', ticked_indices=[0], maximal_count=len(parse_options))
@@ -97,14 +99,14 @@ def inter_pqr_gen(input_pdb:str):
                 result.append(value)
     
     #Additional Options
-    console.print("Additional Options")
+    console.print("Additional Options. Recommended Options (**) ")
     
     add_options = ["Ensure that new atoms are not rebuilt too close to existing atoms",
                    "Optimize the hydrogen bonding network",
                    "Assign charges to the ligand specified in a MOL2 file",
-                   "Create an APBS input file",
-                   "Add/keep chain IDs in the PQR file",
-                   "Insert whitespaces between atom name and residue name, between x and y, and between y and z",
+                   "Create an APBS input file **",
+                   "Add/keep chain IDs in the PQR file **",
+                   "Insert whitespaces between atom name and residue name, between x and y, and between y and z **",
                    "Remove the waters from the output file"]
     
     values = ["--nodebump",
@@ -132,8 +134,8 @@ def inter_pqr_gen(input_pdb:str):
 
         elif i == 3:
             if add_options[i] in items2:
-                apbs_input_file = prompt('Enter the name for your APBS input file', target_type=str)
-                apbs_input_file_str = f"--apbs-input={apbs_input_file}"
+                apbs_input_file = prompt('Enter the name for your APBS input file(without .in extension)', target_type=str)
+                apbs_input_file_str = f"--apbs-input={apbs_input_file}" if apbs_input_file.endswith(".in") else f"--apbs-input={apbs_input_file}.in" 
                 result.append(apbs_input_file_str)
 
         else: 
