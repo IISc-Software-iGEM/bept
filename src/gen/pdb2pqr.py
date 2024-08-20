@@ -141,9 +141,20 @@ def inter_pqr_gen(input_pdb:str):
         else: 
             if add_options[i] in items2:
                 result.append(values[i])
+                    
+    #Adding input pdb file and the output pqr file to the cl prompt
+    result.append(input_pdb)
+    #Output pqr has the same name as input pdb
+    output_pqr = input_pdb[:-3] + 'pqr'
+    result.append(output_pqr)
     
     #pdb2pqr command generation
     final_cmd = " ".join(result)
-    return final_cmd
+    return final_cmd 
+
+if __name__ == '__main__':
+    print(inter_pqr_gen('test.pdb'))
+    
+
 
 
