@@ -151,10 +151,3 @@ def inter_pqr_gen(input_pdb:str):
     #pdb2pqr command generation
     final_cmd = " ".join(result)
     return final_cmd 
-
-if __name__ == '__main__':
-    print(inter_pqr_gen('test.pdb'))
-    
-
-
-
