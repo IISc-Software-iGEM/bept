@@ -1,11 +1,11 @@
 import rich_click as click
 
-from src.analysis.pot_main import *
-from src.analysis.xyz import xyz_make
-from src.auto.auto_execute import *
-from src.auto.auto_file import *
-from src.auto.his_main import *
-from src.validator import validate_apbs, validate_dx, validate_pdb2pqr
+from bept.analysis.pot_main import *
+from bept.analysis.xyz import xyz_make
+from bept.auto.auto_execute import *
+from bept.auto.auto_file import *
+from bept.auto.his_main import *
+from bept.validator import validate_apbs, validate_dx, validate_pdb2pqr
 
 
 @click.group(context_settings={"help_option_names": ["-h", "--help"]})
@@ -169,7 +169,6 @@ def out(interactive, dx, all):
 
 
 if __name__ == "__main__":
-
     header_msg_1 = "Thanks for running BEPT - your beginner friendly neighbourhood protein analysis tool.\n"
     CONSOLE.print(header_msg_1, style="bold green")
     main()
