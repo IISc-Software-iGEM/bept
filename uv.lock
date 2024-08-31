@@ -19,9 +19,10 @@ wheels = [
 [[package]]
 name = "bept"
 version = "0.1.0"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "beaupy" },
+    { name = "click" },
     { name = "loguru" },
     { name = "pandas" },
     { name = "pdb2pqr" },
@@ -32,8 +33,9 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "beaupy", specifier = ">=3.9.2" },
-    { name = "loguru", specifier = ">=0.7.2" },
+    { name = "beaupy" },
+    { name = "click", specifier = ">=8.1.7" },
+    { name = "loguru" },
     { name = "pandas", specifier = ">=2.2.2" },
     { name = "pdb2pqr", specifier = ">=3.6.2" },
     { name = "rich", specifier = ">=13.8.0" },

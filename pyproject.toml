@@ -5,11 +5,19 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "loguru>=0.7.2",
+    "beaupy",
+    "click>=8.1.7",
+    "loguru",
     "pandas>=2.2.2",
-    "rich>=13.8.0",
-    "rich-click>=1.8.3",
-    "beaupy>=3.9.2",
     "pdb2pqr>=3.6.2",
+    "rich-click>=1.8.3",
+    "rich>=13.8.0",
     "tabulate>=0.9.0",
 ]
+
+[project.scripts]
+bept = "src.bept.main:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
