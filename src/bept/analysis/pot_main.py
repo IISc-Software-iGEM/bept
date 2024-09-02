@@ -12,6 +12,13 @@ from .pot_val import val_potential
 CONSOLE = Console()
 
 
+def Error():
+    """
+    Error function to return error message
+    """
+    return True
+
+
 def bept_make(pqr_file, pot_dx_file, input_csv):
     """
     This will make our custom potential file.
@@ -32,6 +39,8 @@ def bept_make(pqr_file, pot_dx_file, input_csv):
     # Write metadata to the destination file
     protein = pqr_file.split(".")[0]
     destination_file = protein + ".bept"
+
+    err = False
     with open(destination_file, "w") as p:
         p.write("Protein structure: " + protein + "\n")
         p.write(
@@ -57,20 +66,25 @@ def bept_make(pqr_file, pot_dx_file, input_csv):
     table = tabulate(csv_data, headers="keys", tablefmt="plain", showindex=False)
 
     # Append the formatted table to the destination file
-    with open(destination_file, "a") as p:
-        p.write(table)
+    try:
+        with open(destination_file, "a") as p:
+            p.write(table)
+    except Exception as e:
+        CONSOLE.print(f"Error in writing the BEPT file. Error: {e}", style="red")
+        err = Error()
 
-    return destination_file
+    return destination_file, err
 
 
 def csv_make(pqr_file, pot_dx_file):
     """
     This will make the csv file containing all the info
     """
+    err = False
     try:
         with open(pqr_file, "r") as f:
             pqr_data = f.readlines()
-        with open(post_dx_file, "r") as g:
+        with open(pot_dx_file, "r"):
             pass
         CONSOLE.print(f"Input PQR File: {pqr_file}")
         CONSOLE.print(f"Input Potential DX file: {pot_dx_file}")
@@ -79,6 +93,8 @@ def csv_make(pqr_file, pot_dx_file):
             f"Error in accepting input files.\n Recieved paths: {pqr_file} & {pot_dx_file}. Error: {e}",
             style="red",
         )
+        err = Error()
+        return 0
 
     destination_path = pqr_file.split(".")[0] + ".csv"
 
@@ -143,5 +159,6 @@ def csv_make(pqr_file, pot_dx_file):
 
     except Exception as e:
         CONSOLE.print(f"Error in generating BEPT CSV file. Error: {e}", style="red")
+        err = Error()
 
-    return destination_path
+    return destination_path, err

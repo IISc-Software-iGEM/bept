@@ -147,6 +147,7 @@ def out(interactive, dx, all):
     file_options = [
         "cube: Gaussian .cube file",
         "xyz: .xyz format for input protein",
+        "Cancel and generate default",  # Always last option
     ]
     types = "bept: .bept file containing all data"
     if all:
@@ -159,16 +160,18 @@ def out(interactive, dx, all):
         )
         types = select_multiple(file_options)
 
-    bept_csv = csv_make(input_pqr, input_dx)
-    bept_main_path = bept_make(input_pqr, input_dx, bept_csv)
+    bept_csv, err_csv = csv_make(input_pqr, input_dx)
+    bept_main_path, err_bept = bept_make(input_pqr, input_dx, bept_csv)
+    if err_csv or err_bept:
+        CONSOLE.print("Error in generating default files.")
+        return 0
+
     for _typ in types:
+        if _typ == file_options[-1]:
+            ## The csv and bept are already generated. Simply exit
+            CONSOLE.print("Default files are already generated.")
+            break
         # if _typ == file_options[0]:
         #   cube_make(input_pqr, input_dx)
         if _typ == file_options[1]:
             xyz_make(bept_csv, bept_main_path)
-
-
-if __name__ == "__main__":
-    header_msg_1 = "Thanks for running BEPT - your beginner friendly neighbourhood protein analysis tool.\n"
-    CONSOLE.print(header_msg_1, style="bold green")
-    main()
