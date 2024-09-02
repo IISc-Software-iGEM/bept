@@ -1,5 +1,6 @@
 import rich_click as click
 from beaupy import select_multiple
+from rich.console import Console
 
 from bept.analysis.pot_main import csv_make, bept_make, CONSOLE
 from bept.analysis.xyz import xyz_make
@@ -8,6 +9,8 @@ from bept.auto.auto_file import file_runner
 from bept.auto.his_main import history_clear, history_choose
 from bept.validator import validate_apbs, validate_dx, validate_pdb2pqr
 from bept.gen.pdb2pqr import inter_pqr_gen, exec_pdb2pqr
+
+CONSOLE = Console()
 
 
 @click.group(context_settings={"help_option_names": ["-h", "--help"]})
@@ -73,6 +76,11 @@ def auto(clear_history, pdb2pqr, apbs, cmd_history, file_load):
     if not (apbs or pdb2pqr) and not cmd_history:
         click.echo(
             "Either one of -a or -p must be chosen, or use -c for command history. Refer bept auto -h for more information."
+        )
+        return
+    if cmd_history and not (apbs or pdb2pqr):
+        CONSOLE.print(
+            "Please provide either -a or -p to use command history.", style="red"
         )
         return
 
