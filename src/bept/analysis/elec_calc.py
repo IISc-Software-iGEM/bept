@@ -2,13 +2,12 @@ from functools import lru_cache
 
 import numpy as np
 
-from .pot_extract import extract
-from .pot_val import val_potential as U
+from bept.analysis.pot_extract import extract
+from bept.analysis.pot_val import val_potential as U
 
 
 @lru_cache(maxsize=None)
 def compute_field(filepath):
-
     if not compute_field.cache_info().hits:
         print("Generating Field data. ")
 

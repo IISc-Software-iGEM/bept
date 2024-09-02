@@ -1,4 +1,4 @@
-from .pot_extract import extract
+from bept.analysis.pot_extract import extract
 
 
 def int_to_coord(x, y, z, filepath):
@@ -26,4 +26,3 @@ def coord_to_int(cx, cy, cz, filepath):
     z = round((float(cz) - zmin) / hz)
 
     return x, y, z
-

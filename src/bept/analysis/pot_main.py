@@ -4,10 +4,10 @@ import pandas as pd
 from rich.console import Console
 from tabulate import tabulate
 
-from .coord_conv import coord_to_int
-from .elec_calc import elec
-from .pot_extract import extract
-from .pot_val import val_potential
+from bept.analysis.coord_conv import coord_to_int
+from bept.analysis.elec_calc import elec
+from bept.analysis.pot_extract import extract
+from bept.analysis.pot_val import val_potential
 
 CONSOLE = Console()
 
@@ -101,61 +101,74 @@ def csv_make(pqr_file, pot_dx_file):
     try:
         with open(destination_path, "w", newline="") as p:
             writer = csv.writer(p)
-        CONSOLE.print(f"Successfully generated BEPT CSV file at: {destination_path}")
-        # Write column headers for the data
-        writer.writerow(
-            [
-                "Type",
-                "Num",
-                "Atom",
-                "Resi",
-                "Chain",
-                "Cx",
-                "Cy",
-                "Cz",
-                "Q",
-                "R",
-                "X",
-                "Y",
-                "Z",
-                "Ex",
-                "Ey",
-                "Ez",
-                "Potential",
-            ]
-        )
-
-        for line in pqr_data:
-
-            line = line.split()
-            cx, cy, cz, q, r = line[-5], line[-4], line[-3], line[-2], line[-1]
-            x, y, z = coord_to_int(cx, cy, cz, pot_dx_file)
-            ex, ey, ez = elec(x, y, z, pot_dx_file)
-            potential = val_potential(cx, cy, cz, pot_dx_file)
-            typ, num, atom, resi, chain = line[0], line[1], line[2], line[3], line[4]
-
-            # Write the data row
+            CONSOLE.print(
+                f"Successfully generated BEPT CSV file at: {destination_path}"
+            )
+            # Write column headers for the data
             writer.writerow(
                 [
-                    typ,
-                    num,
-                    atom,
-                    resi,
-                    chain,
-                    cx,
-                    cy,
-                    cz,
-                    q,
-                    r,
-                    x,
-                    y,
-                    z,
-                    ex,
-                    ey,
-                    ez,
-                    potential,
+                    "Type",
+                    "Num",
+                    "Atom",
+                    "Resi",
+                    "Chain",
+                    "Cx",
+                    "Cy",
+                    "Cz",
+                    "Q",
+                    "R",
+                    "X",
+                    "Y",
+                    "Z",
+                    "Ex",
+                    "Ey",
+                    "Ez",
+                    "Potential",
                 ]
             )
+
+            for line in pqr_data:
+                line = line.split()
+                cx, cy, cz, q, r = (
+                    line[-5],
+                    line[-4],
+                    line[-3],
+                    line[-2],
+                    line[-1],
+                )  # PQR file data
+                x, y, z = coord_to_int(cx, cy, cz, pot_dx_file)  # Convert to integer
+                ex, ey, ez = elec(x, y, z, pot_dx_file)  # Electric field
+                potential = val_potential(cx, cy, cz, pot_dx_file)  # Potential
+                typ, num, atom, resi, chain = (
+                    line[0],
+                    line[1],
+                    line[2],
+                    line[3],
+                    line[4],
+                )
+
+                # Write the data row
+                writer.writerow(
+                    [
+                        typ,
+                        num,
+                        atom,
+                        resi,
+                        chain,
+                        cx,
+                        cy,
+                        cz,
+                        q,
+                        r,
+                        x,
+                        y,
+                        z,
+                        ex,
+                        ey,
+                        ez,
+                        potential,
+                    ]
+                )
 
     except Exception as e:
         CONSOLE.print(f"Error in generating BEPT CSV file. Error: {e}", style="red")

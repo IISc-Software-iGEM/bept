@@ -1,5 +1,5 @@
-from .coord_conv import coord_to_int
-from .pot_extract import extract
+from bept.analysis.coord_conv import coord_to_int
+from bept.analysis.pot_extract import extract
 
 # Cache for storing file data
 file_cache = {}
@@ -28,4 +28,3 @@ def val_potential(cx, cy, cz, filepath):
     potential = data[line_number].split()[position]
 
     return float(potential)
-

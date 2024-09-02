@@ -1,10 +1,11 @@
 import rich_click as click
+from beaupy import select_multiple
 
-from bept.analysis.pot_main import *
+from bept.analysis.pot_main import csv_make, bept_make, CONSOLE
 from bept.analysis.xyz import xyz_make
-from bept.auto.auto_execute import *
-from bept.auto.auto_file import *
-from bept.auto.his_main import *
+from bept.auto.auto_execute import p_exec, apbs_exec
+from bept.auto.auto_file import file_runner
+from bept.auto.his_main import history_clear, history_choose
 from bept.validator import validate_apbs, validate_dx, validate_pdb2pqr
 
 
@@ -142,7 +143,7 @@ def out(interactive, dx, all):
     Generate output files for potential output files. You can run this command as ....
     """
     # using dx direcly since its REQUIRED
-    input_pqr, input_dx = dx
+    input_pqr, input_dx = dx  # unpacking the tuple
 
     file_options = [
         "cube: Gaussian .cube file",
