@@ -150,16 +150,22 @@ def out(interactive, dx, all):
         "xyz: .xyz format for input protein",
         "Cancel and generate default",  # Always last option
     ]
-    types = "bept: .bept file containing all data"
+    types = ["bept: .bept file containing all data"]
     if all:
-        types = file_options
+        types += file_options
 
     if interactive:
         CONSOLE.print(
             "A csv containing all data will be generated. Choose among the following types of files you would also like to choose.",
             style="bold blue",
         )
-        types = select_multiple(file_options)
+        types += select_multiple(file_options)
+
+    if file_options[-1] in types and len(types) > 3 and not all:
+        CONSOLE.print(
+            "Warning! You selected Cancel along with other options. Only default files will be generated.",
+            style="bold yellow",
+        )
 
     bept_csv, err_csv = csv_make(input_pqr, input_dx)
     bept_main_path, err_bept = bept_make(input_pqr, input_dx, bept_csv)
@@ -167,12 +173,24 @@ def out(interactive, dx, all):
         CONSOLE.print("Error in generating default files.")
         return 0
 
+    err_xyz = False  # TODO: Add more type of files here
     for _typ in types:
         if _typ == file_options[-1]:
             ## The csv and bept are already generated. Simply exit
-            CONSOLE.print("Default files are already generated.")
             break
-        # if _typ == file_options[0]:
+        # if _typ == file_options[1]:
         #   cube_make(input_pqr, input_dx)
-        if _typ == file_options[1]:
-            xyz_make(bept_csv, bept_main_path)
+        if _typ == file_options[2]:
+            destination_xyz, err_xyz = xyz_make(bept_csv, bept_main_path)
+
+            if err_xyz:
+                CONSOLE.print("Error in generating additional files.", style="red")
+            else:
+                CONSOLE.print(
+                    f"Successfully generated xyz file at: {destination_xyz}",
+                    style="green",
+                )
+
+    if not err_xyz:
+        CONSOLE.print("Successfully generated output files.", style="green")
+    return 1
