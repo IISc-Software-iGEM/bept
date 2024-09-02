@@ -7,6 +7,7 @@ from bept.auto.auto_execute import p_exec, apbs_exec
 from bept.auto.auto_file import file_runner
 from bept.auto.his_main import history_clear, history_choose
 from bept.validator import validate_apbs, validate_dx, validate_pdb2pqr
+from bept.gen.pdb2pqr import inter_pqr_gen, exec_pdb2pqr
 
 
 @click.group(context_settings={"help_option_names": ["-h", "--help"]})
@@ -109,11 +110,28 @@ def auto(clear_history, pdb2pqr, apbs, cmd_history, file_load):
 @click.option(
     "--interactive", "-i", is_flag=True, help="Generate commands interactively"
 )
-def gen(pdb2qr, apbs, interactive):
+def gen(pdb2pqr, apbs, interactive):
     """
     Generate pdb2pqr, apbs commands interactively. You can run this command as ....
     """
-    pass
+    if interactive and pdb2pqr:
+        pdb2pqr_cmd = inter_pqr_gen(pdb2pqr[0])  # pdb2pqr is a tuple: (pdb_file, )
+        if pdb2pqr_cmd:
+            exec_pdb2pqr(pdb2pqr_cmd)
+
+    if interactive and apbs:
+        pass
+
+    if not interactive:
+        CONSOLE.print(
+            "Please use -i for interactive mode. You can only use `gen` to generate outputs interactively.",
+            style="blue",
+        )
+        CONSOLE.print(
+            "If you want to run the commands, use `auto` command.", style="yellow"
+        )
+
+    return 1
 
 
 @main.command(short_help="Output File generation for potential output files")

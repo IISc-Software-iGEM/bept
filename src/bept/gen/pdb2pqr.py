@@ -1,7 +1,10 @@
 import os
+import subprocess
 
 from beaupy import confirm, prompt, select, select_multiple
 from rich.console import Console
+
+CONSOLE = Console()
 
 
 def inter_pqr_gen(input_pdb: str):
@@ -13,14 +16,17 @@ def inter_pqr_gen(input_pdb: str):
     Output:
         command to execute
     """
-    console = Console()
+    CONSOLE.print(
+        "Welcome to the interactive PDB2PQR command generation. Reference: https://server.poissonboltzmann.org/pdb2pqr. Let's get started!",
+        style="bold blue",
+    )
     # making the cl prompt
     result = ["pdb2pqr"]
 
     def get_file_path(attr=""):
         file_path = prompt(f"Enter the path to your {attr} file", target_type=str)
         while not os.path.exists(file_path):
-            console.print("The path you entered does not exist")
+            CONSOLE.print("The path you entered does not exist")
             file_path = prompt(f"Enter the path to your {attr} file", target_type=str)
         return file_path
 
@@ -48,7 +54,7 @@ def inter_pqr_gen(input_pdb: str):
         "TYLO6",
         "[red]User-defined Forcefield[/red]",
     ]
-    console.print("Please choose a forcefield to use:")
+    CONSOLE.print("Please choose a forcefield to use:")
     # Choose one item from a list
     forcefield = select(forcefields, cursor=">", cursor_style="cyan")
     # making the cl prompt
@@ -57,12 +63,12 @@ def inter_pqr_gen(input_pdb: str):
         result.append(forcefield_str)
 
     else:
-        console.print("Input the Forcefield file")
+        CONSOLE.print("Input the Forcefield file")
         ff_path = get_file_path("force field")
         user_forcefield_str = f"--userff={ff_path}"
         result.append(user_forcefield_str)
 
-        console.print("Input the Names file")
+        CONSOLE.print("Input the Names file")
         n_path = get_file_path()
         user_names_str = f"--usernames={n_path}"
         result.append(user_names_str)
@@ -77,9 +83,9 @@ def inter_pqr_gen(input_pdb: str):
         "TYLO6",
         "[red]Internal naming scheme[/red]",
     ]
-    console.print("Please choose an output naming scheme to use:")
+    CONSOLE.print("Please choose an output naming scheme to use:")
     # Choose one item from a list
-    naming_scheme = select(naming_schemes, cursor="🢧", cursor_style="cyan")
+    naming_scheme = select(naming_schemes, cursor=">", cursor_style="cyan")
     # making the cl prompt
     if naming_scheme != "[red]Internal naming scheme[/red]":
         naming_scheme_str = f"--ffout={naming_scheme}"
@@ -87,7 +93,7 @@ def inter_pqr_gen(input_pdb: str):
 
     # If PARSE is the forcefield
     if forcefield == "PARSE":
-        console.print("Options required for PARSE Forcefield")
+        CONSOLE.print("Options required for PARSE Forcefield")
         parse_options = {
             "Make the protein's N-terminus neutral": "--neutraln",
             "Make the protein's C-terminus neutral": "--neutralc",
@@ -107,7 +113,7 @@ def inter_pqr_gen(input_pdb: str):
                 result.append(value)
 
     # Additional Options
-    console.print("Additional Options. Recommended Options (**) ")
+    CONSOLE.print("Additional Options. Recommended Options (**) ")
 
     add_options = [
         "Ensure that new atoms are not rebuilt too close to existing atoms",
@@ -144,7 +150,7 @@ def inter_pqr_gen(input_pdb: str):
 
         elif i == 2:
             if opt in items2:
-                console.print("Input the Ligand file")
+                CONSOLE.print("Input the Ligand file")
                 lig_path = get_file_path()
                 ligand_str = f"--ligand={lig_path}"
                 result.append(ligand_str)
@@ -165,13 +171,36 @@ def inter_pqr_gen(input_pdb: str):
         else:
             if opt in items2:
                 result.append(values[i])
-                    
-    #Adding input pdb file and the output pqr file to the cl prompt
+
+    # Adding input pdb file and the output pqr file to the cl prompt
     result.append(input_pdb)
-    #Output pqr has the same name as input pdb
-    output_pqr = input_pdb[:-3] + 'pqr'
+    # Output pqr has the same name as input pdb
+    output_pqr = os.path.splitext(input_pdb)[0] + ".pqr"
     result.append(output_pqr)
 
     # pdb2pqr command generation
     final_cmd = " ".join(result)
+    CONSOLE.print(
+        f"Generated PDB2PQR command: {final_cmd}\nThank you for using the BEPT interactive PDB2PQR command generation ."
+    )
     return final_cmd
+
+
+def exec_pdb2pqr(pdb2pqr_cmd: str):
+    """
+    Execution of pdb2pqr command on input command.
+    Args:
+        pdb2pqr_cmd: The pdb2pqr command to execute.
+    """
+    confirmation = confirm(
+        f"Do you want to execute the following command: {pdb2pqr_cmd}"
+    )
+    if confirmation:
+        try:
+            subprocess.run(pdb2pqr_cmd.split())
+
+        except Exception as e:
+            CONSOLE.print(
+                f"Error occurred in running interactively generated PDB2PQR command. Error: {e}"
+            )
+    return 1
