@@ -1,6 +1,7 @@
 from functools import lru_cache
 
 import numpy as np
+from beaupy.spinners import Spinner, DOTS
 
 from bept.analysis.pot_extract import extract
 from bept.analysis.pot_val import val_potential as U
@@ -11,7 +12,12 @@ def compute_field(filepath):
     if not compute_field.cache_info().hits:
         print("Generating Field data. ")
 
-    xmin, ymin, zmin, hx, hy, hz, nx, ny, nz = extract(filepath)
+    spinner = Spinner(DOTS)
+    spinner.start()
+
+    _, _, _, _, _, _, nx, ny, nz = extract(
+        filepath
+    )  # xmin, ymin, zmin, hx, hy, hz, nx, ny, nz
 
     _x = np.linspace(0, 2, nx)
     _y = np.linspace(0, 3, ny)
@@ -32,6 +38,7 @@ def compute_field(filepath):
 
     if not compute_field.cache_info().hits:
         print("Field generation successful.")
+    spinner.stop()
 
     return Ex, Ey, Ez
 
