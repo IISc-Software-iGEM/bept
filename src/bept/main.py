@@ -7,6 +7,7 @@ from bept.analysis.xyz import xyz_make
 from bept.auto.auto_execute import p_exec, apbs_exec
 from bept.auto.auto_file import file_runner
 from bept.history.his_main import history_clear, history_choose
+from bept.history.cache_apbs import clear_apbs_cache as apbs_cache_clear
 from bept.validator import validate_apbs, validate_dx, validate_pdb2pqr
 from bept.gen.pdb2pqr import inter_pqr_gen, exec_pdb2pqr
 
@@ -25,13 +26,6 @@ def main():
 
 
 @main.command(short_help="Automate calculation of pdb2pqr and APBS.")
-@click.option(
-    "--clear-history",
-    "-cl",
-    is_flag=True,
-    default=False,
-    help="Clear command history stored of pdb2pqr or apbs commands used previously.",
-)
 @click.option(
     "--pdb2pqr",
     "-p",
@@ -60,14 +54,10 @@ def main():
     type=click.Path(exists=True),
     help="Load list of protein or input files to automate.",
 )
-def auto(clear_history, pdb2pqr, apbs, cmd_history, file_load):
+def auto(pdb2pqr, apbs, cmd_history, file_load):
     """
     Automate pdb2pqr, apbs commands for multiple proteins. You can run this command as ....
     """
-    # clear history
-    if clear_history:
-        history_clear()
-        return
 
     if file_load:
         file_runner(file_load)
@@ -220,3 +210,52 @@ def out(interactive, dx, all):
     if not err_xyz:
         CONSOLE.print("Successfully generated output files.", style="green")
     return 1
+
+
+@main.command(short_help="Manage command history")
+@click.option(
+    "--clear-history",
+    "-cl",
+    is_flag=True,
+    help="Clear command history of pdb2pqr or apbs commands used previously.",
+)
+@click.option(
+    "--pdb2pqr",
+    "-p",
+    multiple=True,
+    callback=validate_pdb2pqr,
+    help="Access history of pdb2pqr commands.",
+)
+@click.option(
+    "--apbs",
+    "-a",
+    multiple=True,
+    callback=validate_apbs,
+    help="Access history of apbs commands.",
+)
+@click.option(
+    "--view",
+    "-v",
+    is_flag=True,
+    help="View history of pdb2pqr or apbs commands.",
+)
+@click.option(
+    "--clear-apbs-cache" "-cac",
+    is_flag=True,
+    help="Clear cache of APBS input files automatically saved.",
+)
+def history(clear_history, pdb2pqr, apbs, view, clear_apbs_cache):
+    """
+    Manage command history of pdb2pqr and apbs commands. You can run this command as ....
+    """
+    if view and not (pdb2pqr or apbs):
+        CONSOLE.print("Please provide either -p or -a to view.", style="red")
+        return
+
+    if clear_history:
+        history_clear()
+        return
+
+    if clear_apbs_cache:
+        apbs_cache_clear()
+        return

@@ -3,6 +3,7 @@ import subprocess
 
 from beaupy import prompt, select, select_multiple
 from rich.console import Console
+from bept.history.his_utils import save_to_history, delete_from_history, history_access
 
 history_dir = os.path.dirname(__file__)
 
@@ -52,19 +53,12 @@ def history_choose(ana_cmd: str):
     Args:
         ana_cmd (str): The command whose history is to be managed.
     """
-    his_path = os.path.join(history_dir, f"history_{ana_cmd}.txt")
-
-    try:
-        with open(his_path, "r") as his_file:
-            his_cmds = his_file.readlines()
-    except FileNotFoundError:
-        CONSOLE.print(f"No history found for {ana_cmd}.", style="bold red")
-        return
-
     CONSOLE.print(
         f"Command History of {ana_cmd} in pages. Choose one command among the following.",
         style="bold blue",
     )
+
+    his_cmds = history_access(ana_cmd)
 
     cmd = select(
         his_cmds, cursor=">", cursor_style="cyan", pagination=True, page_size=10
@@ -91,7 +85,6 @@ def history_choose(ana_cmd: str):
         cursor_style="bold cyan",
     )
 
-    old_cmd = cmd
     # add new
     if his_cmd_options[0] in actions:
         cmd = prompt(
@@ -102,10 +95,9 @@ def history_choose(ana_cmd: str):
     # delete command
     if his_cmd_options[4] in actions:
         if cmd in his_cmds:
-            his_cmds.remove(old_cmd)
-            with open(his_path, "w") as his_file:
-                his_file.writelines(his_cmds)
-            CONSOLE.print("Command deleted from history.", style="bold green")
+            err = delete_from_history(cmd, ana_cmd)
+            if not err:
+                CONSOLE.print("Command deleted from history.", style="bold green")
 
     # edit command
     if his_cmd_options[2] in actions:
@@ -115,9 +107,9 @@ def history_choose(ana_cmd: str):
     # Save command
     if his_cmd_options[3] in actions:
         if "Edit" in actions:
-            with open(his_path, "a") as his_file:
-                his_file.write(cmd)
-            CONSOLE.print("Command saved to history.", style="bold green")
+            err = save_to_history(cmd, ana_cmd)
+            if not err:
+                CONSOLE.print("Command saved to history.", style="bold green")
         else:
             CONSOLE.print(
                 "Cannot save the command without editing it, to avoid repetition in history.",
