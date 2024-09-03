@@ -1,6 +1,6 @@
 from rich.console import Console
 
-from .auto_execute import *
+from bept.auto.auto_execute import apbs_exec, p_exec
 
 CONSOLE = Console()
 

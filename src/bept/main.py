@@ -2,11 +2,11 @@ import rich_click as click
 from beaupy import select_multiple
 from rich.console import Console
 
-from bept.analysis.pot_main import csv_make, bept_make, CONSOLE
+from bept.analysis.pot_main import csv_make, bept_make
 from bept.analysis.xyz import xyz_make
 from bept.auto.auto_execute import p_exec, apbs_exec
 from bept.auto.auto_file import file_runner
-from bept.auto.his_main import history_clear, history_choose
+from bept.history.his_main import history_clear, history_choose
 from bept.validator import validate_apbs, validate_dx, validate_pdb2pqr
 from bept.gen.pdb2pqr import inter_pqr_gen, exec_pdb2pqr
 
