@@ -8,6 +8,19 @@ history_dir = os.path.dirname(__file__)
 CACHE_DIR = os.path.join(history_dir, ".cache_apbs")
 
 
+def random_name_gen():
+    """
+    Generate a random name, with current timestamp -> hex.
+    """
+    import time
+
+    hex_name = hex(int(time.time() * 1e6))
+    hex_name = hex_name[2:]
+    ## To avoid any clashes, just in case
+    time.sleep(0.001)
+    return hex_name
+
+
 def cache_manager(input_filepath: str):
     """
     All the output APBS input files will be saved as cache in .cache_apbs dir.
@@ -26,8 +39,9 @@ def cache_manager(input_filepath: str):
         )
 
     # Move the file to the cache directory
+    ## The naming scheme should change in cache, but original in cwd
     filename = os.path.basename(input_filepath)
-    cached_filepath = os.path.join(CACHE_DIR, filename)
+    cached_filepath = os.path.join(CACHE_DIR, filename + "_" + random_name_gen())
     shutil.move(input_filepath, cached_filepath)
 
     # Create symlink to cache directory
@@ -71,3 +85,9 @@ def clear_apbs_cache():
         )
 
     return
+
+
+def cache_view():
+    """
+    View the contents of cache directory, by opening it in $EDITOR.
+    """

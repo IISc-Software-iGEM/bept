@@ -244,7 +244,10 @@ def out(interactive, dx, all):
     is_flag=True,
     help="Clear cache of APBS input files automatically saved.",
 )
-def history(clear_history, pdb2pqr, apbs, view, clear_apbs_cache):
+@click.option(
+    "--view-apbs-cache", "-vc", is_flag=True, help="View APBS cache files in $EDITOR."
+)
+def history(clear_history, pdb2pqr, apbs, view, clear_apbs_cache, view_apbs_cache):
     """
     Manage command history of pdb2pqr and apbs commands. You can run this command as ....
     """
@@ -259,3 +262,11 @@ def history(clear_history, pdb2pqr, apbs, view, clear_apbs_cache):
     if clear_apbs_cache:
         apbs_cache_clear()
         return
+
+    if view:
+        tool = "apbs" if apbs else "pdb2pqr"
+        history_choose(tool)
+        return
+
+    if view_apbs_cache:
+        pass
