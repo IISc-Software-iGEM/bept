@@ -7,6 +7,7 @@ requires-python = ">=3.12"
 dependencies = [
     "beaupy",
     "click>=8.1.7",
+    "fzf-bin>=0.55.0",
     "loguru",
     "pandas>=2.2.2",
     "pdb2pqr>=3.6.2",

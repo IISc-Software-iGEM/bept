@@ -1,5 +1,5 @@
 import rich_click as click
-from beaupy import select_multiple
+from beaupy import select_multiple, confirm
 from rich.console import Console
 
 from bept.analysis.pot_main import csv_make, bept_make
@@ -7,7 +7,11 @@ from bept.analysis.xyz import xyz_make
 from bept.auto.auto_execute import p_exec, apbs_exec
 from bept.auto.auto_file import file_runner
 from bept.history.his_main import history_clear, history_choose
-from bept.history.cache_apbs import clear_apbs_cache as apbs_cache_clear
+from bept.history.cache_apbs import (
+    CACHE_DIR as APBS_CACHE_DIR,
+    clear_apbs_cache as apbs_cache_clear,
+)
+from bept.history.cache_vnr import cache_view, restore_selected_cache
 from bept.validator import validate_apbs, validate_dx, validate_pdb2pqr
 from bept.gen.pdb2pqr import inter_pqr_gen, exec_pdb2pqr
 
@@ -247,7 +251,18 @@ def out(interactive, dx, all):
 @click.option(
     "--view-apbs-cache", "-vc", is_flag=True, help="View APBS cache files in $EDITOR."
 )
-def history(clear_history, pdb2pqr, apbs, view, clear_apbs_cache, view_apbs_cache):
+@click.option(
+    "--print-cache-path", "-pc", is_flag=True, help="Print the apbs cache path."
+)
+def history(
+    clear_history,
+    pdb2pqr,
+    apbs,
+    view,
+    clear_apbs_cache,
+    view_apbs_cache,
+    print_cache_path,
+):
     """
     Manage command history of pdb2pqr and apbs commands. You can run this command as ....
     """
@@ -263,10 +278,20 @@ def history(clear_history, pdb2pqr, apbs, view, clear_apbs_cache, view_apbs_cach
         apbs_cache_clear()
         return
 
+    if print_cache_path:
+        CONSOLE.print("APBS cache path:", style="bold yellow")
+        CONSOLE.print(f"{APBS_CACHE_DIR}")
+        return
+
     if view:
         tool = "apbs" if apbs else "pdb2pqr"
         history_choose(tool)
         return
 
     if view_apbs_cache:
-        pass
+        in_sel_filepath = cache_view()
+        prompt = "Do you want to restore the selected APBS input file? This will only create a symlink to the original file in your directory."
+        if confirm(prompt):
+            restore_selected_cache(in_sel_filepath, APBS_CACHE_DIR)
+
+        return

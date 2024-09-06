@@ -7,6 +7,14 @@ CONSOLE = Console()
 history_dir = os.path.dirname(__file__)
 CACHE_DIR = os.path.join(history_dir, ".cache_apbs")
 
+# __all__ defines the list of public objects of that module
+__all__ = [
+    "cache_manager",
+    "clear_apbs_cache",
+    "symlink_cache",
+    "CACHE_DIR",
+]
+
 
 def random_name_gen():
     """
@@ -85,9 +93,3 @@ def clear_apbs_cache():
         )
 
     return
-
-
-def cache_view():
-    """
-    View the contents of cache directory, by opening it in $EDITOR.
-    """

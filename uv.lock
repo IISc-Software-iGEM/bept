@@ -23,6 +23,7 @@ source = { editable = "." }
 dependencies = [
     { name = "beaupy" },
     { name = "click" },
+    { name = "fzf-bin" },
     { name = "loguru" },
     { name = "pandas" },
     { name = "pdb2pqr" },
@@ -35,6 +36,7 @@ dependencies = [
 requires-dist = [
     { name = "beaupy" },
     { name = "click", specifier = ">=8.1.7" },
+    { name = "fzf-bin", specifier = ">=0.55.0" },
     { name = "loguru" },
     { name = "pandas", specifier = ">=2.2.2" },
     { name = "pdb2pqr", specifier = ">=3.6.2" },
@@ -116,6 +118,22 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/1b/13/ae307086e7d761fb7fdb2e3439bdd4628b10b7b372639e33fac4e52cfbc2/emoji-2.12.1.tar.gz", hash = "sha256:4aa0488817691aa58d83764b6c209f8a27c0b3ab3f89d1b8dceca1a62e4973eb", size = 442019 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/e6/90/20ad30babfa8f2b5ab46281d8e17bdfdbb3ac294cda14d525b9c2d958846/emoji-2.12.1-py3-none-any.whl", hash = "sha256:a00d62173bdadc2510967a381810101624a2f0986145b8da0cffa42e29430235", size = 431357 },
+]
+
+[[package]]
+name = "fzf-bin"
+version = "0.55.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/4a/b0/135e0ecfe434febea4af0cd271537438a1bd8965213df87483f0070b10a5/fzf_bin-0.55.0.tar.gz", hash = "sha256:d3efab2250b458e2069194a1b3eeaaa54d5e1399039a2204f4a41109c61b0fd3", size = 300158 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/5f/2f/8038988f90955621f4dd4df352eb0b1538fcfea47f237e71ce69baf29b36/fzf_bin-0.55.0-py3-none-macosx_10_7_x86_64.whl", hash = "sha256:5e9a5df8f9545e0f607e26887610f53b935e797aca00fc378d0a7f7401ba525f", size = 1706797 },
+    { url = "https://files.pythonhosted.org/packages/e6/66/56b03f85ba1c011aab0f46f54af55ce71ccebaf8056ef377909dba2d9bde/fzf_bin-0.55.0-py3-none-macosx_11_0_arm64.whl", hash = "sha256:791cc373723e015f8e83efb56790343764b4709fb9f75fb95222897e4d44376d", size = 1620558 },
+    { url = "https://files.pythonhosted.org/packages/9e/44/3dc14da8733dac895c8db3e0df6a4a08cb1c45764dc79ecf0fe877d125e8/fzf_bin-0.55.0-py3-none-manylinux2014_aarch64.manylinux_2_17_aarch64.musllinux_1_1_aarch64.whl", hash = "sha256:73d2e8222ddac2636e026e5578a3805c56d0a09be0d82000122362adb0365277", size = 1562711 },
+    { url = "https://files.pythonhosted.org/packages/2b/46/1a63f22b0640737b690c9c52784b603e1669ce953476e8dfa64edb28c1f8/fzf_bin-0.55.0-py3-none-manylinux2014_ppc64le.manylinux_2_17_ppc64le.musllinux_1_1_ppc64le.whl", hash = "sha256:4d9716b154f1c11de66a7d1aba897c19732f3d7af821c61ac0b05ea7bc123038", size = 1569541 },
+    { url = "https://files.pythonhosted.org/packages/e4/26/a4640def208e7a22925480a3fb4cd5c651576cfb09313d060a3c5a7cce49/fzf_bin-0.55.0-py3-none-manylinux2014_s390x.manylinux_2_17_s390x.musllinux_1_1_s390x.whl", hash = "sha256:54110ed1abcf3f7da2b8b5549d810936c039eddb0fa71d2fed8c483559c4815f", size = 1662169 },
+    { url = "https://files.pythonhosted.org/packages/0e/c8/81f93ac8c56b06ecc4a6584b1392ad58d729370fc1b8f1b1da47112c6165/fzf_bin-0.55.0-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.musllinux_1_1_x86_64.whl", hash = "sha256:8c2126b7f8eee37d92dc58c4ce4f56123797b4c73d6b668ca5aa5eb6207d8bc2", size = 1683236 },
+    { url = "https://files.pythonhosted.org/packages/dc/3b/3835b9ad1638421586d2a297be852a1fc3dcf3697a12a40db66362450e53/fzf_bin-0.55.0-py3-none-win_amd64.whl", hash = "sha256:af948496a32719673d5a21a517cf594df9de6fbb1c723d60bc58d5d1dc320b94", size = 1847466 },
+    { url = "https://files.pythonhosted.org/packages/45/70/c35d51cd7186b05b31d7c4f8f67aadeee4c5912de42eb98124b2f2635d7f/fzf_bin-0.55.0-py3-none-win_arm64.whl", hash = "sha256:aab3ee964df0642b04abd5830e79f493a7878b4566d807bcafa06d449a794255", size = 1697411 },
 ]
 
 [[package]]
