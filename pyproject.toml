@@ -17,7 +17,7 @@ dependencies = [
 ]
 
 [project.scripts]
-bept = "src.bept.main:main"
+bept = "bept.main:main"
 
 [build-system]
 requires = ["hatchling"]
