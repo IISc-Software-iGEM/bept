@@ -1,14 +1,36 @@
-# How to build on your system.
-## Install `uv` on your system
+# Improvised CLI - BEPT
+Bept - Beginner friendly Proteins analysis Electrostatics Tool 
 
-### Arch Linux users:
-`sudo pacman -S uv`
+## How to build the project on your system to run
 
-### Windows users (lmao):
-`curl --proto '=https' --tlsv1.2 -LsSf https://github.com/astral-sh/uv/releases/download/0.4.7/uv-installer.sh | sh`
+### Step 1: Install `uv` on your system
+- Downloading by copy-pasting to your Terminal:
+For MacOS/Linux
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
 
-## Clone the repo
-`git clone https://github.com/IISc-Software-iGEM/improvised-cli`
+For Windows(Powrshell)
+```bash
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
 
-## Install the dependencies
-Go to the `src` directory and then run the command `uv run bept --help`. That's it :D (hopefully).
+If you don't want the above method and want to use your package manager - 
+
+- For Arch Linux
+```bash
+sudo pacman -S uv
+```
+
+Find more here - https://docs.astral.sh/uv/getting-started/installation/
+
+### Step2: Clone the repo
+Clone the repository anywhere in your system.
+```bash
+git clone https://github.com/IISc-Software-iGEM/improvised-cli
+```
+
+## Running the code
+Enter the cloned repository, it should have `pyproject.toml`, `src`, etc. Now run the command `uv run bept --help`. That's it :D.
+
+Rest of the things have been shown in the demo. Play around and see how things work. 
