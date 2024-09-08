@@ -30,7 +30,25 @@ sudo pacman -S uv
 
 Find more here - https://docs.astral.sh/uv/getting-started/installation/
 
-### Step2: Clone the repo
+### Step 2: Install APBS
+
+- For MacOS
+
+```bash
+sudo port install apbs
+```
+
+- For Linux
+
+```bash
+sudo apt-get install apbs
+```
+
+- For Windows
+
+You have to manually download it, build from source. Link: https://apbs.readthedocs.io/en/latest/getting/source.html#get-source-directly-from-github
+
+### Step 3: Clone the repo
 
 Clone the repository anywhere in your system.
 
