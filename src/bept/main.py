@@ -1,3 +1,4 @@
+import os
 import rich_click as click
 from beaupy import select_multiple, confirm
 from rich.console import Console
@@ -226,15 +227,13 @@ def out(interactive, dx, all):
 @click.option(
     "--pdb2pqr",
     "-p",
-    multiple=True,
-    callback=validate_pdb2pqr,
+    is_flag=True,
     help="Access history of pdb2pqr commands.",
 )
 @click.option(
     "--apbs",
     "-a",
-    multiple=True,
-    callback=validate_apbs,
+    is_flag=True,
     help="Access history of apbs commands.",
 )
 @click.option(
@@ -244,7 +243,8 @@ def out(interactive, dx, all):
     help="View history of pdb2pqr or apbs commands.",
 )
 @click.option(
-    "--clear-apbs-cache" "-cac",
+    "--clear-apbs-cache",
+    "-cac",
     is_flag=True,
     help="Clear cache of APBS input files automatically saved.",
 )
@@ -290,8 +290,20 @@ def history(
 
     if view_apbs_cache:
         in_sel_filepath = cache_view()
+        if in_sel_filepath is None or in_sel_filepath.endswith("/.cache_apbs/"):
+            CONSOLE.print("No file selected.", style="red")
+            return
         prompt = "Do you want to restore the selected APBS input file? This will only create a symlink to the original file in your directory."
         if confirm(prompt):
-            restore_selected_cache(in_sel_filepath, APBS_CACHE_DIR)
+            # Restor from cache to user's cwd
+            restore_selected_cache(in_sel_filepath, os.getcwd())
+        else:
+            CONSOLE.print("Process restored omitted.", style="yellow")
 
         return
+
+    else:
+        CONSOLE.print(
+            "Invalid option. Please refer `bept history --help` for more info.",
+            style="red",
+        )

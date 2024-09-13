@@ -23,6 +23,7 @@ def history_clear():
         cursor_style="bold cyan",
     )
     if cmd_choice == "exit with clearing any":
+        CONSOLE.print("No command history cleared.", style="bold red")
         return
 
     cmds_to_clear = [cmd_choice]

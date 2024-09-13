@@ -1,5 +1,6 @@
 import os
 import shutil
+import subprocess
 
 from rich.console import Console
 from rich.panel import Panel
@@ -45,9 +46,13 @@ def cache_view():
             fzf_prev_cmd = "echo '{}' | fzf --height 50% --preview \"sh -c 'if [ -d {}/{} ]; then ls {}/{}; else cat {}/{}; fi'\" --preview-window=right:70%:wrap".format(
                 "\n".join(files), CACHE_DIR, "{}", CACHE_DIR, "{}", CACHE_DIR, "{}"
             )
-            # Run the fzf command
-            selectef_fid = os.system(fzf_prev_cmd)
-            input_file_selected = os.path.join(CACHE_DIR, files[selectef_fid])
+            # Run the fzf command to get selected file id
+            selected_file = (
+                subprocess.run(fzf_prev_cmd, shell=True, capture_output=True)
+                .stdout.decode()
+                .strip()
+            )
+            input_file_selected = os.path.join(CACHE_DIR, selected_file)
 
         except Exception as e:
             CONSOLE.print(f"Error in viewing cache directory. Error: {e}", style="red")
@@ -111,7 +116,11 @@ def restore_selected_cache(in_cache_selected: str, in_cwd: str):
         in_cwd (str): The path to the user's current working directory.
     """
     try:
-        shutil.copy(in_cache_selected, in_cwd)
+        print(in_cache_selected, in_cwd)
+        # symlink the selected cache file to the user's cwd
+        os.symlink(
+            in_cache_selected, os.path.join(in_cwd, os.path.basename(in_cache_selected))
+        )
         CONSOLE.print(
             f"Successfully restored the selected cache file to {in_cwd}", style="green"
         )
