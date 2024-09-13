@@ -107,7 +107,9 @@ def history_choose(ana_cmd: str):
         print(cmd)
 
     # Save command
+    save = False
     if his_cmd_options[3] in actions:
+        save = True
         if "Edit" in actions:
             err = save_to_history(cmd, ana_cmd)
             if not err:
@@ -120,10 +122,9 @@ def history_choose(ana_cmd: str):
 
     # execute command
     if his_cmd_options[1] in actions:
-        _cmd = str(cmd).split()
         if ana_cmd == "pdb2pqr":
-            p_exec(_cmd, False)
+            p_exec(str(cmd), False, save=save)
         elif ana_cmd == "apbs":
-            apbs_exec(_cmd, False)
+            apbs_exec(str(cmd), False, save=save)
 
     return

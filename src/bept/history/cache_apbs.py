@@ -16,7 +16,7 @@ __all__ = [
 ]
 
 
-def random_name_gen():
+def random_name_gen() -> str:
     """
     Generate a random name, with current timestamp -> hex.
     """
@@ -29,7 +29,7 @@ def random_name_gen():
     return hex_name
 
 
-def cache_manager(input_filepath: str):
+def cache_manager(input_filepath: str) -> None:
     """
     All the output APBS input files will be saved as cache in .cache_apbs dir.
     Symlink will be made from .cache to user's cwd
@@ -49,7 +49,11 @@ def cache_manager(input_filepath: str):
     # Move the file to the cache directory
     ## The naming scheme should change in cache, but original in cwd
     filename = os.path.basename(input_filepath)
-    cached_filepath = os.path.join(CACHE_DIR, filename + "_" + random_name_gen())
+    in_index = filename.rfind(".in")
+    # The file name is NAME_hexcode.in
+    cached_filepath = os.path.join(
+        CACHE_DIR, filename[:in_index] + "_" + random_name_gen() + ".in"
+    )
     shutil.move(input_filepath, cached_filepath)
 
     # Create symlink to cache directory
@@ -61,7 +65,7 @@ def cache_manager(input_filepath: str):
         )
 
 
-def symlink_cache(cached_filepath: str, input_filepath: str):
+def symlink_cache(cached_filepath: str, input_filepath: str) -> bool:
     """
     Symlink the cache directory to the user's current working directory.
     Args:
@@ -71,7 +75,9 @@ def symlink_cache(cached_filepath: str, input_filepath: str):
     # Create symlink to cache directory
     err = False
     try:
-        os.symlink(cached_filepath, input_filepath)
+        os.symlink(
+            cached_filepath, os.getcwd() + "/" + os.path.basename(input_filepath)
+        )
 
     except Exception as e:
         CONSOLE.print(f"Error in creating symlink. Error: {e}", style="red")
@@ -80,7 +86,7 @@ def symlink_cache(cached_filepath: str, input_filepath: str):
     return err
 
 
-def clear_apbs_cache():
+def clear_apbs_cache() -> None:
     """
     Clears the cache directory of APBS input files.
     """
@@ -91,5 +97,3 @@ def clear_apbs_cache():
         CONSOLE.print(
             f"Error in clearing APBS input cache directory. Error: {e}", style="red"
         )
-
-    return

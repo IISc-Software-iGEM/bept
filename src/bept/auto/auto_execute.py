@@ -42,23 +42,33 @@ def apbs_interactive(input_file: str) -> str:
     return cmd
 
 
-def p_exec(pdb2pqr_cmd: str, interative: bool) -> None:
+def p_exec(pdb2pqr_cmd: str, interative: bool, save: bool = True) -> None:
     """
     Execution of pdb2pqr flag on input command.
     Args:
         pdb_file - input pdb file
         interative - flag for interactive mode
+        save - flag for saving command to history
     """
     cmd = pdb2pqr_cmd
     if interative:
         cmd = p_interactive(pdb2pqr_cmd)
-    save_to_history(cmd, "pdb2pqr")
+
+    if save:
+        save_to_history(cmd, "pdb2pqr")
     print(f"Executing command: {cmd}")
 
-    subprocess.run(cmd.split())
+    process = subprocess.run(cmd.split())
+    if process.returncode != 0:
+        CONSOLE.print(
+            "Error in executing pdb2pqr command. Please check the command and try again.",
+            style="red",
+        )
+        return
+    cache_manager(cmd)
 
 
-def apbs_exec(apbs_cmd, interative: bool) -> None:
+def apbs_exec(apbs_cmd, interative: bool, save: bool = True) -> None:
     """
     Execution of apbs command on input flag
     Args:
@@ -69,10 +79,18 @@ def apbs_exec(apbs_cmd, interative: bool) -> None:
     if interative:
         cmd = apbs_interactive(apbs_cmd)
 
-    save_to_history(cmd, "apbs")
+    if save:
+        save_to_history(cmd, "apbs")
     print(f"Executing command: {cmd}")
+    print(cmd)
 
-    subprocess.run(cmd.split())
+    process = subprocess.run(cmd.split())
+    if process.returncode != 0:
+        CONSOLE.print(
+            "Error in executing APBS command. Please check the command and try again.",
+            style="red",
+        )
+        return
     # Get input filepath, which is text containing .in
     input_filepath = next((arg for arg in cmd.split() if ".in" in arg), None)
     if input_filepath is None:
