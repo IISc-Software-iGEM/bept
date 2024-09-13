@@ -57,16 +57,16 @@ def p_exec(pdb2pqr_cmd: str, interative: bool) -> None:
     subprocess.run(cmd.split())
 
 
-def apbs_exec(input_file, interative: bool) -> None:
+def apbs_exec(apbs_cmd, interative: bool) -> None:
     """
     Execution of apbs command on input flag
     Args:
         input_file: .in input file for apbs
         interative: flag for interactive mode
     """
-    cmd = input_file
+    cmd = apbs_cmd
     if interative:
-        cmd = apbs_interactive(input_file)
+        cmd = apbs_interactive(apbs_cmd)
 
     save_to_history(cmd, "apbs")
     print(f"Executing command: {cmd}")
