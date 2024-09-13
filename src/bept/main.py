@@ -48,18 +48,18 @@ def main():
     help="Run apbs command. Input APBS input file path.",
 )
 @click.option(
-    "--cmd-history",
-    "-c",
-    is_flag=True,
-    help="Use previously generated commands from history",
-)
-@click.option(
     "--file-load",
     "-f",
     type=click.Path(exists=True),
     help="Load list of protein or input files to automate.",
 )
-def auto(pdb2pqr, apbs, cmd_history, file_load):
+@click.option(
+    "--interactive",
+    "-i",
+    is_flag=True,
+    help="Run the loaded file commands interactively.",
+)
+def auto(pdb2pqr, apbs, file_load):
     """
     Automate pdb2pqr, apbs commands for multiple proteins. You can run this command as ....
     """
@@ -67,21 +67,6 @@ def auto(pdb2pqr, apbs, cmd_history, file_load):
     if file_load:
         file_runner(file_load)
         return
-
-    if not (apbs or pdb2pqr) and not cmd_history:
-        click.echo(
-            "Either one of -a or -p must be chosen, or use -c for command history. Refer bept auto -h for more information."
-        )
-        return
-    if cmd_history and not (apbs or pdb2pqr):
-        CONSOLE.print(
-            "Please provide either -a or -p to use command history.", style="red"
-        )
-        return
-
-    tool = "apbs" if apbs else "pdb2pqr"
-    if cmd_history:
-        history_choose(tool)
 
     # Command processing based on provided arguments or history
     if apbs:
@@ -237,10 +222,10 @@ def out(interactive, dx, all):
     help="Access history of apbs commands.",
 )
 @click.option(
-    "--view",
+    "--view-execute",
     "-v",
     is_flag=True,
-    help="View history of pdb2pqr or apbs commands.",
+    help="View and execute history of pdb2pqr or apbs commands.",
 )
 @click.option(
     "--clear-apbs-cache",
@@ -258,7 +243,7 @@ def history(
     clear_history,
     pdb2pqr,
     apbs,
-    view,
+    view_execute,
     clear_apbs_cache,
     view_apbs_cache,
     print_cache_path,
@@ -266,7 +251,7 @@ def history(
     """
     Manage command history of pdb2pqr and apbs commands. You can run this command as ....
     """
-    if view and not (pdb2pqr or apbs):
+    if view_execute and not (pdb2pqr or apbs):
         CONSOLE.print("Please provide either -p or -a to view.", style="red")
         return
 
@@ -283,7 +268,7 @@ def history(
         CONSOLE.print(f"{APBS_CACHE_DIR}")
         return
 
-    if view:
+    if view_execute:
         tool = "apbs" if apbs else "pdb2pqr"
         history_choose(tool)
         return
