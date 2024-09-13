@@ -4,6 +4,7 @@ import subprocess
 from beaupy import prompt, select, select_multiple
 from rich.console import Console
 from bept.history.his_utils import save_to_history, delete_from_history, history_access
+from bept.auto.auto_execute import p_exec, apbs_exec
 
 history_dir = os.path.dirname(__file__)
 
@@ -120,6 +121,9 @@ def history_choose(ana_cmd: str):
     # execute command
     if his_cmd_options[1] in actions:
         _cmd = str(cmd).split()
-        subprocess.run(_cmd)
+        if ana_cmd == "pdb2pqr":
+            p_exec(_cmd, False)
+        elif ana_cmd == "apbs":
+            apbs_exec(_cmd, False)
 
     return

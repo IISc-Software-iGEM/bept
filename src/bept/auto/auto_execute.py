@@ -4,6 +4,7 @@ import subprocess
 from beaupy import prompt
 from rich.console import Console
 from bept.history.his_utils import save_to_history
+from bept.history.cache_apbs import cache_manager
 
 CONSOLE = Console()
 
@@ -72,3 +73,12 @@ def apbs_exec(apbs_cmd, interative: bool) -> None:
     print(f"Executing command: {cmd}")
 
     subprocess.run(cmd.split())
+    # Get input filepath, which is text containing .in
+    input_filepath = next((arg for arg in cmd.split() if ".in" in arg), None)
+    if input_filepath is None:
+        CONSOLE.print(
+            "APBS command coudn't find `.in` input file found in the command. Skipping cache creation.",
+            style="red",
+        )
+        return
+    cache_manager(input_filepath)
