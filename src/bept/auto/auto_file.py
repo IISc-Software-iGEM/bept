@@ -20,30 +20,30 @@ def file_runner(input_file: str, interative: bool = False):
         opers = f.readlines()
 
     for cmd in opers:
-        if cmd[0] == "pdb2pqr":
+        if cmd == "":
+            continue
+        if cmd.split()[0] == "pdb2pqr":
             try:
                 # :? is indicator to run that command interactively
                 if ":?" in cmd:
                     p_exec(cmd, True)
                 else:
                     p_exec(cmd, interative)
-                CONSOLE.print("PROCESS SUCCESS", style="bold green")
+                CONSOLE.print("PROCESS RAN SUCCESSFULLY", style="bold green")
             except Exception as e:
                 CONSOLE.print(f"PROCESS FAILED. Error: {e}", style="bold red")
 
-        elif cmd[0] == "apbs":
+        elif cmd.split()[0] == "apbs":
             try:
                 # :? is indicator to run that command interactively
                 if ":?" in cmd:
                     apbs_exec(cmd, True)
                 else:
                     apbs_exec(cmd, interative)
-                CONSOLE.print("PROCESS SUCCESS", style="bold green")
+                CONSOLE.print("PROCESS RAN SUCCESSFULLY", style="bold green")
             except Exception as e:
                 CONSOLE.print(f"PROCESS FAILED. Error: {e}", style="bold red")
         else:
-            CONSOLE.print(
-                f"INVALID COMMAND. SKIPPING {cmd[0], cmd[1]}", style="bold red"
-            )
+            CONSOLE.print(f"INVALID COMMAND. SKIPPING {cmd}", style="bold red")
 
     return

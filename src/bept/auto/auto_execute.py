@@ -9,20 +9,29 @@ from bept.history.cache_apbs import cache_manager
 CONSOLE = Console()
 
 
-def p_interactive(pdb_file: str) -> str:
+def p_interactive(pdb2pqr_cmd: str) -> str:
     """
     Interactive pdb2pqr execution on input command present in input_file.
     Args:
-        pdb_file - input pdb file of protein.
+        pdb2pqr_cmd - input pdb2pqr command by user
     """
-    pdb_name = os.path.splitext(os.path.basename(pdb_file))[0]
-    pdb2pqr_template = f"pdb2pqr --ff=AMBER --apbs-input={pdb_name}.in --keep-chain --whitespace --drop-water --titration-state-method=propka --with-ph=7 {pdb_file} {pdb_name}.pqr"
+    ## get pdb name from the protein.pdb present in the command
+    pdb_name = next((arg for arg in pdb2pqr_cmd.split() if ".pdb" in arg), None)
+    if pdb_name is None:
+        CONSOLE.print(
+            "Error in extracting pdb file name. Please provide the pdb file name in the command.",
+            style="red",
+        )
+        return pdb2pqr_cmd
+
+    pdb2pqr_template = f"pdb2pqr --ff=AMBER --apbs-input={pdb_name[:-4]}.in --keep-chain --whitespace --drop-water --titration-state-method=propka --with-ph=7 {pdb_name} {pdb_name[:-4]}.pqr"
 
     CONSOLE.print(
-        "Input the pdb2pqr command to run on input PDB file. You can edit this template command for ease. For more information on parameters, see pdb2pqr --help.",
+        "Input the pdb2pqr command to run on input PDB file. You can copy and user this template command for ease. For more information on parameters, see pdb2pqr --help.",
         style="bold blue",
     )
-    cmd = prompt("PDB2PQR COMMAND: ", initial_value=pdb2pqr_template)
+    print(f"Template command: {pdb2pqr_template}")
+    cmd = prompt("PDB2PQR COMMAND: ", initial_value=pdb2pqr_cmd)
     return cmd
 
 

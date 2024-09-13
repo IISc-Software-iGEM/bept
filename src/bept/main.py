@@ -59,11 +59,10 @@ def main():
     is_flag=True,
     help="Run the loaded file commands interactively.",
 )
-def auto(pdb2pqr, apbs, file_load, interative):
+def auto(pdb2pqr, apbs, file_load, interactive):
     """
     Automate pdb2pqr, apbs commands for multiple proteins. You can run this command as ....
     """
-    interative = True if interative else False
 
     if file_load:
         file_runner(file_load)
@@ -72,12 +71,12 @@ def auto(pdb2pqr, apbs, file_load, interative):
     # Command processing based on provided arguments or history
     if apbs:
         input_file = apbs[0]
-        apbs_exec(input_file, interative)
+        apbs_exec(input_file, interactive)
         return
 
     if pdb2pqr:
         pdb_file = pdb2pqr[0]
-        p_exec(pdb_file, interative)
+        p_exec(pdb_file, interactive)
         return
 
 
