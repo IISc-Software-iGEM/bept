@@ -12,15 +12,15 @@ def file_runner(input_file: str, interative: bool = False):
     Args:
         input_file: contains the file with name,
         FORMAT:
-            pdb2pqr protein.
-            apbs protein1.in
+            pdb2pqr --some-flags protein.
+            apbs --some-flags protein1.in
 
     """
     with open(input_file, "r") as f:
         opers = f.readlines()
 
     for cmd in opers:
-        if cmd == "":
+        if not cmd.strip():
             continue
         if cmd.split()[0] == "pdb2pqr":
             try:
@@ -29,7 +29,7 @@ def file_runner(input_file: str, interative: bool = False):
                     p_exec(cmd, True)
                 else:
                     p_exec(cmd, interative)
-                CONSOLE.print("PROCESS RAN SUCCESSFULLY", style="bold green")
+                CONSOLE.print("BEPT PROCESS RAN SUCCESSFULLY", style="bold green")
             except Exception as e:
                 CONSOLE.print(f"PROCESS FAILED. Error: {e}", style="bold red")
 
@@ -40,7 +40,7 @@ def file_runner(input_file: str, interative: bool = False):
                     apbs_exec(cmd, True)
                 else:
                     apbs_exec(cmd, interative)
-                CONSOLE.print("PROCESS RAN SUCCESSFULLY", style="bold green")
+                CONSOLE.print("BEPT PROCESS RAN SUCCESSFULLY", style="bold green")
             except Exception as e:
                 CONSOLE.print(f"PROCESS FAILED. Error: {e}", style="bold red")
         else:

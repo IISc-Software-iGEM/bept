@@ -65,7 +65,9 @@ def save_to_history(cmd: str, ana_cmd: str):
     err = False
     try:
         with open(his_path, "a") as his_file:
-            his_file.write(cmd)
+            prev_cmds = history_access(ana_cmd)
+            if cmd not in prev_cmds:
+                his_file.write(f"\n{cmd}")
     except Exception as e:
         CONSOLE.print(f"Error in saving to history file. Error: {e}", style="bold red")
         err = True
