@@ -84,7 +84,7 @@ def toml_in(toml_filepath: str):
                     lines.append(f"    {value}")
                 elif key == "write":
                     for i in value:
-                        lines.append(f"    {key} {" ".join(i)}")
+                        lines.append(f"    {key} {' '.join(i)}")
                 elif isinstance(value, list):
                     # Join the list values for proper formatting
                     value_str = " ".join(map(str, value))
