@@ -1,63 +1,109 @@
 # Improvised CLI - BEPT
 
-Bept - Beginner friendly Proteins analysis Electrostatics Tool
+Bept - Beginner friendly Protein electrostatics Tool
 
-## How to build the project on your system to run
+Bept is a beginner-friendly tool for analysis proteins which uses functionalities of `pdb2pqr` and `apbs` command line tools, but making them more beginner friendly, making it for you to learn their usages without undergoing the pain of reading the documentation. The tool is meant to target growing scientists interested in protein electrostatics but scared of using Terminal command line tool.
 
-### Step 1: Install `uv` on your system
+Bept is cross-platform and can be installed on MacOS, Linux and Windows. It is built using Python, managed by `uv` package manager.
 
-- Downloading by copy-pasting to your Terminal:
+## Features
 
-For MacOS/Linux
+- Interactively generate pdb2pqr command line and APBS `.in` input files without looking into deep documentation.
+- Generate the PQR, Potential DX and BEPT special `.bept` file containing all the information you need for a protein.
+- Automate the process of running PDB2PQR and APBS with optional interactive modes.
+- Save your `.in` files in cache for future references.
+- Save your PDB2PQR commands in history so you no need to generate it again.
+- Read the docs of the tool directly from the CLI in an interactive way.
+- Experience bept's extreme user-friendliness, color-coded outputs and error handling and make Electrostatics analysis a breeze!
+
+## Preview
+
+Here is series of examples of how to use the tool:
+
+### Interactive mode for generating PDB2PQR and APBS input files
+
+### Generating PQR, Potential DX and BEPT files
+
+### Automating the process of running PDB2PQR and APBS
+
+### View the docs of the tool
+
+## Installation
+
+Bept is a cross-platform tool and can be installed on MacOS, Linux and Windows through below-mentioned ways -
+
+### Using pip
+
+You can download bept from PyPI using pip. Run the below command to install -
 
 ```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh
+pip install bept
 ```
 
-For Windows(Powrshell)
+If you want to use it once without installing, you can use the below command -
 
 ```bash
-powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+pipx bept --help
 ```
 
-If you don't want the above method and want to use your package manager -
-
-- For Arch Linux
+If you are using `uv`, you can use-
 
 ```bash
-sudo pacman -S uv
+uvx bept --help
 ```
 
-Find more here - https://docs.astral.sh/uv/getting-started/installation/
+### Homebrew
 
-### Step 2: Install APBS
+You can download bept from Homebrew by running the below command -
 
-- For MacOS
+```bash
+brew install anirudhg07/anirudhg07/bept
+```
+
+### Building from source
+
+`bept` has been made using `uv` python package manager. You can install `uv` and run the below commands to install `bept` -
+
+```bash
+git clone https://github.com/IISc-Software-iGEM/improvised-cli
+pip install .
+```
+
+Check if the tool is successfully installed by running `bept --help` and you are good to go!
+
+### Using Docker
+
+## APBS and PDB2PQR
+
+`bept` focusses on the automation of the process of running PDB2PQR and APBS. `pdb2pqr` is installed along with `bept` so you need not worry. To install APBS, you can follow the below steps -
+
+- MacOS
 
 ```bash
 sudo port install apbs
 ```
 
-- For Linux
+- Linux
 
 ```bash
 sudo apt-get install apbs
 ```
 
-- For Windows
+- Windows require manual installation. Please check APBS official website for detailed information.
 
-You have to manually download it, build from source. Link: https://apbs.readthedocs.io/en/latest/getting/source.html#get-source-directly-from-github
+## More info ...
 
-### Step 3: Clone the repo
+## Our Team
 
-Clone the repository anywhere in your system.
+The project was made by members of IISc-Software Team along with the upcoming iGemers among undergraduates from IISc Bengaluru.
 
-```bash
-git clone https://github.com/IISc-Software-iGEM/improvised-cli
-```
-
-## Running the code
-
-Enter the cloned repository, it should have `pyproject.toml`, `src`, etc. Now run the command `uv run bept --help`. That's it :D.
-
-Rest of the things have been shown in the demo. Play around and see how things work.
+- Anirudh Gupta - Maintainer and Project Leader
+- Aditya Thakkar - APBS interactive generation
+- Kishan Gowda - APBS interactive generation
+- Akshita Sunsugu Palaniswami - PDB2PQR interactive generation
+- G Hasini - Software Testing
+- Deeptam Bhar - Interactive documentation
+- Aditey Nandan - Biological Backend and Documentation
+- Ritobroto Saha - Biological Backend and Documentation
+- Shreyan Priyadarshi - Biological Backend and Documentation
+- Soham Paul - Biological Backend and Documentation
