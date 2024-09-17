@@ -14,7 +14,9 @@ from bept.history.cache_apbs import (
 )
 from bept.history.cache_vnr import cache_view, restore_selected_cache
 from bept.validator import validate_apbs, validate_dx, validate_pdb2pqr
-from bept.gen.pdb2pqr import inter_pqr_gen, exec_pdb2pqr
+from bept.gen.pdb2pqr import inter_pqr_gen
+from bept.gen.toml_in_converter import in_toml, toml_in
+from bept.gen.apbs import apbs_gen
 
 CONSOLE = Console()
 
@@ -86,38 +88,51 @@ def auto(pdb2pqr, apbs, file_load, interactive):
     "-p",
     multiple=True,
     callback=validate_pdb2pqr,
-    help="Run pdb2pqr command. Input PDB file path.",
+    help="Generate pdb2pqr command interactively.",
 )
 @click.option(
     "--apbs",
     "-a",
     multiple=True,
     callback=validate_apbs,
-    help="Run apbs command. Input APBS input file path.",
+    help="Generate apbs command interactively.",
 )
 @click.option(
-    "--interactive", "-i", is_flag=True, help="Generate commands interactively"
+    "--in-to-toml",
+    "-into",
+    type=click.Path(exists=True),
+    help="Convert .in file to .toml file.",
+    callback=validate_apbs,
 )
-def gen(pdb2pqr, apbs, interactive):
+@click.option(
+    "--toml-to-in",
+    "-toin",
+    type=click.Path(exists=True),
+    help="Convert .toml file to .in file.",
+)
+def gen(pdb2pqr, apbs, in_to_toml, toml_to_in):
     """
     Generate pdb2pqr, apbs commands interactively. You can run this command as ....
     """
-    if interactive and pdb2pqr:
+    if pdb2pqr:
         pdb2pqr_cmd = inter_pqr_gen(pdb2pqr[0])  # pdb2pqr is a tuple: (pdb_file, )
         if pdb2pqr_cmd:
-            exec_pdb2pqr(pdb2pqr_cmd)
+            p_exec(pdb2pqr_cmd)
+        return
 
-    if interactive and apbs:
-        pass
+    if apbs:
+        apbs_gen(apbs[0])
+        return
 
-    if not interactive:
-        CONSOLE.print(
-            "Please use -i for interactive mode. You can only use `gen` to generate outputs interactively.",
-            style="blue",
-        )
-        CONSOLE.print(
-            "If you want to run the commands, use `auto` command.", style="yellow"
-        )
+    # Exclusively convert in to toml
+    if in_to_toml:
+        in_toml(in_to_toml)
+        return
+
+    # Exclusively convert toml to in
+    if toml_to_in:
+        toml_in(toml_to_in)
+        return
 
     return 1
 

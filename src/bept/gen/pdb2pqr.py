@@ -1,5 +1,4 @@
 import os
-import subprocess
 
 from beaupy import confirm, prompt, select, select_multiple
 from rich.console import Console
@@ -184,23 +183,3 @@ def inter_pqr_gen(input_pdb: str):
         f"Generated PDB2PQR command: {final_cmd}\nThank you for using the BEPT interactive PDB2PQR command generation ."
     )
     return final_cmd
-
-
-def exec_pdb2pqr(pdb2pqr_cmd: str):
-    """
-    Execution of pdb2pqr command on input command.
-    Args:
-        pdb2pqr_cmd: The pdb2pqr command to execute.
-    """
-    confirmation = confirm(
-        f"Do you want to execute the following command: {pdb2pqr_cmd}"
-    )
-    if confirmation:
-        try:
-            subprocess.run(pdb2pqr_cmd.split())
-
-        except Exception as e:
-            CONSOLE.print(
-                f"Error occurred in running interactively generated PDB2PQR command. Error: {e}"
-            )
-    return 1

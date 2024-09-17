@@ -51,7 +51,7 @@ def apbs_interactive(input_file: str) -> str:
     return cmd
 
 
-def p_exec(pdb2pqr_cmd: str, interative: bool, save: bool = True) -> None:
+def p_exec(pdb2pqr_cmd: str, interative: bool = False, save: bool = True) -> None:
     """
     Execution of pdb2pqr flag on input command.
     Args:
@@ -77,7 +77,7 @@ def p_exec(pdb2pqr_cmd: str, interative: bool, save: bool = True) -> None:
     cache_manager(cmd)
 
 
-def apbs_exec(apbs_cmd, interative: bool, save: bool = True) -> None:
+def apbs_exec(apbs_cmd, interative: bool = False, save: bool = True) -> None:
     """
     Execution of apbs command on input flag
     Args:
