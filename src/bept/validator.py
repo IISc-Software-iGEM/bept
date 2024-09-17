@@ -36,3 +36,21 @@ def validate_dx(ctx, param, value):
                 "output generations requires exactly one argument with .pqr and one with .dx file type respectively."
             )
     return value
+
+
+def validate_into(ctx, param, value):
+    if value:
+        if not value.endswith(".in"):
+            raise click.BadParameter(
+                "apbs requires exactly one argument with .in file type."
+            )
+    return value
+
+
+def validate_toin(ctx, param, value):
+    if value:
+        if not value.endswith(".toml"):
+            raise click.BadParameter(
+                "apbs requires exactly one argument with .toml file type."
+            )
+    return value

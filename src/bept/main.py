@@ -13,7 +13,13 @@ from bept.history.cache_apbs import (
     clear_apbs_cache as apbs_cache_clear,
 )
 from bept.history.cache_vnr import cache_view, restore_selected_cache
-from bept.validator import validate_apbs, validate_dx, validate_pdb2pqr
+from bept.validator import (
+    validate_apbs,
+    validate_dx,
+    validate_pdb2pqr,
+    validate_into,
+    validate_toin,
+)
 from bept.gen.pdb2pqr import inter_pqr_gen
 from bept.gen.toml_in_converter import in_toml, toml_in
 from bept.gen.apbs import apbs_gen
@@ -101,13 +107,14 @@ def auto(pdb2pqr, apbs, file_load, interactive):
     "--in-to-toml",
     "-into",
     type=click.Path(exists=True),
+    callback=validate_into,
     help="Convert .in file to .toml file.",
-    callback=validate_apbs,
 )
 @click.option(
     "--toml-to-in",
     "-toin",
     type=click.Path(exists=True),
+    callback=validate_toin,
     help="Convert .toml file to .in file.",
 )
 def gen(pdb2pqr, apbs, in_to_toml, toml_to_in):
@@ -121,17 +128,49 @@ def gen(pdb2pqr, apbs, in_to_toml, toml_to_in):
         return
 
     if apbs:
-        apbs_gen(apbs[0])
-        return
+        in_path_toml, out_path_toml = apbs_gen(apbs[0])
+        if in_path_toml and out_path_toml:
+            CONSOLE.print(
+                "Successfully generated APBS input files along with respective toml files.",
+                style="green",
+            )
+            # to delete the output toml files
+            prompt = "Do you want to delete the output toml files?"
+            if confirm(prompt):
+                try:
+                    os.remove(in_path_toml)
+                    os.remove(out_path_toml)
+                    CONSOLE.print("Deleted the output toml files.", style="green")
+                except Exception as e:
+                    CONSOLE.print(
+                        f"Error in deleting the output toml files. Error: {e}",
+                        style="red",
+                    )
 
     # Exclusively convert in to toml
     if in_to_toml:
-        in_toml(in_to_toml)
+        try:
+            in_toml(in_to_toml)
+            CONSOLE.print(
+                "Successfully converted .in file to .toml file.", style="green"
+            )
+        except Exception as e:
+            CONSOLE.print(
+                f"Error in converting .in file to .toml file. Error: {e}", style="red"
+            )
         return
 
     # Exclusively convert toml to in
     if toml_to_in:
-        toml_in(toml_to_in)
+        try:
+            toml_in(toml_to_in)
+            CONSOLE.print(
+                "Successfully converted .toml file to .in file.", style="green"
+            )
+        except Exception as e:
+            CONSOLE.print(
+                f"Error in converting .toml file to .in file. Error: {e}", style="red"
+            )
         return
 
     return 1
