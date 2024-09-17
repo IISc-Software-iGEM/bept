@@ -2,15 +2,15 @@ import toml
 import os
 
 
-def in_toml(file_name: str):
+def in_toml(in_file_name: str):
     """
     Converts the .in file to .toml file
     Args:
         file_name: The name of the .in file
     """
-    output_name = os.path.splitext(file_name)[0] + ".toml"
+    output_name = os.path.splitext(in_file_name)[0] + ".toml"
     # Loading and parsing the INPUT FILE
-    with open(file_name, "r") as input_file:
+    with open(in_file_name, "r") as input_file:
         file = input_file.readlines()
         data = {}
         possible_calc_types = [
@@ -82,6 +82,9 @@ def toml_in(toml_filepath: str):
             for key, value in values.items():
                 if key == "calculation-type" or key == "pbe":
                     lines.append(f"    {value}")
+                elif key == "write":
+                    for i in value:
+                        lines.append(f"    {key} {" ".join(i)}")
                 elif isinstance(value, list):
                     # Join the list values for proper formatting
                     value_str = " ".join(map(str, value))
@@ -90,10 +93,10 @@ def toml_in(toml_filepath: str):
                     lines.append(f"    {key} {value}")
             lines.append("end")
 
-        lines.append("print elecenergy1 end")
+        lines.append("print elecEnergy 1 end")
         lines.append("quit")
 
         with open(
-            os.path.basename(toml_filepath).split()[0] + ".in", "w+"
+            os.path.basename(toml_filepath).split(".")[0] + ".in", "w+"
         ) as output_file:
             output_file.write("\n".join(lines))
