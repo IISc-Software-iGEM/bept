@@ -1,14 +1,13 @@
 [project]
 name = "bept"
-version = "0.1.0"
-description = "Add your description here"
+version = "1.0.0"
+description = "BEPT is a Beginner friendly Protein electrostatics Tool, which is a very interactive and user-friendly tool for beginners to use APBS and PDB2PQR."
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.11"
 dependencies = [
     "beaupy",
     "click>=8.1.7",
     "fzf-bin>=0.55.0",
-    "loguru",
     "pandas>=2.2.2",
     "pdb2pqr>=3.6.2",
     "rich-click>=1.8.3",
@@ -16,7 +15,6 @@ dependencies = [
     "tabulate>=0.9.0",
     "textual>=0.79.1",
     "toml>=0.10.2",
-    "typing>=3.10.0.0",
 ]
 
 [project.scripts]
