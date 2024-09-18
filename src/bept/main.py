@@ -51,7 +51,7 @@ def main():
     multiple=True,
     type=click.Path(exists=True),
     callback=validate_pdb2pqr,
-    help="Run pdb2pqr command. Input PDB file path.",
+    help="Run one pdb2pqr command. Input PDB file path.",
 )
 @click.option(
     "--apbs",
@@ -59,7 +59,7 @@ def main():
     type=click.Path(exists=True),
     multiple=True,
     callback=validate_apbs,
-    help="Run apbs command. Input APBS input file path.",
+    help="Run one apbs command. Input APBS input file path.",
 )
 @click.option(
     "--file-load",
@@ -75,12 +75,18 @@ def main():
 )
 def auto(pdb2pqr, apbs, file_load, interactive):
     """
-    Automate pdb2pqr, apbs commands for multiple proteins. You can run this command as ....
+    Automate pdb2pqr, apbs commands for multiple proteins. You can run all at once or interactively with -i flag.
     Run `bept auto --help` for more information.
     """
+    if interactive and not file_load:
+        CONSOLE.print(
+            "Please provide --file-load or -f along with -i to run interactively.",
+            style="red",
+        )
+        return
 
     if file_load:
-        file_runner(file_load)
+        file_runner(file_load, interactive)
         return
 
     # Command processing based on provided arguments or history
@@ -196,7 +202,7 @@ def gen(pdb2pqr, apbs, in_to_toml, toml_to_in):
     required=True,
     nargs=2,
     callback=validate_dx,
-    help="Input PQR file and corresponding APBS pot_dx file.",
+    help="Input PQR file and corresponding APBS pot_dx file respectively.",
 )
 @click.option(
     "--interactive",
@@ -319,7 +325,7 @@ def history(
     Manage command history of pdb2pqr and apbs input files. Bept allows history and cache management for all APBS commands and input files generated.
     Run `bept history --help` for more information.
     """
-    if pdb2pqr or apbs and not view_execute:
+    if (pdb2pqr or apbs) and not view_execute:
         CONSOLE.print(
             "Please provide -v or --view-execute along with -p or -a to view history of pdb2pqr or apbs commands.",
             style="red",
