@@ -26,15 +26,20 @@ from bept.gen.apbs import apbs_gen
 
 CONSOLE = Console()
 
+__package__ = "bept"
+__version__ = "0.1.0"
+
 
 @click.group(context_settings={"help_option_names": ["-h", "--help"]})
-@click.version_option("some_name v1.0.0", "--version", "-v")
+@click.version_option(
+    f"{__package__} v{__version__}", "--version", "-v", message="%(version)s"
+)
 def main():
     """
     BEPT is a Beginner friendly Electrostatics for Protein analysis Tool. Bept gives you an interactive, colorful, easy-to-use interface to automate your protein analysis with PDB2PQR commands and APBS.
     This was built as part of the project IMPROVISeD, by IISc-Software-iGEM Team 2024.
 
-    To know more information about each option, run `bept OPTION --help`. To see the documentation of BEPT, run `bept docs`.
+    To know more information about each option, run `bept COMMAND --help`. To see the documentation of BEPT, run `bept docs`.
     """
     pass
 
