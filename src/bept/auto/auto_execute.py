@@ -1,4 +1,3 @@
-import os
 import subprocess
 
 from beaupy import prompt
@@ -51,16 +50,16 @@ def apbs_interactive(input_file: str) -> str:
     return cmd
 
 
-def p_exec(pdb2pqr_cmd: str, interative: bool = False, save: bool = True) -> None:
+def p_exec(pdb2pqr_cmd: str, interactive: bool = False, save: bool = True) -> None:
     """
     Execution of pdb2pqr flag on input command.
     Args:
         pdb2pqr_cmd - input pdb2pqr command
-        interative - flag for interactive mode
+        interactive - flag for interactive mode
         save - flag for saving command to history
     """
     cmd = pdb2pqr_cmd
-    if interative:
+    if interactive:
         cmd = p_interactive(pdb2pqr_cmd)
 
     if save:
@@ -75,6 +74,9 @@ def p_exec(pdb2pqr_cmd: str, interative: bool = False, save: bool = True) -> Non
         )
         return
 
+    else:
+        CONSOLE.print("PDB2PQR command executed successfully!", style="green")
+
     # Get input filepath, which is text containing .pqr
     input_flag = next((arg for arg in cmd.split() if ".in" in arg), None)
     if input_flag is None:
@@ -87,16 +89,16 @@ def p_exec(pdb2pqr_cmd: str, interative: bool = False, save: bool = True) -> Non
     cache_manager(input_filepath)
 
 
-def apbs_exec(apbs_cmd: str, interative: bool = False, save: bool = True) -> None:
+def apbs_exec(apbs_cmd: str, interactive: bool = False, save: bool = True) -> None:
     """
     Execution of apbs command on input flag
     Args:
         apbs_cmd - input apbs command
-        interative - flag for interactive mode
+        interactive - flag for interactive mode
         save - flag for saving command to history
     """
     cmd = apbs_cmd
-    if interative:
+    if interactive:
         cmd = apbs_interactive(apbs_cmd)
 
     if save:
@@ -110,6 +112,9 @@ def apbs_exec(apbs_cmd: str, interative: bool = False, save: bool = True) -> Non
             style="red",
         )
         return
+
+    else:
+        CONSOLE.print("APBS command executed successfully!", style="green")
     # Get input filepath, which is text containing .in
     input_filepath = next((arg for arg in cmd.split() if ".in" in arg), None)
     if input_filepath is None:

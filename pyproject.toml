@@ -1,7 +1,7 @@
 [project]
 name = "bept"
 version = "0.1.0"
-description = "BEPT is a Beginner friendly Protein electrostatics Tool, a cross-platform interactive and user-friendly tool for protein electrostatics using APBS and PDB2PQR."
+description = "BEPT is a Beginner friendly Electrostatics for Protein analysis Tool, a cross-platform interactive and user-friendly tool for protein electrostatics using APBS and PDB2PQR."
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

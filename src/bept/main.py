@@ -26,15 +26,20 @@ from bept.gen.apbs import apbs_gen
 
 CONSOLE = Console()
 
+__package__ = "bept"
+__version__ = "0.1.0"
+
 
 @click.group(context_settings={"help_option_names": ["-h", "--help"]})
-@click.version_option("some_name v1.0.0", "--version", "-v")
+@click.version_option(
+    f"{__package__} v{__version__}", "--version", "-v", message="%(version)s"
+)
 def main():
     """
-    BEPT is a Beginner friendly Protein electrostatics Tool. Bept gives you an interactive, colorful, easy-to-use interface to automate your protein analysis with PDB2PQR commands and APBS.
+    BEPT is a Beginner friendly Electrostatics for Protein analysis Tool. Bept gives you an interactive, colorful, easy-to-use interface to automate your protein analysis with PDB2PQR commands and APBS.
     This was built as part of the project IMPROVISeD, by IISc-Software-iGEM Team 2024.
 
-    To know more information about each option, run `bept OPTION --help`. To see the documentation of BEPT, run `bept docs`.
+    To know more information about each option, run `bept COMMAND --help`. To see the documentation of BEPT, run `bept docs`.
     """
     pass
 
@@ -81,12 +86,14 @@ def auto(pdb2pqr, apbs, file_load, interactive):
     # Command processing based on provided arguments or history
     if apbs:
         input_file = apbs[0]
-        apbs_exec(input_file, interactive)
+        apbs_cmd = f"apbs {input_file}"
+        apbs_exec(apbs_cmd, interactive)
         return
 
     if pdb2pqr:
         pdb_file = pdb2pqr[0]
-        p_exec(pdb_file, interactive)
+        pdb2pqr_cmd = f"pdb2pqr --ff=AMBER --apbs-input={pdb_file[:-4]}.in --keep-chain --whitespace --drop-water --titration-state-method=propka --with-ph=7 {pdb_file} {pdb_file[:-4]}.pqr"
+        p_exec(pdb2pqr_cmd, interactive)
         return
 
 
@@ -95,15 +102,17 @@ def auto(pdb2pqr, apbs, file_load, interactive):
     "--pdb2pqr",
     "-p",
     multiple=True,
+    type=click.Path(exists=True),
     callback=validate_pdb2pqr,
-    help="Generate pdb2pqr command interactively.",
+    help="Generate pdb2pqr command interactively. Input PDB file path.",
 )
 @click.option(
     "--apbs",
     "-a",
     multiple=True,
+    type=click.Path(exists=True),
     callback=validate_apbs,
-    help="Generate apbs command interactively.",
+    help="Generate apbs command interactively. Input `.in` file path.",
 )
 @click.option(
     "--in-to-toml",
@@ -310,8 +319,11 @@ def history(
     Manage command history of pdb2pqr and apbs input files. Bept allows history and cache management for all APBS commands and input files generated.
     Run `bept history --help` for more information.
     """
-    if view_execute and not (pdb2pqr or apbs):
-        CONSOLE.print("Please provide either -p or -a to view.", style="red")
+    if pdb2pqr or apbs and not view_execute:
+        CONSOLE.print(
+            "Please provide -v or --view-execute along with -p or -a to view history of pdb2pqr or apbs commands.",
+            style="red",
+        )
         return
 
     if clear_history:
@@ -328,6 +340,11 @@ def history(
         return
 
     if view_execute:
+        if not (pdb2pqr or apbs):
+            CONSOLE.print(
+                "Please provide either -p or -a along with -v to view.", style="red"
+            )
+            return
         tool = "apbs" if apbs else "pdb2pqr"
         history_choose(tool)
         return

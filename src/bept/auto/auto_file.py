@@ -26,9 +26,9 @@ def file_runner(input_file: str, interative: bool = False):
             try:
                 # :? is indicator to run that command interactively
                 if ":?" in cmd:
-                    p_exec(cmd, True)
+                    p_exec(cmd, interactive=True)
                 else:
-                    p_exec(cmd, interative)
+                    p_exec(cmd)
                 CONSOLE.print("BEPT PROCESS RAN SUCCESSFULLY", style="bold green")
             except Exception as e:
                 CONSOLE.print(f"PROCESS FAILED. Error: {e}", style="bold red")
