@@ -1358,7 +1358,6 @@ class Misc_options(Static):
 
     Attributes
     ----------
-    UPDATE THE FIRST ATTRIBUTE
     calcenergy : str
         Calculation Of Electrostatic Energy From A PBE Calculation
     calcforce : str
@@ -1432,14 +1431,6 @@ class Misc_options(Static):
 class Output_options(Static):
     """
     The Output Options Tab.
-
-    ...
-
-    Attributes
-    ----------
-    UPDATE ALL THE ATTRIBUTES
-    dime : list
-        Grid Points Per Processor
     """
 
     def compose(self):
