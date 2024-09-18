@@ -4,7 +4,7 @@ Computational Biology can be roughly considered to be the amalgamation of severa
 
 ## 2. How did it start?
 
-The origins of computational biology, not too surprisingly can be traced back to the origins of computation. The implementation of a model of biological morphogenesis (the development of pattern and form in living organisms) was started by British mathematician **Alan Turing** in the 1950s. This decade also witnessed the incorporation of computational methods in phylogenetics.
+The origins of computational biology, not too surprisingly, can be traced back to the origins of computation itself. The implementation of a model of biological morphogenesis (the development of pattern and form in living organisms) was started by British mathematician **Alan Turing** in the 1950s. This decade also witnessed the incorporation of computational methods in phylogenetics.
 
 By the 1960s, computers could deal with complex structures such as proteins marking the rise of computational biology as a field. Computers had become an essential part of scientists' lives, especially in analysing the **3D structure of proteins**.
 
