@@ -53,7 +53,7 @@ def file_runner(input_file: str, interactive: bool = False):
         if cmd.split()[0] == "pdb2pqr":
             try:
                 # :? is indicator to run that command interactively
-                if ":?" in cmd:
+                if " :?" in cmd:
                     return_code = p_exec(cmd, interactive=True)
                 else:
                     return_code = p_exec(cmd, interactive=interactive)
@@ -66,7 +66,7 @@ def file_runner(input_file: str, interactive: bool = False):
         elif cmd.split()[0] == "apbs":
             try:
                 # :? is indicator to run that command interactively
-                if ":?" in cmd:
+                if " :?" in cmd:
                     apbs_exec(cmd, interactive=True)
                 else:
                     apbs_exec(cmd, interactive=interactive)
