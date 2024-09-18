@@ -23,6 +23,7 @@ from bept.validator import (
 from bept.gen.pdb2pqr import inter_pqr_gen
 from bept.gen.toml_in_converter import in_toml, toml_in
 from bept.gen.apbs import apbs_gen
+from bept.docs.docs_viewer import run_docs_viewer
 
 CONSOLE = Console()
 
@@ -76,6 +77,7 @@ def main():
 def auto(pdb2pqr, apbs, file_load, interactive):
     """
     Automate pdb2pqr, apbs commands for multiple proteins. You can run all at once or interactively with -i flag.
+    Note: To halt auto file execuution, add a ` :?` inside your command to run that command interactively.
     Run `bept auto --help` for more information.
     """
     if interactive and not file_load:
@@ -381,4 +383,4 @@ def docs():
     """
     View Bept documentation in your terminal with a detailed information on how to use and what each command.
     """
-    pass
+    run_docs_viewer()
