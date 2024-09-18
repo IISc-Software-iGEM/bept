@@ -27,7 +27,7 @@ Key Points:
 
 - Electrostatic Potential Calculation: Calculates the electrostatic potential of a biomolecular system.
 
-- Solvent Accessibility: It can compute the electrostatic potential on the surface of the molecule, this helps in visualizing how the charge distribution affects molecular interactions.
+- Solvent Accessibility: It can compute the electrostatic potential on the surface of the molecule. This helps in visualizing how the charge distribution affects molecular interactions.
 
 - Support for Multiple Types of Biomolecules: It can represent proteins, nucleic acids, peptides, complexes, etc making it versatile tool.
   
@@ -36,7 +36,7 @@ Key Points:
 --------------------------------------------------------------------------------------
 
 ## [PDB2PQR](https://pdb2pqr.readthedocs.io/en/latest/)
-This software automates many of the common tasks of preparing structures for continuum solvation calculations as well as many other types of biomolecular structure modeling, analysis, and simulation. PDB2PQR helps bridge the gap between protein structure data and electrostatic modeling, making it easier to analyze the electrostatic interactions and properties of proteins. These tasks include:
+This software automates many of the common tasks of preparing structures for continuum solvation calculations as well as many other types of biomolecular structure modeling, analysis, and simulation. PDB2PQR helps to bridge the gap between protein structure data and electrostatic modeling, making it easier to analyze the electrostatic interactions and properties of proteins. These tasks include:
 
 - Charge and Radii Addition
 
@@ -90,7 +90,7 @@ Features:
 --------------------------------------------------------------------------------------
 
 ## [AESOP](https://aesop.readthedocs.io/en/latest/)
-No, it isn't the ancient Greek storyteller who is famous for his collection of fables rather is a python library to investigate electrostatics in protein interactions.
+No, it isn't the ancient Greek storyteller who is famous for his collection of fables but rather is a python library to investigate electrostatics in protein interactions.
 
 It is developed and maintained by members of the Biomolecular Modeling and Design Lab at the University of California, Riverside
 
