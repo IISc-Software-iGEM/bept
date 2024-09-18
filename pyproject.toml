@@ -1,6 +1,6 @@
 [project]
 name = "bept"
-version = "1.0.0"
+version = "0.1.0"
 description = "BEPT is a Beginner friendly Protein electrostatics Tool, which is a very interactive and user-friendly tool for beginners to use APBS and PDB2PQR."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -16,6 +16,42 @@ dependencies = [
     "textual>=0.79.1",
     "toml>=0.10.2",
 ]
+authors = [
+    {name = "Anirudh Gupta"},
+    {name = "Akshita Sunsugu Panliswami"},
+    {name = "Aditya Thakkar"},
+    {name = "Kishan Gowda"},
+    {name = "G Hasini"},
+    {name = "Soham Paul"},
+    {name = "Aditey Nandan"},
+    {name = "Ritobroto Saha"},
+    {name = "Shreyan Priyadarshi"},
+    {name = "Deeptam Bhar"},
+]
+maintainers = [
+    {name = "Anirudh Gupta"},
+]
+license = {file = "LICENSE"},
+keywords = ["apbs", "pdb2pqr", "protein", "electrostatics", "cli"]
+classifiers=[
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Education",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX",
+    "Operating System :: MacOS",
+    "Operating System :: Microsoft :: Windows",
+]
+
+[project.urls]
+homepage = "https://github.com/IISc-Software-iGEM/improvised-cli"
+documentation = "https://github.com/IISc-Software-iGEM/improvised-cli/tree/main/docs"
+repository = "https://github.com/IISc-Software-iGEM/improvised-cli.git"
 
 [project.scripts]
 bept = "bept.main:main"
