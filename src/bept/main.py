@@ -31,9 +31,10 @@ CONSOLE = Console()
 @click.version_option("some_name v1.0.0", "--version", "-v")
 def main():
     """
-    BEPT is a Beginner friendly Protein Analysis Tool to start with protein analysis. You can perform APBS calculations using pdb2pqr and apbs interactively along with automating your work on multiple input proteins. <more_stuff>
-
+    BEPT is a Beginner friendly Protein electrostatics Tool. Bept gives you an interactive, colorful, easy-to-use interface to automate your protein analysis with PDB2PQR commands and APBS.
     This was built as part of the project IMPROVISeD, by IISc-Software-iGEM Team 2024.
+
+    To know more information about each option, run `bept OPTION --help`. To see the documentation of BEPT, run `bept docs`.
     """
     pass
 
@@ -70,6 +71,7 @@ def main():
 def auto(pdb2pqr, apbs, file_load, interactive):
     """
     Automate pdb2pqr, apbs commands for multiple proteins. You can run this command as ....
+    Run `bept auto --help` for more information.
     """
 
     if file_load:
@@ -119,7 +121,8 @@ def auto(pdb2pqr, apbs, file_load, interactive):
 )
 def gen(pdb2pqr, apbs, in_to_toml, toml_to_in):
     """
-    Generate pdb2pqr, apbs commands interactively. You can run this command as ....
+    Generate pdb2pqr commands and APBS input file interactively.
+    Bept allows conversion between `.in` & `.toml`.
     """
     if pdb2pqr:
         pdb2pqr_cmd = inter_pqr_gen(pdb2pqr[0])  # pdb2pqr is a tuple: (pdb_file, )
@@ -200,7 +203,8 @@ def gen(pdb2pqr, apbs, in_to_toml, toml_to_in):
 )
 def out(interactive, dx, all):
     """
-    Generate output files for potential output files. You can run this command as ....
+    Generate output files including PQR, Potential DX and default `.bept` and `<protein>_bept.csv` file.
+    Run `bept gen --help` for more information.
     """
     # using dx direcly since its REQUIRED
     input_pqr, input_dx = dx  # unpacking the tuple
@@ -303,7 +307,8 @@ def history(
     print_cache_path,
 ):
     """
-    Manage command history of pdb2pqr and apbs commands. You can run this command as ....
+    Manage command history of pdb2pqr and apbs input files. Bept allows history and cache management for all APBS commands and input files generated.
+    Run `bept history --help` for more information.
     """
     if view_execute and not (pdb2pqr or apbs):
         CONSOLE.print("Please provide either -p or -a to view.", style="red")
@@ -346,3 +351,11 @@ def history(
             "Invalid option. Please refer `bept history --help` for more info.",
             style="red",
         )
+
+
+@main.command(short_help="See Bept Documentation.")
+def docs():
+    """
+    View Bept documentation in your terminal with a detailed information on how to use and what each command.
+    """
+    pass
