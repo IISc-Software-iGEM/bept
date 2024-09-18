@@ -86,12 +86,14 @@ def auto(pdb2pqr, apbs, file_load, interactive):
     # Command processing based on provided arguments or history
     if apbs:
         input_file = apbs[0]
-        apbs_exec(input_file, interactive)
+        apbs_cmd = f"apbs {input_file}"
+        apbs_exec(apbs_cmd, interactive)
         return
 
     if pdb2pqr:
         pdb_file = pdb2pqr[0]
-        p_exec(pdb_file, interactive)
+        pdb2pqr_cmd = f"pdb2pqr --ff=AMBER --apbs-input={pdb_file[:-4]}.in --keep-chain --whitespace --drop-water --titration-state-method=propka --with-ph=7 {pdb_file} {pdb_file[:-4]}.pqr"
+        p_exec(pdb2pqr_cmd, interactive)
         return
 
 
@@ -100,15 +102,17 @@ def auto(pdb2pqr, apbs, file_load, interactive):
     "--pdb2pqr",
     "-p",
     multiple=True,
+    type=click.Path(exists=True),
     callback=validate_pdb2pqr,
-    help="Generate pdb2pqr command interactively.",
+    help="Generate pdb2pqr command interactively. Input PDB file path.",
 )
 @click.option(
     "--apbs",
     "-a",
     multiple=True,
+    type=click.Path(exists=True),
     callback=validate_apbs,
-    help="Generate apbs command interactively.",
+    help="Generate apbs command interactively. Input `.in` file path.",
 )
 @click.option(
     "--in-to-toml",

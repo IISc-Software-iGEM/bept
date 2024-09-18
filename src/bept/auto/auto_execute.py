@@ -1,4 +1,3 @@
-import os
 import subprocess
 
 from beaupy import prompt
@@ -75,6 +74,9 @@ def p_exec(pdb2pqr_cmd: str, interative: bool = False, save: bool = True) -> Non
         )
         return
 
+    else:
+        CONSOLE.print("PDB2PQR command executed successfully!", style="green")
+
     # Get input filepath, which is text containing .pqr
     input_flag = next((arg for arg in cmd.split() if ".in" in arg), None)
     if input_flag is None:
@@ -110,6 +112,9 @@ def apbs_exec(apbs_cmd: str, interative: bool = False, save: bool = True) -> Non
             style="red",
         )
         return
+
+    else:
+        CONSOLE.print("APBS command executed successfully!", style="green")
     # Get input filepath, which is text containing .in
     input_filepath = next((arg for arg in cmd.split() if ".in" in arg), None)
     if input_filepath is None:

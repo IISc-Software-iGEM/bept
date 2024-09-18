@@ -180,6 +180,7 @@ def inter_pqr_gen(input_pdb: str):
     # pdb2pqr command generation
     final_cmd = " ".join(result)
     CONSOLE.print(
-        f"Generated PDB2PQR command: {final_cmd}\nThank you for using the BEPT interactive PDB2PQR command generation ."
+        f"Generated PDB2PQR command: {final_cmd}\nThank you for using the BEPT interactive PDB2PQR command generation .",
+        style="bold green",
     )
     return final_cmd
