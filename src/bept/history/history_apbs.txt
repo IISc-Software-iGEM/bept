@@ -1,2 +1,0 @@
-apbs input.in
-apbs resources/example_outputs/7y6i.in
