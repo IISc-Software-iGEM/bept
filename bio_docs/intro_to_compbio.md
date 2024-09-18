@@ -12,4 +12,4 @@ These were followed by the use of Machine Learning and Artificial Intelligence i
 
 ## 3. What PEP focusses on?
 
-PEP focusses on the application of Computational Biology in analysing the structure of proteins. It is a beginner-friendly tool for anyone who's interested to join the exciting field of computational biology and a step forward from existing Computational Biology tools, in terms of user-friendliness and can be used by anyone who's willing and eager to learn.
+PEP focusses on the application of Computational Biology in analysing the structure of proteins. It is a beginner-friendly tool for anyone who's interested to join the exciting field of computational biology and a step forward from existing Computational Biology tools in terms of user-friendliness and can be used by anyone who's willing and eager to learn.
