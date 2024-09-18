@@ -71,7 +71,13 @@ Cornell, W. D., et al. (1995). "A Second Generation Force Field for the Simulati
 
 ### Generation of data structure - to calculate potential
 
-- Sophisticated shit
+- In CHARMM, generating an energy expression involves specifying bonds, angles, dihedral angles, and more. While manageable for small molecules, this approach becomes cumbersome for large systems. To handle redundancy in macromolecules, CHARMM uses **residues**—repeating subgroups—stored in the **Residue Topology File (RTF)**. The energy terms for each residue type are defined in the RTF, while the overall system’s energy terms are stored in the **Protein Structure File (PSF)**.
+
+The **PSF** is essential for CHARMM, as it contains all information needed to compute nonbonded and hydrogen bond lists, as well as evaluate energy. It includes data on atoms (names, types, charges, etc.), bonds, angles, dihedrals, hydrogen bonds, and nonbonded exclusions (e.g., 1-2, 1-3 interactions). It also defines how atoms are grouped for electrostatic calculations.
+
+CHARMM builds the PSF by generating a segment each time a command is invoked, using information stored in the RTF. Segments may include macromolecular chains, water molecules, or other small molecules. With the PSF, parameters, and coordinates ready, energy terms can be calculated.
+
+The **RTF** contains detailed information about atoms, bonds, and angles for each residue (e.g., amino acids, nucleotides). It also provides patching information for special structures.
 
 ### Mechanics and Energetics
 

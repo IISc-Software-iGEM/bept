@@ -4,7 +4,7 @@ Proteins are polymers(one or multiple chains) of amino acid residues. They are a
 
 ## 2. What are amino acids?
 
-Amino acids are organic compounds containing **amino** as well as **carboxylic acid** groups in their molecular structure.
+In Layman's terms one could argue amino acids are the building blocks of protiens. They are organic compounds containing a central **Carbon** atom,  **amino** as well as **carboxylic acid** groups, a **H** atom and an organic **-R** group in their molecular structure.
 
 ## 3. How are the structures of proteins determined?
 
