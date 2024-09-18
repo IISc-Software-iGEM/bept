@@ -104,7 +104,7 @@ Format:-
 
 ## PDB vs PQR
 
-PDB and PQR files both being important, here are some differences in between them making either usable in different scenarios.
+PDB and PQR files both are important. However here are some key differences between them. Their functionalities make them suitable to different situations.
 
 ## PDB (Protein Data Bank) File
 
