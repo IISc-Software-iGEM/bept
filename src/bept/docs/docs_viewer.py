@@ -1,4 +1,5 @@
 import os
+
 from textual.app import App, ComposeResult
 from textual.widgets import Footer, Markdown, TabbedContent, TabPane
 
@@ -41,6 +42,14 @@ class TabbedApp(App):
 
 def run_docs_viewer():
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    file_list = [os.path.join(current_dir, "intro.md")]
+    file_list = [
+        "intro.md",
+        "installation.md",
+        "gen.md",
+        "out.md",
+        "auto.md",
+        "history.md",
+    ]
+    file_list = [os.path.join(current_dir, file) for file in file_list]
     app = TabbedApp(file_list)
     app.run()
