@@ -319,8 +319,11 @@ def history(
     Manage command history of pdb2pqr and apbs input files. Bept allows history and cache management for all APBS commands and input files generated.
     Run `bept history --help` for more information.
     """
-    if view_execute and not (pdb2pqr or apbs):
-        CONSOLE.print("Please provide either -p or -a to view.", style="red")
+    if pdb2pqr or apbs and not view_execute:
+        CONSOLE.print(
+            "Please provide -v or --view-execute along with -p or -a to view history of pdb2pqr or apbs commands.",
+            style="red",
+        )
         return
 
     if clear_history:
@@ -337,6 +340,11 @@ def history(
         return
 
     if view_execute:
+        if not (pdb2pqr or apbs):
+            CONSOLE.print(
+                "Please provide either -p or -a along with -v to view.", style="red"
+            )
+            return
         tool = "apbs" if apbs else "pdb2pqr"
         history_choose(tool)
         return
