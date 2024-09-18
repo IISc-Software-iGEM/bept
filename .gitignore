@@ -3,3 +3,4 @@ src/bept/analysis/__pycache__
 src/bept/auto/__pycache__
 src/bept/gen/__pycache__
 src/bept/history/__pycache__
+dist

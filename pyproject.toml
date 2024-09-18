@@ -1,7 +1,7 @@
 [project]
 name = "bept"
 version = "0.1.0"
-description = "BEPT is a Beginner friendly Protein electrostatics Tool, which is a very interactive and user-friendly tool for beginners to use APBS and PDB2PQR."
+description = "BEPT is a Beginner friendly Protein electrostatics Tool, a cross-platform interactive and user-friendly tool for protein electrostatics using APBS and PDB2PQR."
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
@@ -49,9 +49,9 @@ classifiers=[
 ]
 
 [project.urls]
-homepage = "https://github.com/IISc-Software-iGEM/improvised-cli"
-documentation = "https://github.com/IISc-Software-iGEM/improvised-cli/tree/main/docs"
-repository = "https://github.com/IISc-Software-iGEM/improvised-cli.git"
+homepage = "https://github.com/IISc-Software-iGEM/bept"
+documentation = "https://github.com/IISc-Software-iGEM/bept/tree/main/docs"
+repository = "https://github.com/IISc-Software-iGEM/bept.git"
 
 [project.scripts]
 bept = "bept.main:main"
