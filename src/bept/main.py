@@ -31,7 +31,7 @@ CONSOLE = Console()
 @click.version_option("some_name v1.0.0", "--version", "-v")
 def main():
     """
-    BEPT is a Beginner friendly Protein electrostatics Tool. Bept gives you an interactive, colorful, easy-to-use interface to automate your protein analysis with PDB2PQR commands and APBS.
+    BEPT is a Beginner friendly Electrostatics for Protein analysis Tool. Bept gives you an interactive, colorful, easy-to-use interface to automate your protein analysis with PDB2PQR commands and APBS.
     This was built as part of the project IMPROVISeD, by IISc-Software-iGEM Team 2024.
 
     To know more information about each option, run `bept OPTION --help`. To see the documentation of BEPT, run `bept docs`.

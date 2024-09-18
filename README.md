@@ -1,6 +1,6 @@
 # Improvised CLI - BEPT
 
-Bept - Beginner friendly Protein electrostatics Tool
+Bept - Beginner friendly Electrostatics for Protein analysis Tool
 
 Bept is a beginner-friendly tool for analysis proteins which uses functionalities of `pdb2pqr` and `apbs` command line tools, but making them more beginner friendly, making it for you to learn their usages without undergoing the pain of reading the documentation. The tool is meant to target growing scientists interested in protein electrostatics but scared of using Terminal command line tool.
 
@@ -65,7 +65,8 @@ brew install anirudhg07/anirudhg07/bept
 `bept` has been made using `uv` python package manager. You can install `uv` and run the below commands to install `bept` -
 
 ```bash
-git clone https://github.com/IISc-Software-iGEM/improvised-cli
+git clone https://github.com/IISc-Software-iGEM/bept.git
+cd bept
 pip install .
 ```
 
