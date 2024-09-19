@@ -1,6 +1,6 @@
 # Improvised CLI - BEPT
 
-Bept - Beginner friendly Electrostatics for Protein analysis Tool
+Bept - Beginner friendly Electrostatics for Protein analysis Tool, is built by IISc-Software Team and future juniors iGEMers from Indian Institute of Science, Bengaluru India, for iGEM 2024.
 
 Bept is a beginner-friendly tool for analysis proteins which uses functionalities of `pdb2pqr` and `apbs` command line tools, but making them more beginner friendly, making it for you to learn their usages without undergoing the pain of reading the documentation. The tool is meant to target growing scientists interested in protein electrostatics but scared of using Terminal command line tool.
 
@@ -92,19 +92,30 @@ sudo apt-get install apbs
 
 - Windows require manual installation. Please check APBS official website for detailed information.
 
-## More info ...
+## Dependencies
+Apart from APBS and PDB2PQR commands, Bept uses python libraries like [rich](https://github.com/Textualize/rich), [rich-click](https://github.com/ewels/rich-click), [textual](https://github.com/Textualize/textual), [beaupy](https://github.com/petereon/beaupy), etc. for the interactive and colorful setup provided. These dependencies are present in the `requirements.txt` which are automatically installed when you install via Pypi and Homebrew. You can download these dependencies by the following command -
+
+```bash
+pip install -r requirements.txt
+```
+
+For windows, you might need to set the PATH variable where the tool is downloaded. 
+
+## Documentation
+Bept provides a very nice UI for reading documentation offline in your terminal anytime. You can read it with `bept docs`. These documentations are also present as it is in [docs](/docs).
+For any queries or issues, feel free to raise an issue in the repository.
 
 ## Our Team
 
-The project was made by members of IISc-Software Team along with the upcoming iGemers among undergraduates from IISc Bengaluru.
+The project was made by members of IISc-Software Team along with the upcoming iGEMers among undergraduates from IISc Bengaluru.
 
-- Anirudh Gupta - Maintainer and Project Leader
+- Anirudh Gupta(Maintainer, Project Leader) - Analysis, History management, Integration of features with CLI.
 - Aditya Thakkar - APBS interactive generation
 - Kishan Gowda - APBS interactive generation
 - Akshita Sunsugu Palaniswami - PDB2PQR interactive generation
 - G Hasini - Software Testing
 - Deeptam Bhar - Interactive documentation
 - Aditey Nandan - Biological Backend and Documentation
-- Ritobroto Saha - Biological Backend and Documentation
+- Ritabrata Saha - Biological Backend and Documentation
 - Shreyan Priyadarshi - Biological Backend and Documentation
 - Soham Paul - Biological Backend and Documentation
