@@ -96,7 +96,7 @@ def csv_make(pqr_file, pot_dx_file):
         err = Error()
         return 0
 
-    destination_path = pqr_file.split(".")[0] + ".csv"
+    destination_path = pqr_file.split(".")[0] + "_bept.csv"
 
     try:
         with open(destination_path, "w", newline="") as p:

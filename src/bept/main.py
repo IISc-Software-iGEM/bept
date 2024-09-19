@@ -31,6 +31,19 @@ __package__ = "bept"
 __version__ = "0.1.0"
 
 
+BEPT_AUTH_MSG = """
+-----------------------------------
+Thank you for using BEPT - Beginner friendly Electrostatics for Protein analysis Tool.
+This is developed by IISc-Software Team for iGEM 2024, from Indian Institute of Science, Bangalore.
+
+To see documentation, run `bept docs`.
+For more information, visit the official github page at https://github.com/IISc-Software-iGEM/bept.
+-----------------------------------
+"""
+
+print(BEPT_AUTH_MSG)
+
+
 @click.group(context_settings={"help_option_names": ["-h", "--help"]})
 @click.version_option(
     f"{__package__} v{__version__}", "--version", "-v", message="%(version)s"
