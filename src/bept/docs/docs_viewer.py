@@ -5,7 +5,10 @@ from textual.widgets import Footer, Markdown, TabbedContent, TabPane
 
 
 class TabbedApp(App):
-    """An example of tabbed content."""
+    """Tabs for displaying file names."""
+    BINDINGS = [("q", "quit", "QUIT"),
+                ("->","next", "Press right arrow to switch to the next tab"),
+                ("<-","previous", "Press left arrow to switch to the previous tab")]
 
     def __init__(self, file_paths):
         super().__init__()
