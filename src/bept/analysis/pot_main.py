@@ -1,4 +1,5 @@
 import csv
+import os
 
 import pandas as pd
 from rich.console import Console
@@ -19,7 +20,9 @@ def Error():
     return True
 
 
-def bept_make(pqr_file, pot_dx_file, input_csv):
+def bept_make(
+    pqr_file: str, pot_dx_file: str, input_csv: str, output_dir: str = os.getcwd()
+):
     """
     This will make our custom potential file.
     We want the coordinate, and the potential at that coordinate.
@@ -29,6 +32,13 @@ def bept_make(pqr_file, pot_dx_file, input_csv):
     ATOM   N  Residue A Resi_num    x y z cx cy cz q r ex ey ez potential
 
     Also some pre data, which tells origin and grid length, etc.
+
+    Args:
+        pqr_file (str): Path to the PQR file
+        pot_dx_file (str): Path to the potential DX file
+        input_csv (str): Path to the input CSV file
+        output_dir (str): Path to the output directory
+
     """
     # Read the CSV file using pandas
     csv_data = pd.read_csv(input_csv)
@@ -37,8 +47,8 @@ def bept_make(pqr_file, pot_dx_file, input_csv):
     xmin, ymin, zmin, hx, hy, hz, nx, ny, nz = extract(pot_dx_file)
 
     # Write metadata to the destination file
-    protein = pqr_file.split(".")[0]
-    destination_file = protein + ".bept"
+    protein = os.path.splitext(os.path.basename(pqr_file))[0]
+    destination_file = os.path.join(output_dir, protein + ".bept")
 
     err = False
     with open(destination_file, "w") as p:
@@ -76,9 +86,13 @@ def bept_make(pqr_file, pot_dx_file, input_csv):
     return destination_file, err
 
 
-def csv_make(pqr_file, pot_dx_file):
+def csv_make(pqr_file: str, pot_dx_file: str, output_dir: str = os.getcwd()):
     """
-    This will make the csv file containing all the info
+    This function will generate a BEPT CSV file.
+    Args:
+        pqr_file (str): Path to the PQR file
+        pot_dx_file (str): Path to the potential DX file
+        output_dir (str): Path to the output directory
     """
     err = False
     try:
@@ -96,7 +110,9 @@ def csv_make(pqr_file, pot_dx_file):
         err = Error()
         return 0
 
-    destination_path = pqr_file.split(".")[0] + "_bept.csv"
+    destination_path = os.path.join(
+        output_dir, os.path.splitext(os.path.basename(pqr_file))[0] + "_bept.csv"
+    )
 
     try:
         with open(destination_path, "w", newline="") as p:

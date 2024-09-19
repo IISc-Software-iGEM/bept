@@ -1,11 +1,12 @@
 import pandas as pd
+import os
 from tabulate import tabulate
 from rich.console import Console
 
 CONSOLE = Console()
 
 
-def xyz_make(input_csv: str, bept_file: str):
+def xyz_make(input_csv: str, bept_file: str, output_dir: str = os.getcwd()):
     """
     This file creates the .xyz format for our protein. This will take the data from the master file.
     XYZ file format-
@@ -14,6 +15,11 @@ def xyz_make(input_csv: str, bept_file: str):
     Comment line(inclue protein.pdb and origin coordinates)
     Atom1 x y z
     . . .
+
+    Args:
+        input_csv (str): Path to the input CSV file
+        bept_file (str): Path to the BEPT file
+        output_dir (str): Path to the output directory
     """
     destination_path, err = "", False
     try:
@@ -22,8 +28,8 @@ def xyz_make(input_csv: str, bept_file: str):
             bept_data = m.readlines()
 
         # Extract protein name and determine the destination path
-        protein = bept_file.split(".")[0]
-        destination_path = protein + ".xyz"
+        protein = os.path.splitext(os.path.basename(bept_file))[0]
+        destination_path = os.path.join(output_dir, protein + ".xyz")
 
         # Read CSV file
         with open(input_csv, "r") as f:

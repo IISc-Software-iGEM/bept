@@ -60,7 +60,7 @@ You can interactively select which file types to generate by using the interacti
 bept out -d /path/to/pqr_file /path/to/dx_file -i
 ```
 
-To generate all supported files, use the `-a | --all` flag for the same.
+To generate all supported files, use the `-a | --all-types` flag for the same.
 
 ```bash
 bept out -d /path/to/pqr_file /path/to/dx_file -a

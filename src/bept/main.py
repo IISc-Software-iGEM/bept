@@ -226,12 +226,18 @@ def gen(pdb2pqr, apbs, in_to_toml, toml_to_in):
     help="Interactively select which files to generate. Default: only .bept",
 )
 @click.option(
-    "--all",
+    "--all-types",
     "-a",
     is_flag=True,
     help="Generate all other supported output files.",
 )
-def out(interactive, dx, all):
+@click.option(
+    "--out-dir",
+    "-o",
+    type=click.Path(),
+    help="Output directory to save the files. Default: current directory.",
+)
+def out(interactive, dx, all_types, out_dir):
     """
     Generate output files including PQR, Potential DX and default `.bept` and `<protein>_bept.csv` file.
     Run `bept gen --help` for more information.
@@ -239,8 +245,10 @@ def out(interactive, dx, all):
     # using dx direcly since its REQUIRED
     input_pqr, input_dx = dx  # unpacking the tuple
 
+    output_dir = out_dir[0] if out_dir else os.getcwd()
+
     file_options = [
-        "cube: Gaussian .cube file",
+        # "cube: Gaussian .cube file",
         "xyz: .xyz format for input protein",
         "Cancel and generate default",  # Always last option
     ]
@@ -255,14 +263,14 @@ def out(interactive, dx, all):
         )
         types += select_multiple(file_options)
 
-    if file_options[-1] in types and len(types) > 3 and not all:
+    if file_options[-1] in types and len(types) > 3 and not all_types:
         CONSOLE.print(
             "Warning! You selected Cancel along with other options. Only default files will be generated.",
             style="bold yellow",
         )
 
-    bept_csv, err_csv = csv_make(input_pqr, input_dx)
-    bept_main_path, err_bept = bept_make(input_pqr, input_dx, bept_csv)
+    bept_csv, err_csv = csv_make(input_pqr, input_dx, output_dir)
+    bept_main_path, err_bept = bept_make(input_pqr, input_dx, bept_csv, output_dir)
     if err_csv or err_bept:
         CONSOLE.print("Error in generating default files.")
         return 0
@@ -275,7 +283,7 @@ def out(interactive, dx, all):
         # if _typ == file_options[1]:
         #   cube_make(input_pqr, input_dx)
         if _typ == file_options[2]:
-            destination_xyz, err_xyz = xyz_make(bept_csv, bept_main_path)
+            destination_xyz, err_xyz = xyz_make(bept_csv, bept_main_path, output_dir)
 
             if err_xyz:
                 CONSOLE.print("Error in generating additional files.", style="red")
