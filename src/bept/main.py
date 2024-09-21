@@ -262,6 +262,9 @@ def out(interactive, dx, all_types, out_dir):
             style="bold blue",
         )
         types += select_multiple(file_options)
+    else:
+        # Nothing apart from default
+        types = []
 
     if file_options[-1] in types and len(types) > 3 and not all_types:
         CONSOLE.print(
@@ -280,9 +283,9 @@ def out(interactive, dx, all_types, out_dir):
         if _typ == file_options[-1]:
             ## The csv and bept are already generated. Simply exit
             break
-        # if _typ == file_options[1]:
+        # if "cube" in str(_typ):
         #   cube_make(input_pqr, input_dx)
-        if _typ == file_options[2]:
+        if "xyz" in str(_typ):
             destination_xyz, err_xyz = xyz_make(bept_csv, bept_main_path, output_dir)
 
             if err_xyz:
