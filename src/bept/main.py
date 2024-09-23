@@ -14,9 +14,10 @@ from bept.history.cache_apbs import (
 )
 from bept.history.cache_vnr import cache_view, restore_selected_cache
 from bept.validator import (
+    validate_pdb2pqr,
     validate_apbs,
     validate_dx,
-    validate_pdb2pqr,
+    validate_pqr,
     validate_into,
     validate_toin,
 )
@@ -215,9 +216,16 @@ def gen(pdb2pqr, apbs, in_to_toml, toml_to_in):
     "-d",
     type=click.Path(exists=True),
     required=True,
-    nargs=2,
     callback=validate_dx,
-    help="Input PQR file and corresponding APBS pot_dx file respectively.",
+    help="Input APBS pot_dx file path.",
+)
+@click.option(
+    "--pqr",
+    "-q",
+    type=click.Path(exists=True),
+    required=True,
+    callback=validate_pqr,
+    help="Input PQR file path.",
 )
 @click.option(
     "--interactive",
@@ -227,7 +235,7 @@ def gen(pdb2pqr, apbs, in_to_toml, toml_to_in):
 )
 @click.option(
     "--all-types",
-    "-a",
+    "-all",
     is_flag=True,
     help="Generate all other supported output files.",
 )
@@ -237,15 +245,15 @@ def gen(pdb2pqr, apbs, in_to_toml, toml_to_in):
     type=click.Path(),
     help="Output directory to save the files. Default: current directory.",
 )
-def out(interactive, dx, all_types, out_dir):
+def out(interactive, dx, pqr, all_types, out_dir):
     """
     Generate output files including PQR, Potential DX and default `.bept` and `<protein>_bept.csv` file.
     Run `bept gen --help` for more information.
     """
-    # using dx direcly since its REQUIRED
-    input_pqr, input_dx = dx  # unpacking the tuple
+    # Check if the input files are provided
+    input_dx, input_pqr = dx, pqr
 
-    output_dir = out_dir[0] if out_dir else os.getcwd()
+    output_dir = out_dir if out_dir else os.getcwd()
 
     file_options = [
         # "cube: Gaussian .cube file",

@@ -44,7 +44,7 @@ def xyz_make(input_csv: str, bept_file: str, output_dir: str = os.getcwd()):
             p.write(str(no_of_atoms) + "\n")
             p.write("Protein: " + protein + " Origin: " + origin + "\n")
             table = tabulate(
-                csv_data[["Atom", "X", "Y", "Z"]],
+                csv_data[["Atom", "Cx", "Cy", "Cz"]],
                 headers="keys",
                 tablefmt="plain",
                 showindex=False,

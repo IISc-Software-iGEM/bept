@@ -27,13 +27,18 @@ def validate_apbs(ctx, param, value):
 
 def validate_dx(ctx, param, value):
     if value:
-        if (
-            len(value) != 2
-            or not value[0].endswith(".pqr")
-            or not value[1].endswith(".dx")
-        ):
+        if not value.endswith(".dx"):
             raise click.BadParameter(
-                "output generations requires exactly one argument with .pqr and one with .dx file type respectively."
+                "Output generations requires exactly one argument with .dx file type."
+            )
+    return value
+
+
+def validate_pqr(ctx, param, value):
+    if value:
+        if not value.endswith(".pqr"):
+            raise click.BadParameter(
+                "Output generations requires exactly one argument with .pqr file type."
             )
     return value
 
