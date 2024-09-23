@@ -7,7 +7,7 @@ from tabulate import tabulate
 
 from bept.analysis.coord_conv import coord_to_int
 from bept.analysis.elec_calc import elec
-from bept.analysis.pot_extract import extract
+from bept.analysis.pot_extract import extract_dx_data
 from bept.analysis.pot_val import val_potential
 
 CONSOLE = Console()
@@ -44,7 +44,10 @@ def bept_make(
     csv_data = pd.read_csv(input_csv)
 
     # Extract metadata from the pot_dx_file
-    xmin, ymin, zmin, hx, hy, hz, nx, ny, nz = extract(pot_dx_file)
+    data_dict = extract_dx_data(pot_dx_file)
+    nx, ny, nz = data_dict["dimensions"]
+    hx, hy, hz = data_dict["grid spacing"]
+    xmin, ymin, zmin = data_dict["origin"]
 
     # Write metadata to the destination file
     protein = os.path.splitext(os.path.basename(pqr_file))[0]
@@ -117,9 +120,6 @@ def csv_make(pqr_file: str, pot_dx_file: str, output_dir: str = os.getcwd()):
     try:
         with open(destination_path, "w", newline="") as p:
             writer = csv.writer(p)
-            CONSOLE.print(
-                f"Successfully generated BEPT CSV file at: {destination_path}"
-            )
             # Write column headers for the data
             writer.writerow(
                 [
@@ -185,6 +185,10 @@ def csv_make(pqr_file: str, pot_dx_file: str, output_dir: str = os.getcwd()):
                         potential,
                     ]
                 )
+
+            CONSOLE.print(
+                f"Successfully generated BEPT CSV file at: {destination_path}"
+            )
 
     except Exception as e:
         CONSOLE.print(f"Error in generating BEPT CSV file. Error: {e}", style="red")

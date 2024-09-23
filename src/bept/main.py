@@ -4,7 +4,7 @@ from beaupy import select_multiple, confirm
 from rich.console import Console
 
 from bept.analysis.pot_main import csv_make, bept_make
-from bept.analysis.xyz import xyz_make
+from bept.analysis.opt_files.xyz import xyz_make
 from bept.auto.auto_execute import p_exec, apbs_exec
 from bept.auto.auto_file import file_runner
 from bept.history.his_main import history_clear, history_choose

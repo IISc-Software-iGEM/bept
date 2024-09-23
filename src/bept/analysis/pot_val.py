@@ -1,5 +1,5 @@
 from bept.analysis.coord_conv import coord_to_int
-from bept.analysis.pot_extract import extract
+from bept.analysis.pot_extract import extract_dx_data
 
 # Cache for storing file data
 file_cache = {}
@@ -14,10 +14,12 @@ def val_potential(cx, cy, cz, filepath):
     # Check if data for this file is already in cache
     if filepath not in file_cache:
         # If not, read it and store it in cache
-        file_cache[filepath] = extract(filepath, return_data=True)
+        file_cache[filepath] = extract_dx_data(filepath, return_data=True)
 
-    xmin, ymin, zmin, hx, hy, hz, nx, ny, nz, data = file_cache[filepath]
+    _, ny, nz = file_cache[filepath]["dimensions"]  # Extract nx, ny, nz
+    data = file_cache[filepath]["potentials"]  # Extract the potential data
     x, y, z = coord_to_int(cx, cy, cz, filepath)
+
     # Extract the potential data
     # Formula for which line to target
     total_z = x * ny * nz + y * nz + z
