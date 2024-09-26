@@ -13,6 +13,7 @@ Bept is cross-platform and can be installed on MacOS, Linux and Windows. It is b
 - Automate the process of running PDB2PQR and APBS with optional interactive modes.
 - Save your `.in` files in cache for future references.
 - Save your PDB2PQR commands in history so you no need to generate it again.
+- If you feel understanding how to write the command itself, don't worry, Bept has a friendly UI for that too.
 - Read the docs of the tool directly from the CLI in an interactive way.
 - Experience bept's extreme user-friendliness, color-coded outputs and error handling and make Electrostatics analysis a breeze!
 
@@ -25,6 +26,8 @@ Here is series of examples of how to use the tool:
 ### Generating PQR, Potential DX and BEPT files
 
 ### Automating the process of running PDB2PQR and APBS
+
+### Generate BEPT command for your conveniences
 
 ### View the docs of the tool
 
@@ -93,15 +96,21 @@ sudo apt-get install apbs
 - Windows require manual installation. Please check APBS official website for detailed information.
 
 ## Dependencies
+
 Apart from APBS and PDB2PQR commands, Bept uses python libraries like [rich](https://github.com/Textualize/rich), [rich-click](https://github.com/ewels/rich-click), [textual](https://github.com/Textualize/textual), [beaupy](https://github.com/petereon/beaupy), etc. for the interactive and colorful setup provided. These dependencies are present in the `requirements.txt` which are automatically installed when you install via Pypi and Homebrew. You can download these dependencies by the following command -
 
 ```bash
 pip install -r requirements.txt
 ```
 
-For windows, you might need to set the PATH variable where the tool is downloaded. 
+For windows, you might need to set the PATH variable where the tool is downloaded.
+
+## Too hard to understand even Bept?
+
+We've got you covered, Bept has a very nice UI for generating the commands for you, powered by [trogon](https://github.com/textualize/trogon). You can just write the file paths and choose the options and the command will be generated for you. You can use it by running `bept ui`.
 
 ## Documentation
+
 Bept provides a very nice UI for reading documentation offline in your terminal anytime. You can read it with `bept docs`. These documentations are also present as it is in [docs](/docs).
 For any queries or issues, feel free to raise an issue in the repository.
 

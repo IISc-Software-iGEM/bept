@@ -1,4 +1,5 @@
 import os
+from trogon import tui
 import rich_click as click
 from beaupy import select_multiple, confirm
 from rich.console import Console
@@ -45,6 +46,7 @@ For more information, visit the official github page at https://github.com/IISc-
 print(BEPT_AUTH_MSG)
 
 
+@tui(command="ui", help="Make bept commands with a user interface.")
 @click.group(context_settings={"help_option_names": ["-h", "--help"]})
 @click.version_option(
     f"{__package__} v{__version__}", "--version", "-v", message="%(version)s"
@@ -63,7 +65,6 @@ def main():
 @click.option(
     "--pdb2pqr",
     "-p",
-    multiple=True,
     type=click.Path(exists=True),
     callback=validate_pdb2pqr,
     help="Run one pdb2pqr command. Input PDB file path.",
@@ -72,7 +73,6 @@ def main():
     "--apbs",
     "-a",
     type=click.Path(exists=True),
-    multiple=True,
     callback=validate_apbs,
     help="Run one apbs command. Input APBS input file path.",
 )
@@ -107,13 +107,13 @@ def auto(pdb2pqr, apbs, file_load, interactive):
 
     # Command processing based on provided arguments or history
     if apbs:
-        input_file = apbs[0]
+        input_file = apbs
         apbs_cmd = f"apbs {input_file}"
         apbs_exec(apbs_cmd, interactive)
         return
 
     if pdb2pqr:
-        pdb_file = pdb2pqr[0]
+        pdb_file = pdb2pqr
         pdb2pqr_cmd = f"pdb2pqr --ff=AMBER --apbs-input={pdb_file[:-4]}.in --keep-chain --whitespace --drop-water --titration-state-method=propka --with-ph=7 {pdb_file} {pdb_file[:-4]}.pqr"
         p_exec(pdb2pqr_cmd, interactive)
         return

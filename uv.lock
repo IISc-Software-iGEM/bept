@@ -1,7 +1,6 @@
 version = 1
 requires-python = ">=3.11"
 resolution-markers = [
-    "python_version < '0'",
     "python_full_version < '3.12'",
     "python_full_version >= '3.12'",
 ]
@@ -36,6 +35,7 @@ dependencies = [
     { name = "tabulate" },
     { name = "textual" },
     { name = "toml" },
+    { name = "trogon" },
 ]
 
 [package.metadata]
@@ -50,6 +50,7 @@ requires-dist = [
     { name = "tabulate", specifier = ">=0.9.0" },
     { name = "textual", specifier = ">=0.79.1" },
     { name = "toml", specifier = ">=0.10.2" },
+    { name = "trogon", specifier = ">=0.5.0" },
 ]
 
 [[package]]
@@ -471,6 +472,19 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/be/ba/1f744cdc819428fc6b5084ec34d9b30660f6f9daaf70eead706e3203ec3c/toml-0.10.2.tar.gz", hash = "sha256:b3bda1d108d5dd99f4a20d24d9c348e91c4db7ab1b749200bded2f839ccbe68f", size = 22253 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/44/6f/7120676b6d73228c96e17f1f794d8ab046fc910d781c8d151120c3f1569e/toml-0.10.2-py2.py3-none-any.whl", hash = "sha256:806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b", size = 16588 },
+]
+
+[[package]]
+name = "trogon"
+version = "0.5.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "click" },
+    { name = "textual" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/08/37/68b64c54aa5a2663f08630dfab1561f8c492d2d50b85310d62e43f289dda/trogon-0.5.0.tar.gz", hash = "sha256:61a57f0f1a38227d90601cd020f46960be8e36947b5e56c6932c2e01ecc5042a", size = 21791 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/47/4a/21bb4a3066eacdaa6badbb00e74c75d3ba937712da08d95dd0b318ec46d0/trogon-0.5.0-py3-none-any.whl", hash = "sha256:987d2195c1dd2f93c50e555063a9de57edbc5906ce20ee39081343ff194952c1", size = 24700 },
 ]
 
 [[package]]
