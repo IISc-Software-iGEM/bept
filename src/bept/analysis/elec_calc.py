@@ -1,4 +1,5 @@
 from functools import lru_cache
+from rich.console import Console
 
 import numpy as np
 from beaupy.spinners import Spinner, DOTS
@@ -6,11 +7,13 @@ from beaupy.spinners import Spinner, DOTS
 from bept.analysis.pot_extract import extract_dx_data
 from bept.analysis.pot_val import val_potential as U
 
+CONSOLE = Console()
+
 
 @lru_cache(maxsize=None)
 def compute_field(filepath):
     if not compute_field.cache_info().hits:
-        print("Generating Field data. ")
+        CONSOLE.print("Generating electric field for grid.", style="bold blue")
 
     spinner = Spinner(DOTS)
     spinner.start()
@@ -37,7 +40,7 @@ def compute_field(filepath):
     # Ex, Ey, Ez = grad_x, grad_y, grad_z
 
     if not compute_field.cache_info().hits:
-        print("Field generation successful.")
+        CONSOLE.print("Electric field generated.", style="green")
     spinner.stop()
 
     return Ex, Ey, Ez

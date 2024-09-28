@@ -75,7 +75,7 @@ def bept_make(
         )
         p.write("Reference pqr file: " + pqr_file + "\n")
         p.write("Reference dx potential file: " + pot_dx_file + "\n\n")
-        print("Written Header Files.")
+        CONSOLE.print("Metadata written to the BEPT file.", style="yellow")
 
     # Append the CSV data to the destination file in a clean tabular form
     table = tabulate(csv_data, headers="keys", tablefmt="plain", showindex=False)
@@ -84,6 +84,9 @@ def bept_make(
     try:
         with open(destination_file, "a") as p:
             p.write(table)
+        CONSOLE.print(
+            f"Successfully written the BEPT file for {pqr_file} : " + destination_file
+        )
     except Exception as e:
         CONSOLE.print(f"Error in writing the BEPT file. Error: {e}", style="red")
         err = Error()
@@ -184,7 +187,8 @@ def csv_make(pqr_file: str, pot_dx_file: str, output_dir: str = os.getcwd()):
                 )
 
             CONSOLE.print(
-                f"Successfully generated BEPT CSV file at: {destination_path}"
+                f"Successfully generated BEPT CSV file at: {destination_path}",
+                style="green",
             )
 
     except Exception as e:
