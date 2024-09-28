@@ -94,13 +94,6 @@ def auto(pdb2pqr, apbs, file_load, interactive):
     Note: To halt auto file execuution, add a ` :?` inside your command to run that command interactively.
     Run `bept auto --help` for more information.
     """
-    if interactive and not file_load:
-        CONSOLE.print(
-            "Please provide --file-load or -f along with -i to run interactively.",
-            style="red",
-        )
-        return
-
     if file_load:
         file_runner(file_load, interactive)
         return
