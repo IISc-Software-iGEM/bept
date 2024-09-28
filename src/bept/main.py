@@ -6,6 +6,7 @@ from rich.console import Console
 
 from bept.analysis.pot_main import csv_make, bept_make
 from bept.analysis.opt_files.xyz import xyz_make
+from bept.analysis.opt_files.cube import cube_make
 from bept.auto.auto_execute import p_exec, apbs_exec
 from bept.auto.auto_file import file_runner
 from bept.history.his_main import history_clear, history_choose
@@ -116,7 +117,6 @@ def auto(pdb2pqr, apbs, file_load, interactive):
 @click.option(
     "--pdb2pqr",
     "-p",
-    multiple=True,
     type=click.Path(exists=True),
     callback=validate_pdb2pqr,
     help="Generate pdb2pqr command interactively. Input PDB file path.",
@@ -124,7 +124,6 @@ def auto(pdb2pqr, apbs, file_load, interactive):
 @click.option(
     "--apbs",
     "-a",
-    multiple=True,
     type=click.Path(exists=True),
     callback=validate_apbs,
     help="Generate apbs command interactively. Input `.in` file path.",
@@ -148,14 +147,16 @@ def gen(pdb2pqr, apbs, in_to_toml, toml_to_in):
     Generate pdb2pqr commands and APBS input file interactively.
     Bept allows conversion between `.in` & `.toml`.
     """
+    # PDB2PQR command generation
     if pdb2pqr:
-        pdb2pqr_cmd = inter_pqr_gen(pdb2pqr[0])  # pdb2pqr is a tuple: (pdb_file, )
+        pdb2pqr_cmd = inter_pqr_gen(pdb2pqr)
         if pdb2pqr_cmd:
             p_exec(pdb2pqr_cmd)
         return
 
+    # APBS command generation and options
     if apbs:
-        in_path_toml, out_path_toml = apbs_gen(apbs[0])
+        in_path_toml, out_path_toml = apbs_gen(apbs)
         if in_path_toml and out_path_toml:
             CONSOLE.print(
                 "Successfully generated APBS input files along with respective toml files.",
@@ -245,11 +246,11 @@ def out(interactive, dx, pqr, all_types, out_dir):
     """
     # Check if the input files are provided
     input_dx, input_pqr = dx, pqr
-
+    # set output directory
     output_dir = out_dir if out_dir else os.getcwd()
 
     file_options = [
-        # "cube: Gaussian .cube file",
+        "cube: Gaussian .cube file",
         "xyz: .xyz format for input protein",
         "Cancel and generate default",  # Always last option
     ]
@@ -279,23 +280,30 @@ def out(interactive, dx, pqr, all_types, out_dir):
         CONSOLE.print("Error in generating default files.")
         return 0
 
-    err_xyz = False  # TODO: Add more type of files here
+    err_xyz = False
+
+    def if_err_file(err, name: str, destination: str):
+        """Common output if error in generating file."""
+        if err:
+            CONSOLE.print(f"Error in generating {name} file.", style="red")
+            return True
+        else:
+            CONSOLE.print(
+                f"Successfully generated {name} file at: {destination}", style="green"
+            )
+
+    # TODO: Add more type of files here
     for _typ in types:
         if _typ == file_options[-1]:
             ## The csv and bept are already generated. Simply exit
             break
-        # if "cube" in str(_typ):
-        #   cube_make(input_pqr, input_dx)
+        if "cube" in str(_typ):
+            destination_cube, err_cube = cube_make(input_dx, input_pqr, output_dir)
+            if_err_file(err_cube, "cube", destination_cube)
+
         if "xyz" in str(_typ):
             destination_xyz, err_xyz = xyz_make(bept_csv, bept_main_path, output_dir)
-
-            if err_xyz:
-                CONSOLE.print("Error in generating additional files.", style="red")
-            else:
-                CONSOLE.print(
-                    f"Successfully generated xyz file at: {destination_xyz}",
-                    style="green",
-                )
+            if_err_file(err_xyz, "xyz", destination_xyz)
 
     if not err_xyz:
         CONSOLE.print("Successfully generated output files.", style="green")

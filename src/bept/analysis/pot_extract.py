@@ -43,7 +43,6 @@ def extract_dx_data(dx_filepath: str, return_data: bool = False):
         "potentials": [],  # U(i,j,k)
         "dimensions": None,  # nx, ny, nz
         "origin": None,  # xmin, ymin, zmin
-        "atom count": 0,  # Number of atoms
     }
     for line in data:
         words = [w.strip() for w in line.split()]
@@ -69,5 +68,4 @@ def extract_dx_data(dx_filepath: str, return_data: bool = False):
             if return_data:
                 for word in words:
                     dx_dict["potentials"].append(float(word))
-                    dx_dict["atom count"] += 1
     return dx_dict
