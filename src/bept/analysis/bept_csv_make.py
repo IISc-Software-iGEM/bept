@@ -9,6 +9,7 @@ from bept.analysis.coord_conv import coord_to_int
 from bept.analysis.elec_calc import elec
 from bept.analysis.pot_extract import extract_dx_data
 from bept.analysis.pot_val import val_potential
+from bept.analysis.pqr_utils import pqr_line_parser
 
 CONSOLE = Console()
 
@@ -47,6 +48,7 @@ def bept_make(
     data_dict = extract_dx_data(pot_dx_file)
     nx, ny, nz = data_dict["dimensions"]
     hx, hy, hz = data_dict["grid spacing"]
+    hx, hy, hz = hx[0], hy[1], hz[2]
     xmin, ymin, zmin = data_dict["origin"]
 
     # Write metadata to the destination file
@@ -69,7 +71,7 @@ def bept_make(
             "Grid Box Size(x y z): " + str(nx) + " " + str(ny) + " " + str(nz) + "\n"
         )
         p.write(
-            "Grid length(cx cy cz): " + str(hx) + " " + str(hy) + " " + str(hz) + "\n"
+            "Grid length(hx hy hz): " + str(hx) + " " + str(hy) + " " + str(hz) + "\n"
         )
         p.write("Reference pqr file: " + pqr_file + "\n")
         p.write("Reference dx potential file: " + pot_dx_file + "\n\n")
@@ -144,45 +146,40 @@ def csv_make(pqr_file: str, pot_dx_file: str, output_dir: str = os.getcwd()):
             )
 
             for line in pqr_data:
-                line = line.split()
-                cx, cy, cz, q, r = (
-                    line[-5],
-                    line[-4],
-                    line[-3],
-                    line[-2],
-                    line[-1],
-                )  # PQR file data
+                atom = pqr_line_parser(line)
+                if atom is None:
+                    continue
+
+                # set data
+                cx, cy, cz, q, r = atom.cx, atom.cy, atom.cz, atom.charge, atom.radius
                 x, y, z = coord_to_int(cx, cy, cz, pot_dx_file)  # Convert to integer
                 ex, ey, ez = elec(x, y, z, pot_dx_file)  # Electric field
+                typ, num, atom_name = atom.type, atom.serial, atom.name
+                resi, chain = atom.res_name, atom.chain_id
+
+                # Calculate the potential at the given coordinates
                 potential = val_potential(cx, cy, cz, pot_dx_file)  # Potential
-                typ, num, atom, resi, chain = (
-                    line[0],
-                    line[1],
-                    line[2],
-                    line[3],
-                    line[4],
-                )
 
                 # Write the data row
                 writer.writerow(
                     [
                         typ,
                         num,
-                        atom,
+                        atom_name,
                         resi,
                         chain,
-                        cx,
-                        cy,
-                        cz,
-                        q,
-                        r,
+                        f"{cx:.6f}",
+                        f"{cy:.6f}",
+                        f"{cz:.6f}",
+                        f"{q:.6f}",
+                        f"{r:.6f}",
                         x,
                         y,
                         z,
-                        ex,
-                        ey,
-                        ez,
-                        potential,
+                        f"{ex:>20.20f}",
+                        f"{ey:>20.20f}",
+                        f"{ez:>20.20f}",
+                        f"{potential:>.6f}",
                     ]
                 )
 

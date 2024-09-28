@@ -4,7 +4,7 @@ import rich_click as click
 from beaupy import select_multiple, confirm
 from rich.console import Console
 
-from bept.analysis.pot_main import csv_make, bept_make
+from bept.analysis.bept_csv_make import csv_make, bept_make
 from bept.analysis.opt_files.xyz import xyz_make
 from bept.analysis.opt_files.cube import cube_make
 from bept.auto.auto_execute import p_exec, apbs_exec
@@ -255,10 +255,8 @@ def out(interactive, dx, pqr, all_types, out_dir):
         "Cancel and generate default",  # Always last option
     ]
     types = ["bept: .bept file containing all data"]
-    if all:
-        types += file_options
 
-    if interactive:
+    if interactive and not all_types:
         CONSOLE.print(
             "A csv containing all data will be generated. Choose among the following types of files you would also like to choose.",
             style="bold blue",
@@ -267,6 +265,9 @@ def out(interactive, dx, pqr, all_types, out_dir):
     else:
         # Nothing apart from default
         types = []
+
+    if all_types:
+        types += file_options[:-1]
 
     if file_options[-1] in types and len(types) > 3 and not all_types:
         CONSOLE.print(
@@ -277,7 +278,7 @@ def out(interactive, dx, pqr, all_types, out_dir):
     bept_csv, err_csv = csv_make(input_pqr, input_dx, output_dir)
     bept_main_path, err_bept = bept_make(input_pqr, input_dx, bept_csv, output_dir)
     if err_csv or err_bept:
-        CONSOLE.print("Error in generating default files.")
+        CONSOLE.print("Error in generating BEPT default files.", style="red")
         return 0
 
     err_xyz = False
@@ -305,8 +306,6 @@ def out(interactive, dx, pqr, all_types, out_dir):
             destination_xyz, err_xyz = xyz_make(bept_csv, bept_main_path, output_dir)
             if_err_file(err_xyz, "xyz", destination_xyz)
 
-    if not err_xyz:
-        CONSOLE.print("Successfully generated output files.", style="green")
     return 1
 
 

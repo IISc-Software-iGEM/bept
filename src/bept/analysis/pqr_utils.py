@@ -11,16 +11,16 @@ Atom = namedtuple(
         "chain_id",
         "res_seq",
         "ins_code",
-        "x",
-        "y",
-        "z",
+        "cx",
+        "cy",
+        "cz",
         "charge",
         "radius",
     ],
 )
 
 
-def from_pqr_line(pqr_line: str):
+def pqr_line_parser(pqr_line: str):
     """
     Parse a PQR line and return an Atom object.
     Args:
@@ -74,15 +74,15 @@ def from_pqr_line(pqr_line: str):
 
     # set x based on token
     try:
-        x = float(token)
+        cx = float(token)
         ins_code = None
     except ValueError:
         ins_code = token
-        x = float(words.pop(0))
+        cx = float(words.pop(0))
 
     # set y, z, charge, and radius
-    y = float(words.pop(0))
-    z = float(words.pop(0))
+    cy = float(words.pop(0))
+    cz = float(words.pop(0))
     charge = float(words.pop(0))
     radius = float(words.pop(0))
 
@@ -94,9 +94,9 @@ def from_pqr_line(pqr_line: str):
         chain_id=chain_id,
         res_seq=res_seq,
         ins_code=ins_code,
-        x=x,
-        y=y,
-        z=z,
+        cx=cx,
+        cy=cy,
+        cz=cz,
         charge=charge,
         radius=radius,
     )
@@ -109,8 +109,10 @@ def atom_list_pqr(pqr_file: str) -> list:
         pqr_file (str): path to a PQR file
     """
     atoms = []
-    for line in pqr_file:
-        atom = from_pqr_line(line)
+    with open(pqr_file, "r") as pf:
+        pqr_data = pf.readlines()
+    for line in pqr_data:
+        atom = pqr_line_parser(line)
         if atom is not None:
             atoms.append(atom)
     return atoms

@@ -23,10 +23,7 @@ def val_potential(cx, cy, cz, filepath):
     # Extract the potential data
     # Formula for which line to target
     total_z = x * ny * nz + y * nz + z
-    # # Calculate the line number and the position within the line
-    line_number = total_z // 3
-    position = total_z % 3
     # Extract the potential from the data
-    potential = data[line_number].split()[position]
+    potential = data[total_z]
 
     return float(potential)
