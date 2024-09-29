@@ -26,6 +26,7 @@ from bept.validator import (
 from bept.gen.pdb2pqr import inter_pqr_gen
 from bept.gen.toml_in_converter import in_toml, toml_in
 from bept.gen.apbs import apbs_gen
+from bept.pymol.mol_ext import pymol_main
 from bept.docs.docs_viewer import run_docs_viewer
 
 CONSOLE = Console()
@@ -57,7 +58,7 @@ def main():
     BEPT is a Beginner friendly Electrostatics for Protein analysis Tool. Bept gives you an interactive, colorful, easy-to-use interface to automate your protein analysis with PDB2PQR commands and APBS.
     This was built as part of the project IMPROVISeD, by IISc-Software-iGEM Team 2024.
 
-    To know more information about each option, run `bept COMMAND --help`. To see the documentation of BEPT, run `bept docs`.
+    To know more information about each option, run `bept COMMAND --help`. To generate BEPT command interactively, run `bept ui`. To see the documentation of BEPT, run `bept docs`.
     """
     pass
 
@@ -68,14 +69,14 @@ def main():
     "-p",
     type=click.Path(exists=True),
     callback=validate_pdb2pqr,
-    help="Run one pdb2pqr command. Input PDB file path.",
+    help="Run one pdb2pqr command. Input single PDB file path.",
 )
 @click.option(
     "--apbs",
     "-a",
     type=click.Path(exists=True),
     callback=validate_apbs,
-    help="Run one apbs command. Input APBS input file path.",
+    help="Run one apbs command. Input single APBS input file path.",
 )
 @click.option(
     "--file-load",
@@ -92,7 +93,7 @@ def main():
 def auto(pdb2pqr, apbs, file_load, interactive):
     """
     Automate pdb2pqr, apbs commands for multiple proteins. You can run all at once or interactively with -i flag.
-    Note: To halt auto file execuution, add a ` :?` inside your command to run that command interactively.
+    Note: To halt auto file execution, add a ` :?` inside your command to run that command interactively.
     Run `bept auto --help` for more information.
     """
     if file_load:
@@ -408,6 +409,21 @@ def history(
             "Invalid option. Please refer `bept history --help` for more info.",
             style="red",
         )
+
+
+@main.command(short_help="Generate PyMol template python codes to use with BEPT.")
+@click.option(
+    "--output-dir",
+    "-o",
+    type=click.Path(),
+    help="Output directory to save the PyMol template python codes.",
+)
+def pymol(output_dir: str = os.getcwd()):
+    """
+    Generate PyMol template python codes to be run in PyMol terminal. You can run these files ONLY inside PyMol terminal as `run <functional_code>.py`.
+    Note: These files are generated are simply templates. You will have to edit the inputs and maybe edits parts of code as per your requirement.
+    """
+    pymol_main(output_dir)
 
 
 @main.command(short_help="See Bept Documentation.")
