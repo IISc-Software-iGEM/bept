@@ -91,7 +91,8 @@ def toml_in(toml_filepath: str):
         for section, values in toml_content.items():
             if section == "print":
                 continue
-            lines.append(section)
+            lines.append(section.split("_")[0])
+
             for key, value in values.items():
                 if key == "calculation-type" or key == "pbe":
                     lines.append(f"    {value}")
@@ -104,6 +105,7 @@ def toml_in(toml_filepath: str):
                     lines.append(f"    {key} {value_str}")
                 else:
                     lines.append(f"    {key} {value}")
+
             lines.append("end")
 
         lines.append("print elecEnergy 1 end")
@@ -113,3 +115,7 @@ def toml_in(toml_filepath: str):
             os.path.basename(toml_filepath).split(".")[0] + ".in", "w+"
         ) as output_file:
             output_file.write("\n".join(lines))
+
+if __name__ == "__main__":
+    in_toml("apbsinput.in")
+    toml_in("apbsinput.toml")
