@@ -1436,10 +1436,10 @@ class Output_options(Static):
     def compose(self):
         global selected_input
         # Checking if the follwing is present in the .in file and setting the values to default ones if absent
-        if "write-pot" in data["elec"]:
-            self.write_pot = data["elec"]["write-pot"]
-        else:
-            self.write_pot = ["dx", input_file_name[:-4] + ".pqr"]
+        self.format = "dx"
+        for i in data["elec"].items():
+            if "write" in i:
+                self.format = i[0]
 
         # Output-Options begin here
         with VerticalScroll():
