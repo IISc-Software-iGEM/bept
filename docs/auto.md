@@ -1,6 +1,6 @@
 # Automation in Bept (auto)
 
-Bept provides a way to automate your commands and save them for future references. This is done through the `auto` command in Bept. The `auto` command has the following features.
+Bept provides a way to automate your commands and save them for future references. This is done through the `auto` command in Bept. The `auto` command has the following features:
 
 ## 1. Run one PDB2PQR and APBS at a time
 
@@ -24,7 +24,7 @@ bept auto -f commands.txt
 
 The format of the `commands.txt` file should be as follows:
 
-- Each line should be in itself a command executable
+- Each line should be an executable command
 - The file paths should be correct w.r.t the current working directory
 
 You can interactively run each command one by one by adding the interactive flag `-i` to the command.
@@ -33,7 +33,7 @@ You can interactively run each command one by one by adding the interactive flag
 bept auto -f commands.txt -i
 ```
 
-If you want to say halt the execution of the commands at any command specified, you can add ` :?` in between any command in the file, the execution will go into interactive mode just for that command.
+If you want to say halt the execution of the commands at any specified command, you can add ` :?` in between any command in the file, the execution will go into interactive mode just for that command.
 Example - `apbs :? protein.in`.
 
 Note that the ` :?` token is meant to be edited. It is not a command line flag in itself. However for `pdb2pqr` command, if you run `pdb2pqr --your-flags protein.pdb :?`, it will still work, since `pdb2pqr` will interpret it as the output path for `pqr` file.

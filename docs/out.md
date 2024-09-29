@@ -1,6 +1,6 @@
 # Output files (out)
 
-The `out` command is meant for writing output files. Bept provides two default output files which is always outputted. These are `.bept` and a `{NAME}_bept.csv` file which consists of ALL the information about each atom present in the structure.
+The `out` command is meant for writing output files. Bept provides two default output files which are always outputted. These are `.bept` and a `{NAME}_bept.csv` file which consists of ALL the information about each atom present in the structure.
 
 The `out` command inputs two files COMPULSARILY which are `.pqr` and `.dx` file of the protein structure which you can obtain with the help of other COMMANDS of bept.
 
