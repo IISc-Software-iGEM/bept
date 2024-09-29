@@ -12,7 +12,7 @@ These documentations are meant to help you understand how to use the tool and a 
 - Generate the PQR, Potential DX and BEPT special `.bept` file containing all the information you need for a protein.
 - Automate the process of running PDB2PQR and APBS with optional interactive modes.
 - Save your `.in` files in cache for future references.
-- Save your PDB2PQR commands in history so you no need to generate it again.
+- Save your PDB2PQR commands in history so you do not need to generate it again.
 - Read the docs of the tool directly from the CLI in an interactive way.
 - Experience bept's extreme user-friendliness, color-coded outputs and error handling and make Electrostatics analysis a breeze!
 

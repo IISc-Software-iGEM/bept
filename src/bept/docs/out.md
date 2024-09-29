@@ -43,7 +43,7 @@ The `.bept` file is a simple text file which contains a HEADER containing some m
 1. Protein Structure Name - Path of input PDB file.
 2. The origin coordinates of the structure - Extracted from the PDB file.
 3. Grid size(x, y, z) of structure - which encloses the protein structure.
-4. Grid length of the box (cx, cy, cz) - The length of 1 unit along (x, y, z) respectively.
+4. Grid length of the box (hx, hy, hz) - The length of 1 unit along (x, y, z) respectively.
 5. The paths of reference PQR and Potential DX file inputted.
 
 The `.bept` file is simply a tabulated neat looking representation of the `.csv` file.
@@ -53,6 +53,12 @@ The `.bept` file is simply a tabulated neat looking representation of the `.csv`
 Bept currently supports production of the following file types other than mentioned above -
 
 1. `.xyz` - File containing the coordinates of the atoms in the structure.
+
+> The XYZ File format followed is - https://docs.chemaxon.com/display/docs/formats_xyz-format.md
+
+2. `.cube` - File containing the potential values of the atoms in the structure.
+
+> The Gaussian Cube File format followed is - https://docs.chemaxon.com/display/docs/formats_gaussian-cube-format.md
 
 You can interactively select which file types to generate by using the interactive or `-i` flag as follows -
 

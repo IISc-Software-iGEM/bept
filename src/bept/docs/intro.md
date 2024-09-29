@@ -13,6 +13,7 @@ These documentations are meant to help you understand how to use the tool and a 
 - Automate the process of running PDB2PQR and APBS with optional interactive modes.
 - Save your `.in` files in cache for future references.
 - Save your PDB2PQR commands in history so you no need to generate it again.
+- If you feel understanding how to write the command itself, don't worry, Bept has a friendly UI for that too.
 - Read the docs of the tool directly from the CLI in an interactive way.
 - Experience bept's extreme user-friendliness, color-coded outputs and error handling and make Electrostatics analysis a breeze!
 
