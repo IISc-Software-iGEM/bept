@@ -19,7 +19,7 @@ def template_copy(template_name: str, output_dir: str):
 
     try:
         shutil.copy(template_path, output_path)
-        CONSOLE.print(f"Template {template_name} copied to {output_dir}.")
+        CONSOLE.print(f"Template {template_name} copied to {output_dir}")
     except Exception as e:
         CONSOLE.print(
             f"Error copying template {template_name} to {output_dir}. Error: {e}",
@@ -40,9 +40,15 @@ def pymol_main(output_dir: str):
     pymol_code_opts = {
         "Morphing two proteins": "morphing_two_proteins.py",
         "Aligning two proteins": "aligning_two_proteins.py",
-        "Mutagenisis": "point_mutagenisis.py",
-        "Bulk Mutagenisis": "bulk_mutagenisis.py",
+        "Superimposing two proteins": "superimpose_two_proteins.py",
+        "Mutagenisis": "point_mutagenesis.py",
+        "Bulk Mutagenisis": "bulk_mutagenesis.py",
         "Selecting residues in a radius around atom": "radius_selection.py",
+        "Show bumps": "show_bumps.py",
+        "Cartoon representation of protein": "cartoon_representation.py",
+        "Create and Color a surface": "create_color_surface.py",
+        "Distance between two atoms": "dist_bw_atoms.py",
+        "Calculate SASA": "calc_sasa.py",
     }
 
     # Select the codes to be copied
@@ -59,7 +65,3 @@ def pymol_main(output_dir: str):
         template_copy(code, output_dir)
 
     return
-
-
-if __name__ == "__main__":
-    pymol_main(os.getcwd())

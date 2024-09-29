@@ -6,3 +6,4 @@ src/bept/history/__pycache__
 dist
 src/bept/docs/__pycache__
 src/bept/analysis/opt_files/__pycache__
+src/bept/pymol/__pycache__

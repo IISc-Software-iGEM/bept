@@ -418,11 +418,13 @@ def history(
     type=click.Path(),
     help="Output directory to save the PyMol template python codes.",
 )
-def pymol(output_dir: str = os.getcwd()):
+def pymol(output_dir):
     """
     Generate PyMol template python codes to be run in PyMol terminal. You can run these files ONLY inside PyMol terminal as `run <functional_code>.py`.
     Note: These files are generated are simply templates. You will have to edit the inputs and maybe edits parts of code as per your requirement.
     """
+    if not output_dir:
+        output_dir = os.getcwd()
     pymol_main(output_dir)
 
 
