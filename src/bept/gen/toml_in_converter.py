@@ -22,6 +22,7 @@ def in_toml(in_file_name: str):
         ]
         possible_pbe = ["lpbe", "npbe"]
         current_section = ""
+        section_count = {}
 
         for line in file:
             line = line.strip()
@@ -37,7 +38,19 @@ def in_toml(in_file_name: str):
                 or line.startswith("print")
             ):
                 section_name = line.split()[0]
-                current_section = section_name
+
+                # Handle multiple blocks of the same type (e.g., "elec")
+                if section_name in section_count:
+                    section_count[section_name] += 1
+                else:
+                    section_count[section_name] = 1
+                
+                # Create a unique section name if there are multiple blocks
+                unique_section_name = section_name
+                if section_count[section_name] > 1:
+                    unique_section_name = f"{section_name}_{section_count[section_name]}"
+
+                current_section = unique_section_name
                 data[current_section] = {}
 
                 if len(line.split()) > 1:
