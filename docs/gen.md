@@ -16,8 +16,6 @@ Say you have a protein PDB file called `protein.pdb`. You can interactively gene
 bept gen -p protein.pdb
 ```
 
-The
-
 The output will be `protein.pqr` file.
 
 ## APBS
@@ -46,10 +44,10 @@ To run the interactive APBS input file generator -
 bept gen -i input_file_path.in
 ```
 
-- The input file path can be relative to current working diretory or absolute path, the toml files will be generated in the same directory as the input file. However, the output .in file will be generated in the current working directory.
+- The input file path can either be relative to current working diretory or be an absolute path, the toml files will be generated in the same directory as the input file. However, the output .in file will be generated in the current working directory.
 - You can use the keyboard bindings in the footer to change between tabs(i for Input, m for Misc Options, o for Output Options)/widgets(\<TAB> for next widget, <SHIFT+TAB> for previous widget).
 
-Here is detailed information about the each option in the APBS interactive mode has. You can also checkout official documentation for apbs_input file [here](https://ics.uci.edu/~dock/manuals/apbs/html/user-guide/x674.html) for more information.
+Here is detailed information about each of the options APBS interactive mode has. You can also checkout the official documentation for apbs_input file [here](https://ics.uci.edu/~dock/manuals/apbs/html/user-guide/x674.html) for more information.
 
 ### Interactive APBS input file generator. It runs the InputApp.
 
