@@ -1,13 +1,14 @@
 import os
-
-from beaupy import confirm, prompt, select, select_multiple
+from typing import Coroutine, Any
+from textual.app import App, ComposeResult
+from textual.widgets import Footer, Label, Checkbox, RadioSet, RadioButton, TabbedContent, Input, TabPane, Select, Collapsible,Static, OptionList
+from textual.widgets.option_list import Option
+from textual import on
 from rich.console import Console
 
-CONSOLE = Console()
 
 
-def inter_pqr_gen(input_pdb: str):
-    """
+"""
     This is an interactive pdb2pqr command generation with input pdb, making it easy to use & giving it a webserver feeling.
     Args:
         input_pdb: The file path to the input pdb file.
@@ -15,172 +16,170 @@ def inter_pqr_gen(input_pdb: str):
     Output:
         command to execute
     """
-    CONSOLE.print(
-        "Welcome to the interactive PDB2PQR command generation. Reference: https://server.poissonboltzmann.org/pdb2pqr. Let's get started!",
-        style="bold blue",
-    )
-    # making the cl prompt
-    result = ["pdb2pqr"]
-
-    def get_file_path(attr=""):
-        file_path = prompt(f"Enter the path to your {attr} file", target_type=str)
-        while not os.path.exists(file_path):
-            CONSOLE.print("The path you entered does not exist")
-            file_path = prompt(f"Enter the path to your {attr} file", target_type=str)
-        return file_path
-
-    # pKa Options
-    if confirm(
-        "Would you like to use PROPKA to assign protonation states at provided pH?"
-    ):
-        # get pH from user
-        pH = prompt(
-            "Input pH value in float (Default value = 7.0):",
-            target_type=float,
-            validator=lambda count: count > 0 and count < 14,
-        )
-        # making the cl prompt
-        ph_str = f"--titration-state-method=propka --with-ph={pH}"
-        result.append(ph_str)
-
-    # forcefield options
-    forcefields = [
-        "AMBER",
-        "SCHARM",
-        "PEOEPB",
-        "PARSE",
-        "SWANSON",
-        "TYLO6",
-        "[red]User-defined Forcefield[/red]",
-    ]
-    CONSOLE.print("Please choose a forcefield to use:")
-    # Choose one item from a list
-    forcefield = select(forcefields, cursor=">", cursor_style="cyan")
-    # making the cl prompt
-    if forcefield != "[red]User-defined Forcefield[/red]":
-        forcefield_str = f"--ff={forcefield}"
-        result.append(forcefield_str)
-
-    else:
-        CONSOLE.print("Input the Forcefield file")
-        ff_path = get_file_path("force field")
-        user_forcefield_str = f"--userff={ff_path}"
-        result.append(user_forcefield_str)
-
-        CONSOLE.print("Input the Names file")
-        n_path = get_file_path()
-        user_names_str = f"--usernames={n_path}"
-        result.append(user_names_str)
-
-    # output naming scheme options
-    naming_schemes = [
-        "AMBER",
-        "SCHARM",
-        "PEOEPB",
-        "PARSE",
-        "SWANSON",
-        "TYLO6",
-        "[red]Internal naming scheme[/red]",
-    ]
-    CONSOLE.print("Please choose an output naming scheme to use:")
-    # Choose one item from a list
-    naming_scheme = select(naming_schemes, cursor=">", cursor_style="cyan")
-    # making the cl prompt
-    if naming_scheme != "[red]Internal naming scheme[/red]":
-        naming_scheme_str = f"--ffout={naming_scheme}"
-        result.append(naming_scheme_str)
-
-    # If PARSE is the forcefield
-    if forcefield == "PARSE":
-        CONSOLE.print("Options required for PARSE Forcefield")
-        parse_options = {
-            "Make the protein's N-terminus neutral": "--neutraln",
-            "Make the protein's C-terminus neutral": "--neutralc",
-            "Skip, choose None": "",
-        }
-
-        # Choose multiple options from a list
-        items1 = select_multiple(
-            list(parse_options.keys()),
-            tick_character="*",
-            ticked_indices=[0],
-            maximal_count=len(parse_options),
-        )
-
-        for key, value in parse_options.items():
-            if key in items1:
-                result.append(value)
-
-    # Additional Options
-    CONSOLE.print("Additional Options. Recommended Options (**) ")
-
-    add_options = [
-        "Ensure that new atoms are not rebuilt too close to existing atoms",
-        "Optimize the hydrogen bonding network",
-        "Assign charges to the ligand specified in a MOL2 file",
-        "Create an APBS input file **",
-        "Add/keep chain IDs in the PQR file **",
-        "Insert whitespaces between atom name and residue name, between x and y, and between y and z **",
-        "Remove the waters from the output file",
+    
+    
+class pdb2pqrApp(App):
+    def __init__(self,input_pdb):
+        global input_file
+        super().__init__()
+        input_file = os.path.basename(input_pdb[:-4])
+    options = []
+    ph = ""
+    nopka = False
+    force_field = ""
+    naming_scheme = ""
+    output = ""
+    user_field = ''
+    usernames = ""
+    apbs_file = ""
+        # Bindings
+    BINDINGS = [
+        ("q", "quit", "Execute and Quit")
     ]
 
-    values = [
-        "--nodebump",
-        "--noopt",
-        "--ligand=",
-        "--apbs-input=",
-        "--keep-chain",
-        "--whitespace",
-        "--drop-water",
-    ]
+    def compose(self) -> ComposeResult:
+        # forcefield options
+        forcefields = [
+            "AMBER",
+            "SCHARM",
+            "PEOEPB",
+            "PARSE",
+            "SWANSON",
+            "TYLO6",
+            "User-defined Forcefield",
+        ]
+        # output naming scheme options
+        naming_schemes = [
+            "Internal naming scheme",
+            "AMBER",
+            "SCHARM",
+            "PEOEPB",
+            "PARSE",
+            "SWANSON",
+            "TYLO6"
+            
+        ]
 
-    # Choose multiple options from a list
-    items2 = select_multiple(
-        add_options,
-        tick_character="*",
-        ticked_indices=[0],
-        maximal_count=len(add_options),
-    )
+        """Compose app with tabbed content."""
+        yield Footer()
+        with TabbedContent():
+            
+            with TabPane(title="PDB2PQR"):
+                with RadioSet(id="Propka",):
+                    yield RadioButton("No pKa calculation",id="nopka")
+                    yield RadioButton("Use PROPKA to assign protonation states at provided pH",value="True",id = "propka")
+                with Collapsible(title="pH",id="pH",collapsed=False):
+                    yield Input(value= "7.0", type="number", id="pH")
+                with Collapsible(title="Choose a Force-field to use", id="force"):
+                    yield Select.from_values(forcefields,allow_blank=False,id="field")
+                with Collapsible(title="Choose naming scheme", id="name"):
+                    yield Select.from_values(naming_schemes,allow_blank=False,id="name")
+                with Collapsible(title="Additional Inputs (** indicate recommended options to select.)"):
+                    yield Checkbox("Ensure that new atoms are not rebuilt too close to existing atoms",id="--nodebump")
+                    yield Checkbox("Optimize the hydrogen bonding network",id="--noopt")
+                    yield Checkbox("Assign charges to the ligand specified in a MOL2 file",id="ligand")
+                    yield Checkbox("Create an APBS input file **",id="--apbs-input")
+                    yield Checkbox("Add/keep chain IDs in the PQR file **",id="--keep-chain")
+                    yield Checkbox("Insert whitespaces between atom name and residue name, between x and y, and between y and z **",id="--whitespace")
+                    yield Checkbox("Remove the waters from the output file",id="--drop-water")
+                    yield Checkbox("Make the protein's N-terminus neutral",id="--neutraln")
+                    yield Checkbox("Make the protein's C-terminus neutral",id="--neutralc")
+                
 
-    for i, opt in enumerate(add_options):
-        if i <= 1:
-            if opt not in items2:
-                result.append(values[i])
-
-        elif i == 2:
-            if opt in items2:
-                CONSOLE.print("Input the Ligand file")
-                lig_path = get_file_path()
-                ligand_str = f"--ligand={lig_path}"
-                result.append(ligand_str)
-
-        elif i == 3:
-            if opt in items2:
-                apbs_input_file = prompt(
-                    "Enter the name for your APBS input file(without .in extension)",
-                    target_type=str,
-                )
-                apbs_input_file_str = (
-                    f"--apbs-input={apbs_input_file}"
-                    if apbs_input_file.endswith(".in")
-                    else f"--apbs-input={apbs_input_file}.in"
-                )
-                result.append(apbs_input_file_str)
-
+    def action_quit(self) -> Coroutine[Any, Any, None]:
+        if self.apbs_file == "":
+            self.options.append(f"--apbs-input={input_file}.in")
         else:
-            if opt in items2:
-                result.append(values[i])
+            self.options.append(f"--apbs-input={self.apbs_file}.in")
 
-    # Adding input pdb file and the output pqr file to the cl prompt
-    result.append(input_pdb)
-    # Output pqr has the same name as input pdb
-    output_pqr = os.path.splitext(input_pdb)[0] + ".pqr"
-    result.append(output_pqr)
+        
+        if self.nopka == False:     
+            self.options.append(self.ph)
+        if self.force_field != "PARSE":
+            if "--neutraln" in self.options:
+                self.options.remove("--neutraln")
+            if "--neutralc" in self.options:
+                self.options.remove("--neutralc")
+        self.options.append(input_file + ".pdb")
+        self.options.append(input_file + ".pqr")
+            
+        if self.naming_scheme == "Internal naming scheme":
+            
+            if self.force_field == "User-defined Forcefield":
+                self.output ="pdb2pqr "+ "--userff="+self.user_field +" "+ "--usernames="+self.usernames+" "+ " ".join(self.options)
+            else:
+                self.output ="pdb2pqr "+"--ff="+self.force_field +" "+ " ".join(self.options)
 
-    # pdb2pqr command generation
-    final_cmd = " ".join(result)
-    CONSOLE.print(
-        f"Generated PDB2PQR command: {final_cmd}\nThank you for using the BEPT interactive PDB2PQR command generation .",
-        style="bold green",
-    )
-    return final_cmd
+        elif self.force_field == "User-defined Forcefield":
+            self.output ="pdb2pqr "+ "--userff="+self.user_field +" "+ "--usernames="+self.usernames+" "+"--ffout="+self.naming_scheme+" " +" ".join(self.options)
+        else:
+            self.output = "pdb2pqr "+"--ff="+self.force_field +" "+ "--ffout="+self.naming_scheme + " "+ " ".join(self.options)
+        return super().action_quit()
+    
+        
+    @on(RadioSet.Changed)
+    def on_radiobutton_changed(self, event: RadioSet.Changed):
+        if event.pressed.id == "nopka":
+            if event.pressed.value == True:
+                self.nopka = True 
+        else:
+            self.nopka = False
+    @on(Select.Changed)      
+    def on_select_changed(self, event: Select.Changed):
+        """Handles the change in Select Widget"""
+        if event.value == "User-defined Forcefield":
+            self.force_field = event.value
+            self.mount(Label("Enter the path for Force-field File"))
+            self.mount(Input(id="force-path"))
+            self.mount(Label("Enter the path for names file"))
+            self.mount(Input(id="names-path"))
+        elif event.select.id == "field":
+            self.force_field = event.value
+           
+        elif event.select.id == "name":
+            self.naming_scheme = event.value
+    @on(Input.Changed)
+    def on_input_changed(self,event: Input.Changed):
+        if event.input.id == "pH":
+            self.ph = f"--titration-state-method=propka --with-ph={event.value}"
+        elif event.input.id == "--ligand":
+            for i in self.options :
+                if "ligand" in i:
+                    self.options.remove(i)
+            self.options.append(f"--ligand={event.value}")
+        elif event.input.id == "apbs":
+            for i in self.options:
+                if "apbs" in i:
+                    self.options.remove(i)
+            self.apbs_file = event.value
+        elif event.input.id  == "force-path":
+            self.user_field = event.value
+        elif event.input.id  == "names-path":
+            self.usernames = event.value
+    @on(Checkbox.Changed)
+    def on_checkbox_changed(self, event: Checkbox.Changed):
+        if event.value == True:
+            if event.checkbox.id == "--noopt":
+                if "--noopt" in self.options:
+                    self.options.remove(event.checkbox.id)
+            elif event.checkbox.id == "ligand":
+                self.mount(Label("Input the ligand File"))
+                self.mount(Input(id="--ligand"))
+            elif  event.checkbox.id == "--apbs-input":
+                self.mount(Label("Input apbs file name (without .in extension)"))
+                self.mount(Input(id="apbs",placeholder=input_file))
+            else:
+                self.options.append(event.checkbox.id)
+
+        elif event.value == False:
+            if event.checkbox.id == "--noopt":
+                self.options.append(event.checkbox.id)
+            else:
+                if event.checkbox.id in self.options:
+                    self.options.remove(event.checkbox.id)
+
+
+if __name__ == "__main__":
+    app = pdb2pqrApp()
+    app.run()
+   
