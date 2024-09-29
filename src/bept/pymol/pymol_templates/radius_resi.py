@@ -2,9 +2,6 @@ from pymol import cmd
 
 
 def redial_residue(pdb_file: str, radius: float = 10)
-    # Radius variable
-    r = radius
-
     # Load the pdb file
     cmd.load(pdb_file)
 
@@ -13,7 +10,7 @@ def redial_residue(pdb_file: str, radius: float = 10)
 
     # Selecting the residues with 'within' command
     # The number after 'within' is the radius in Angstrom
-    cmd.select("radial_residues", f"chain A within {r} of Na_atoms")
+    cmd.select("radial_residues", f"chain A within {radius} of Na_atoms")
 
     # Save as pdb
     # cmd.save(fr"C:\Users\LENOVO\Desktop\iGEM\Mutations\gtlmn-7y6i\gtm-{n}-{mutant}-{fnum}.pdb")
