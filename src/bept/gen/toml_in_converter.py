@@ -115,7 +115,3 @@ def toml_in(toml_filepath: str):
             os.path.basename(toml_filepath).split(".")[0] + ".in", "w+"
         ) as output_file:
             output_file.write("\n".join(lines))
-
-if __name__ == "__main__":
-    in_toml("apbsinput.in")
-    toml_in("apbsinput.toml")
