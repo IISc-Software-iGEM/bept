@@ -128,3 +128,25 @@ The project was made by members of IISc-Software Team along with the upcoming iG
 - Ritabrata Saha - Biological Backend and Documentation
 - Shreyan Priyadarshi - Biological Backend and Documentation
 - Soham Paul - Biological Backend and Documentation
+
+## Citations and Acknowledgements
+
+PDB2PQR -
+
+```bibtex
+Jurrus E, Engel D, Star K, Monson K, Brandi J, Felberg LE, Brookes DH, Wilson L, Chen J, Liles K, Chun M, Li P, Gohara DW, Dolinsky T, Konecny R, Koes DR, Nielsen JE, Head-Gordon T, Geng W, Krasny R, Wei G-W, Holst MJ, McCammon JA, Baker NA. Improvements to the APBS biomolecular solvation software suite. Protein Sci, 27 (1), 112-128, 2018. https://doi.org/10.1002/pro.3280
+```
+
+APBS -
+
+```bibtex
+Jurrus E, Engel D, Star K, Monson K, Brandi J, Felberg LE, Brookes DH, Wilson L, Chen J, Liles K, Chun M, Li P, Gohara DW, Dolinsky T, Konecny R, Koes DR, Nielsen JE, Head-Gordon T, Geng W, Krasny R, Wei G-W, Holst MJ, McCammon JA, Baker NA. Improvements to the APBS biomolecular solvation software suite. Protein Sci, 27 (1), 112-128, 2018. https://doi.org/10.1002/pro.3280
+```
+
+Some of the codes for analysis have been adapted from [pdb2pqr](https://github.com/Electrostatics/pdb2pqr) and has been well acknowledged in the codebase.
+
+## License
+
+BEPT is under MIT License and you can use it for free. If you like the tool, please share with others.
+
+If you have any issues or want to contribute, please raise an issue in the repository.
