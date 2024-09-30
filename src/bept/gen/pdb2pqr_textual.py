@@ -31,7 +31,7 @@ class pdb2pqrApp(App):
         super().__init__()
         input_file = os.path.basename(input_pdb[:-4])
 
-    options = []
+    options = ["--whitespace", "--keep-chain"]
     ph = ""
     nopka = False
     force_field = ""
@@ -77,7 +77,7 @@ class pdb2pqrApp(App):
                     yield RadioButton("No pKa calculation", id="nopka")
                     yield RadioButton(
                         "Use PROPKA to assign protonation states at provided pH",
-                        value="True",
+                        value=True,
                         id="propka",
                     )
                 with Collapsible(title="pH - Default: 7.0", id="pH", collapsed=False):
@@ -102,13 +102,18 @@ class pdb2pqrApp(App):
                         "Assign charges to the ligand specified in a MOL2 file",
                         id="ligand",
                     )
-                    yield Checkbox("Create an APBS input file **", id="--apbs-input")
                     yield Checkbox(
-                        "Add/keep chain IDs in the PQR file **", id="--keep-chain"
+                        "Create an APBS input file **", id="--apbs-input", value=True
+                    )
+                    yield Checkbox(
+                        "Add/keep chain IDs in the PQR file **",
+                        id="--keep-chain",
+                        value=True,
                     )
                     yield Checkbox(
                         "Insert whitespaces between atom name and residue name, between x and y, and between y and z **",
                         id="--whitespace",
+                        value=True,
                     )
                     yield Checkbox(
                         "Remove the waters from the output file", id="--drop-water"

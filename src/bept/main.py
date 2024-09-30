@@ -318,8 +318,11 @@ def out(interactive, dx, pqr, all_types, out_dir):
             if_err_file(err_xyz, "xyz", destination_xyz)
 
         if "Surface" in str(_typ):
+            protein_path = input(
+                "For calculating the surface residues, we need the PDB file path. Please provide the path: "
+            )
             destination_surf, err_surf = get_surface_resi(
-                input_pqr, bept_csv, output_dir
+                protein_path, bept_csv, output_dir
             )
             if_err_file(err_surf, "Surface Residues with Potential", destination_surf)
             if not err_surf:
@@ -327,6 +330,7 @@ def out(interactive, dx, pqr, all_types, out_dir):
                     "Note: The surface residues CSV file has been generated and stored in .bept directory.",
                     style="yellow",
                 )
+            print("hi")
 
     return 1
 

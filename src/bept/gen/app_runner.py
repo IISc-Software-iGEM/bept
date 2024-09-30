@@ -25,6 +25,8 @@ def pdb2pqr_gen(pdb_file_path: str):
     """
     app = pdb2pqrApp(pdb_file_path)
     app.run()
+    output_pdb2pqr_cmd = app.output
+    return output_pdb2pqr_cmd
 
 
 if __name__ == "__main__":
