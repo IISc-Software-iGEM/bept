@@ -2,6 +2,8 @@
 #    uv pip compile pyproject.toml -o requirements.txt
 beaupy==3.9.2
     # via bept (pyproject.toml)
+biopython==1.84
+    # via bept (pyproject.toml)
 certifi==2024.8.30
     # via requests
 charset-normalizer==3.3.2
@@ -34,6 +36,7 @@ mmcif-pdbx==2.0.1
     # via pdb2pqr
 numpy==2.1.1
     # via
+    #   biopython
     #   pandas
     #   pdb2pqr
 pandas==2.2.2

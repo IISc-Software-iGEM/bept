@@ -133,6 +133,7 @@ def csv_make(pqr_file: str, pot_dx_file: str, output_dir: str = os.getcwd()):
                     "Atom",
                     "Resi",
                     "Chain",
+                    "Resi_Seq",
                     "Cx",
                     "Cy",
                     "Cz",
@@ -158,7 +159,7 @@ def csv_make(pqr_file: str, pot_dx_file: str, output_dir: str = os.getcwd()):
                 x, y, z = coord_to_int(cx, cy, cz, pot_dx_file)  # Convert to integer
                 ex, ey, ez = elec(x, y, z, pot_dx_file)  # Electric field
                 typ, num, atom_name = atom.type, atom.serial, atom.name
-                resi, chain = atom.res_name, atom.chain_id
+                resi, chain, resi_num = atom.res_name, atom.chain_id, atom.res_seq
 
                 # Calculate the potential at the given coordinates
                 potential = val_potential(cx, cy, cz, pot_dx_file)  # Potential
@@ -171,6 +172,7 @@ def csv_make(pqr_file: str, pot_dx_file: str, output_dir: str = os.getcwd()):
                         atom_name,
                         resi,
                         chain,
+                        resi_num,
                         f"{cx:.6f}",
                         f"{cy:.6f}",
                         f"{cz:.6f}",

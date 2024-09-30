@@ -40,6 +40,7 @@ def compute_field(filepath):
     # Ex, Ey, Ez = grad_x, grad_y, grad_z
 
     if not compute_field.cache_info().hits:
+        CONSOLE.print("\n")
         CONSOLE.print("Electric field generated.", style="green")
     spinner.stop()
 

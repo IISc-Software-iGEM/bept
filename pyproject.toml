@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "beaupy",
+    "biopython>=1.84",
     "click>=8.1.7",
     "fzf-bin>=0.55.0",
     "pandas>=2.2.2",

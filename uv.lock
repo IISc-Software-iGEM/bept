@@ -26,6 +26,7 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "beaupy" },
+    { name = "biopython" },
     { name = "click" },
     { name = "fzf-bin" },
     { name = "pandas" },
@@ -41,6 +42,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "beaupy" },
+    { name = "biopython", specifier = ">=1.84" },
     { name = "click", specifier = ">=8.1.7" },
     { name = "fzf-bin", specifier = ">=0.55.0" },
     { name = "pandas", specifier = ">=2.2.2" },
@@ -51,6 +53,29 @@ requires-dist = [
     { name = "textual", specifier = ">=0.79.1" },
     { name = "toml", specifier = ">=0.10.2" },
     { name = "trogon", specifier = ">=0.5.0" },
+]
+
+[[package]]
+name = "biopython"
+version = "1.84"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "numpy" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/9e/7f/eaca4de03f0ee06c9d578d2730fd55858a57cee3620c62d3bc17b5da5447/biopython-1.84.tar.gz", hash = "sha256:60fbe6f996e8a6866a42698c17e552127d99a9aab3259d6249fbaabd0e0cc7b4", size = 25793001 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c5/7b/c1e9f66e23b01958ae0284a437a0e586ce20387fc6ea0382c21230ac59bc/biopython-1.84-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:2d4ed30aebd96b4aadeb1f04adce92795c696f5bd56d1fd45517b89059918dd4", size = 2754460 },
+    { url = "https://files.pythonhosted.org/packages/5f/49/c9ffacca2e26259e28215e0ac599db21adf4070359d2aa9d006f3ecf1051/biopython-1.84-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:c792508988fc3ccf18eaae2a826c9cd97f1c27fb55bb87bdce6a101fee9f5a0c", size = 2737878 },
+    { url = "https://files.pythonhosted.org/packages/b4/d6/5aae16c1dd91284a40b769926cd69214ddbb986e710f6d44dbe1f6f20c34/biopython-1.84-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:507ac3956f3107e77fee362ecb048dafb5f97cbcf110012d091418430c3227c7", size = 3174779 },
+    { url = "https://files.pythonhosted.org/packages/4c/3c/cecf231afa65e7194ac06ba981631a9870515bb7a37a15cad1ab414325c4/biopython-1.84-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:894ee7533cca7f5f9769e2595fbe7b0dba5018f39a2170753d101a13e7585ff4", size = 3192041 },
+    { url = "https://files.pythonhosted.org/packages/0f/6c/3e8f01ddea31eeba4cddaa6dbb37b7978ea0164bd35b783fda9f5be59cc4/biopython-1.84-cp311-cp311-win32.whl", hash = "sha256:7f4c746825721ec367c2f2d6a8cda3bc6495a1e084e5b2fbab26e9467706603f", size = 2755506 },
+    { url = "https://files.pythonhosted.org/packages/89/38/e45df36e10de29141ba0e5d94bfb942925e62cb6ad182e58b74fa5edcfcc/biopython-1.84-cp311-cp311-win_amd64.whl", hash = "sha256:2cb8e839ab472244b6082635ad1df67c94c05df0bd02a023103ed00ea66c4d20", size = 2792261 },
+    { url = "https://files.pythonhosted.org/packages/f7/f6/a61af0d2c8c04e446bce4727e8124797132858f518b6d6543d0e7213abed/biopython-1.84-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:ba58a6d76288333c5f178a426116953fa68204bd0cfc401694087dd4f96d0059", size = 2755863 },
+    { url = "https://files.pythonhosted.org/packages/e9/1a/25c7df41987383070987f7b9842f48d3a33b0a78a85c2ca9d93ed810fa2a/biopython-1.84-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:ee3566f6dc3acf20e238540daf896f0af20cff531521bf41fdf5143f73e209ae", size = 2738072 },
+    { url = "https://files.pythonhosted.org/packages/a2/b2/c7f2a0a151208c634ac1eaa5d6345899659b1d5a700a84ef2e4f2b0e80a9/biopython-1.84-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:89ef3967f5a88b5bb6344bef75ae83386de53fed3966d5c8c334ad885f8db08a", size = 3186633 },
+    { url = "https://files.pythonhosted.org/packages/46/37/7db2bcbb396edba3f767dd89ac23ef5adc35c7a92ef3912c06d1e71469e1/biopython-1.84-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:61765b71f84814a1eeb55ab222f43330aa7ad3e55ab91e8b444706149c67a281", size = 3206061 },
+    { url = "https://files.pythonhosted.org/packages/b2/12/6c9d73cbb8c9d19ab4187aaf187f967de6e83738947b7180fdd8bc9211a2/biopython-1.84-cp312-cp312-win32.whl", hash = "sha256:52b6098f47d6b90fc8a5e8579b81ee50047e9108f0976e69c891ae0c4817e42d", size = 2756622 },
+    { url = "https://files.pythonhosted.org/packages/d1/53/91d12cc254a804c797afaefec91ede04bc1f7cbd788a04ebbea9e31ee0cf/biopython-1.84-cp312-cp312-win_amd64.whl", hash = "sha256:ecff2fcf5da29b600474c0bfcdbbac0f98b25e22fe60a853d0ee798c00f7396c", size = 2792652 },
 ]
 
 [[package]]
