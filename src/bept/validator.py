@@ -4,9 +4,7 @@ import click
 def validate_pdb2pqr(ctx, param, value):
     if value:
         if not value.endswith(".pdb"):
-            raise click.BadParameter(
-                "pdb2pqr requires exactly one arguments: <pdb_filepath>.pdb."
-            )
+            value = value + ".pdb"
     return value
 
 

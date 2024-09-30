@@ -23,9 +23,10 @@ from bept.validator import (
     validate_into,
     validate_toin,
 )
-from bept.gen.pdb2pqr import inter_pqr_gen
+from bept.gen.pdb2pqr_beaupy import inter_pqr_gen_beaupy
 from bept.gen.toml_in_converter import in_toml, toml_in
-from bept.gen.apbs import apbs_gen
+from bept.gen.app_runner import apbs_gen
+from bept.gen.app_runner import pdb2pqr_gen
 from bept.pymol.mol_ext import pymol_main
 from bept.docs.docs_viewer import run_docs_viewer
 
@@ -118,9 +119,14 @@ def auto(pdb2pqr, apbs, file_load, interactive):
 @click.option(
     "--pdb2pqr",
     "-p",
-    type=click.Path(exists=True),
     callback=validate_pdb2pqr,
-    help="Generate pdb2pqr command interactively. Input PDB file path.",
+    help="Generate pdb2pqr command interactively. Input PDB ID or PDB file path.",
+)
+@click.option(
+    "--no-tui",
+    "-nu",
+    is_flag=True,
+    help="Generate pdb2pqr command without UI i.e. inside main terminal. Default: False, a UI to generate command will be shown.",
 )
 @click.option(
     "--apbs",
@@ -143,14 +149,18 @@ def auto(pdb2pqr, apbs, file_load, interactive):
     callback=validate_toin,
     help="Convert .toml file to .in file.",
 )
-def gen(pdb2pqr, apbs, in_to_toml, toml_to_in):
+def gen(pdb2pqr, no_tui, apbs, in_to_toml, toml_to_in):
     """
     Generate pdb2pqr commands and APBS input file interactively.
     Bept allows conversion between `.in` & `.toml`.
     """
     # PDB2PQR command generation
     if pdb2pqr:
-        pdb2pqr_cmd = inter_pqr_gen(pdb2pqr)
+        if no_tui:
+            pdb2pqr_cmd = inter_pqr_gen_beaupy(pdb2pqr)
+        else:
+            pdb2pqr_cmd = pdb2pqr_gen(pdb2pqr)
+
         if pdb2pqr_cmd:
             p_exec(pdb2pqr_cmd)
         return

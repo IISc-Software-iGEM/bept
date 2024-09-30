@@ -1814,16 +1814,3 @@ class InputApp(App):
         self.query(Collapsible).add_class("hidden")
         self.query(Misc_options).remove()
         self.mount(Output_options())
-
-
-if __name__ == "__main__":
-    app = InputApp()
-    app.run()
-
-for i in InputApp.ion:
-    if i.count("") == 2 or i.count("") == 1:
-        warnings.warn(
-            "All the parameters for ion"
-            + str(InputApp.ion.index(i) + 1)
-            + " are not provided, and it will be ignored in the calculation"
-        )

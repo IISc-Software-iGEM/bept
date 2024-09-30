@@ -6,9 +6,9 @@ from rich.console import Console
 CONSOLE = Console()
 
 
-def inter_pqr_gen(input_pdb: str):
+def inter_pqr_gen_beaupy(input_pdb: str):
     """
-    This is an interactive pdb2pqr command generation with input pdb, making it easy to use & giving it a webserver feeling.
+    This is an interactive pdb2pqr command generation with input pdb, making it easy to use & giving it a webserver feeling using beaupy.
     Args:
         input_pdb: The file path to the input pdb file.
 
