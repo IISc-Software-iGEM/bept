@@ -1,34 +1,33 @@
 import os
-from trogon import tui
-import rich_click as click
-from beaupy import select_multiple, confirm
-from rich.console import Console
 
-from bept.analysis.bept_csv_make import csv_make, bept_make
-from bept.analysis.opt_files.xyz import xyz_make
+import rich_click as click
+from beaupy import confirm, select_multiple
+from rich.console import Console
+from trogon import tui
+
+from bept.analysis.bept_csv_make import bept_make, csv_make
 from bept.analysis.opt_files.cube import cube_make
-from bept.auto.auto_execute import p_exec, apbs_exec
+from bept.analysis.opt_files.surface_pdb_sasa import get_surface_resi
+from bept.analysis.opt_files.xyz import xyz_make
+from bept.auto.auto_execute import apbs_exec, p_exec
 from bept.auto.auto_file import file_runner
-from bept.history.his_main import history_clear, history_choose
-from bept.history.cache_apbs import (
-    CACHE_DIR as APBS_CACHE_DIR,
-    clear_apbs_cache as apbs_cache_clear,
-)
-from bept.history.cache_vnr import cache_view, restore_selected_cache
-from bept.validator import (
-    validate_pdb2pqr,
-    validate_apbs,
-    validate_dx,
-    validate_pqr,
-    validate_into,
-    validate_toin,
-)
+from bept.docs.docs_viewer import run_docs_viewer
+from bept.gen.app_runner import apbs_gen, pdb2pqr_gen
 from bept.gen.pdb2pqr_beaupy import inter_pqr_gen_beaupy
 from bept.gen.toml_in_converter import in_toml, toml_in
-from bept.gen.app_runner import apbs_gen
-from bept.gen.app_runner import pdb2pqr_gen
+from bept.history.cache_apbs import CACHE_DIR as APBS_CACHE_DIR
+from bept.history.cache_apbs import clear_apbs_cache as apbs_cache_clear
+from bept.history.cache_vnr import cache_view, restore_selected_cache
+from bept.history.his_main import history_choose, history_clear
 from bept.pymol.mol_ext import pymol_main
-from bept.docs.docs_viewer import run_docs_viewer
+from bept.validator import (
+    validate_apbs,
+    validate_dx,
+    validate_into,
+    validate_pdb2pqr,
+    validate_pqr,
+    validate_toin,
+)
 
 CONSOLE = Console()
 
@@ -263,6 +262,7 @@ def out(interactive, dx, pqr, all_types, out_dir):
     file_options = [
         "cube: Gaussian .cube file",
         "xyz: .xyz format for input protein",
+        "Surface Residues with Potential",
         "Cancel and generate default",  # Always last option
     ]
     types = ["bept: .bept file containing all data"]
@@ -294,15 +294,15 @@ def out(interactive, dx, pqr, all_types, out_dir):
 
     err_xyz = False
 
-    def if_err_file(err, name: str, destination: str):
+    def if_err_file(err, name: str, destination: str) -> bool:
         """Common output if error in generating file."""
         if err:
             CONSOLE.print(f"Error in generating {name} file.", style="red")
             return True
-        else:
-            CONSOLE.print(
-                f"Successfully generated {name} file at: {destination}", style="green"
-            )
+        CONSOLE.print(
+            f"Successfully generated {name} file at: {destination}", style="green"
+        )
+        return False
 
     # TODO: Add more type of files here
     for _typ in types:
@@ -316,6 +316,17 @@ def out(interactive, dx, pqr, all_types, out_dir):
         if "xyz" in str(_typ):
             destination_xyz, err_xyz = xyz_make(bept_csv, bept_main_path, output_dir)
             if_err_file(err_xyz, "xyz", destination_xyz)
+
+        if "Surface" in str(_typ):
+            destination_surf, err_surf = get_surface_resi(
+                input_pqr, bept_csv, output_dir
+            )
+            if_err_file(err_surf, "Surface Residues with Potential", destination_surf)
+            if not err_surf:
+                CONSOLE.print(
+                    "Note: The surface residues CSV file has been generated and stored in .bept directory.",
+                    style="yellow",
+                )
 
     return 1
 
