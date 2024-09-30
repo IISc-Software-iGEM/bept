@@ -6,6 +6,7 @@ from Bio.PDB import PDBParser
 from Bio.PDB.SASA import ShrakeRupley
 from rich.console import Console
 from tabulate import tabulate
+from beaupy.spinners import Spinner, DOTS
 
 CONSOLE = Console()
 
@@ -26,17 +27,56 @@ def biop_fetch(protein_file: str):
 def calc_sasa(protein_file: str) -> None:
     """
     Args:
-    protein_file: the pdb id of protein(without the .pdb)
+    protein_file: The PDB file path of the protein
 
     Output:
     SASA: The solvent accessible surface area
     """
     struct, _ = biop_fetch(protein_file)
+
+    CONSOLE.print(
+        f"Calculating SASA for {protein_file}. This is going to take a while."
+    )
+    spinner = Spinner(DOTS, text="Calculating SASA... Hold on tight!")
+    spinner.start()
+
     sr = ShrakeRupley()
     sr.compute(struct, level="S")
-    sasa_value = round(struct.sasa, 2)
+    sasa_value = round(struct.sasa, 6)
+
+    spinner.stop()
 
     CONSOLE.print(f"SASA value for {protein_file}: {sasa_value} Å²")
+    return
+
+
+def meta_data_surface(protein_file: str, surface_residue_csvpath: str):
+    """
+    To write the metadata in the surface residues file at top.
+    Args:
+    protein_file: the pdb file of protein
+    surface_residue_csvpath: the path to the surface residues csv file
+    """
+    _, protein_id = biop_fetch(protein_file)
+
+    with open(surface_residue_csvpath, "r") as csvfile:
+        reader = csv.reader(csvfile)
+        data = list(reader)
+
+    # Calculate metadata
+    num_residues = len(data) - 1  # Subtracting 1 for the header row
+    sum_potentials = sum(float(row[2]) for row in data[1:])
+
+    # Prepare metadata
+    metadata = [
+        f"Surface residues data for {protein_file} generate by BEPT.",
+        f"Protein ID: {protein_id}",
+        f"Number of residues: {num_residues}",
+        f"Sum of all potentials: {sum_potentials}",
+        f"CSV file path: {surface_residue_csvpath}",
+    ]
+
+    return "\n".join(metadata)
 
 
 def get_surface_resi(
@@ -50,6 +90,11 @@ def get_surface_resi(
     protein_bept_csvpath: the path to the protein's bept csv file
     output_dir: the directory to store the output csv file
     """
+    if protein_file is None or protein_file.strip() == "":
+        CONSOLE.print("No protein file provided", style="red")
+        return "", True
+
+    _, protein_id = biop_fetch(protein_file)
     err_surface_calc = False
     destination_surface_resi_path = ""
     try:
@@ -57,11 +102,9 @@ def get_surface_resi(
         bept_cache_dir = os.path.join(output_dir, ".bept")
         os.makedirs(bept_cache_dir, exist_ok=True)
 
-        output_csv_file = os.path.join(
-            bept_cache_dir, f"{protein_file}_surface_data.csv"
-        )
+        output_csv_file = os.path.join(bept_cache_dir, f"{protein_id}_surface_data.csv")
         output_tabulated_file = os.path.join(
-            output_dir, f"{protein_file}_surface_data.txt"
+            output_dir, f"{protein_id}_surface_data.txt"
         )
 
         # Read the input CSV file and sum potentials
@@ -93,8 +136,11 @@ def get_surface_resi(
             for resi_seq, potential in resi_potentials.items()
         ]
 
-        # Write the tabulated data to a file
         with open(output_tabulated_file, "w") as tabfile:
+            tabfile.write(meta_data_surface(protein_file, output_csv_file) + "\n\n")
+
+        # Write the tabulated data to a file
+        with open(output_tabulated_file, "a") as tabfile:
             tabfile.write(
                 tabulate(table_data, headers="keys", tablefmt="plain", showindex=False)
             )
@@ -105,10 +151,13 @@ def get_surface_resi(
             f"Successfully calculated surface residues for {protein_file}",
             style="green",
         )
-        calc_sasa(protein_file)
 
     except Exception as e:
-        CONSOLE.print(f"Error in calculating surface residues. Error: {e}")
+        CONSOLE.print(f"Error in calculating surface residues. Error: {e}", style="red")
         err_surface_calc = True
 
     return destination_surface_resi_path, err_surface_calc
+
+
+if __name__ == "__main__":
+    calc_sasa("../../../../1l2y.pdb")

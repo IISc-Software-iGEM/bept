@@ -15,7 +15,7 @@ def compute_field(filepath):
     if not compute_field.cache_info().hits:
         CONSOLE.print("Generating electric field for grid.", style="bold blue")
 
-    spinner = Spinner(DOTS)
+    spinner = Spinner(DOTS, text="Calulating... Hold on tight!")
     spinner.start()
 
     # Extract nx, ny, nz

@@ -7,7 +7,7 @@ from trogon import tui
 
 from bept.analysis.bept_csv_make import bept_make, csv_make
 from bept.analysis.opt_files.cube import cube_make
-from bept.analysis.opt_files.surface_pdb_sasa import get_surface_resi
+from bept.analysis.opt_files.surface_pdb_sasa import get_surface_resi, calc_sasa
 from bept.analysis.opt_files.xyz import xyz_make
 from bept.auto.auto_execute import apbs_exec, p_exec
 from bept.auto.auto_file import file_runner
@@ -263,6 +263,7 @@ def out(interactive, dx, pqr, all_types, out_dir):
         "cube: Gaussian .cube file",
         "xyz: .xyz format for input protein",
         "Surface Residues with Potential",
+        "Calculate and print SASA value for protein",
         "Cancel and generate default",  # Always last option
     ]
     types = ["bept: .bept file containing all data"]
@@ -288,6 +289,11 @@ def out(interactive, dx, pqr, all_types, out_dir):
 
     bept_csv, err_csv = csv_make(input_pqr, input_dx, output_dir)
     bept_main_path, err_bept = bept_make(input_pqr, input_dx, bept_csv, output_dir)
+
+    protein_path = input(
+        "For calculating the surface residues and SASA, we need the PDB file path. Please provide the path: "
+    )
+
     if err_csv or err_bept:
         CONSOLE.print("Error in generating BEPT default files.", style="red")
         return 0
@@ -317,20 +323,22 @@ def out(interactive, dx, pqr, all_types, out_dir):
             destination_xyz, err_xyz = xyz_make(bept_csv, bept_main_path, output_dir)
             if_err_file(err_xyz, "xyz", destination_xyz)
 
-        if "Surface" in str(_typ):
-            protein_path = input(
-                "For calculating the surface residues, we need the PDB file path. Please provide the path: "
-            )
-            destination_surf, err_surf = get_surface_resi(
-                protein_path, bept_csv, output_dir
-            )
-            if_err_file(err_surf, "Surface Residues with Potential", destination_surf)
-            if not err_surf:
-                CONSOLE.print(
-                    "Note: The surface residues CSV file has been generated and stored in .bept directory.",
-                    style="yellow",
+        if "Surface" in str(_typ) or "SASA" in str(_typ):
+            if "SASA" in str(_typ):
+                calc_sasa(protein_path)
+
+            else:
+                destination_surf, err_surf = get_surface_resi(
+                    protein_path, bept_csv, output_dir
                 )
-            print("hi")
+                if_err_file(
+                    err_surf, "Surface Residues with Potential", destination_surf
+                )
+                if not err_surf:
+                    CONSOLE.print(
+                        "Note: The surface residues CSV file has been generated and stored in .bept directory.",
+                        style="yellow",
+                    )
 
     return 1
 
