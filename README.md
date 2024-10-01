@@ -29,14 +29,25 @@ Bept is cross-platform and can be installed on MacOS, Linux and Windows. It is b
 Here is series of examples of how to use the tool:
 
 ### Interactive mode for generating PDB2PQR and APBS input files
+Here is how you can generate PQR files with BEPT -
+
+https://github.com/user-attachments/assets/64ee9e6f-20e1-4898-878c-c6203a4c4b38
+
+Here is how you can edit APBS Input files -
+
+https://github.com/user-attachments/assets/3b82c678-ae24-4d9f-a797-1c2a062230db
 
 ### Generating PQR, Potential DX and BEPT files
 
+https://github.com/user-attachments/assets/df7178af-494c-43dd-bb27-14e45764e523
+
 ### Automating the process of running PDB2PQR and APBS
 
-### Generate BEPT command for your conveniences
+https://github.com/user-attachments/assets/93476c8b-df43-45d0-a7fe-79aa359f2f09
 
-### View the docs of the tool
+## Generating Template Python codes for Pymol
+
+https://github.com/user-attachments/assets/49268543-65f3-49b4-92dc-d724886e9df5
 
 ## Installation
 
@@ -123,9 +134,14 @@ Here is an example of visualisation of `1l2y` protein after opening the `cube` f
 
 We've got you covered, Bept has a very nice UI for generating the commands for you, powered by [trogon](https://github.com/textualize/trogon). You can just write the file paths and choose the options and the command will be generated for you. You can use it by running `bept ui`.
 
+https://github.com/user-attachments/assets/6058a9fc-2642-4ef0-80f1-2972f0c9218b
+
 ## Documentation
 
 Bept provides a very nice UI for reading documentation offline in your terminal anytime. You can read it with `bept docs`. These documentations are also present as it is in [docs](/docs).
+
+https://github.com/user-attachments/assets/86d8e34a-f898-46f0-891c-f3c47b5acfcb
+
 For any queries or issues, feel free to raise an issue in the repository.
 
 ## Our Team
