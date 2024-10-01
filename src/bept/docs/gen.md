@@ -6,7 +6,7 @@ To see the interactive generation help menu, run `bept gen --help`.
 
 ## PDB2PQR
 
-`pdb2pqr --help` provides a big range of options to choose from. However, it can be overwhelming for beginners to understand what each option does and how to use them. Bept simplifies this process by providing an interactive way to generate PDB2PQR commands, powered by [textual](https://github.com/Textualize/textual) and [beaupy](https://github.com/petereon/beaupy). By default, we will use the textual interface, but you can choose to use beaupy interface with `-no-tui | -nu` flag
+`pdb2pqr --help` provides a big range of options to choose from. However, it can be overwhelming for beginners to understand what each option does and how to use them. Bept simplifies this process by providing an interactive way to generate PDB2PQR commands, powered by [textual](https://github.com/Textualize/textual) and [beaupy](https://github.com/petereon/beaupy). By default, we will use the textual interface, but you can choose to use beaupy interface with `-no-tui | -nu` flag.
 
 The inspiration for having an interactive mode for PDB2PQR came from the amazing Web server of APBS. The command options provided here are similar to the ones provided in the web server. The advantage of Bept here is that you can run it as many times as you want, without any delays, and you can save the commands for future references automatically.
 
@@ -16,9 +16,13 @@ Say you have a protein PDB file called `protein.pdb`. You can interactively gene
 bept gen -p protein.pdb
 ```
 
-The
+Bept has pre-configured default values in the textual interactive interface where the default command generated without any changes is -
 
-The output will be `protein.pqr` file.
+```bash
+pdb2pqr --ff=AMBER --whitespace --keep-chain --apbs-input=protein.in --titration-state-method=propka --with-ph=7.0 protein.pdb protein.pqr
+```
+
+These are recommended options for beginners to start with. You can change the options as per your requirements. The output will be `protein.pqr` file along with `protein.in` file which is necessary for running APBS.
 
 ## APBS
 

@@ -6,7 +6,7 @@ Here are the following features of the `history` command in Bept.
 
 ## 1. View and Execute
 
-You can view the history of the `pdb2pqr` and `apbs` commands you have run in the past using the `history` command. The command will show you the list of commands using `beaupy`, which you can select and perform operations on. You have to mention `-a` or `-p` flag to view the history of `apbs` or `pdb2pqr` commands respectively.
+You can view the history of the `pdb2pqr` and `apbs` you have run in the past using the `history` command. The command will show you the list of commands using `beaupy`, which you can select and perform operations on. You have to mention `-a` or `-p` flag to view the history of `apbs` or `pdb2pqr` commands respectively.
 
 Note that, running the commands in history has been divided into functionalities such as `add new command`, `edit command`, `execute command`, `save command` and `delete command`. This is meant so that you may want to keep your history intact yet just want to execute a command with minor tweaks. If you are adding a new command, please make sure to check `edit`, `save` and `execute`(to execute) boxes.
 

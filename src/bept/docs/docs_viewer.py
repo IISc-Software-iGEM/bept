@@ -6,9 +6,12 @@ from textual.widgets import Footer, Markdown, TabbedContent, TabPane
 
 class TabbedApp(App):
     """Tabs for displaying file names."""
-    BINDINGS = [("q", "quit", "QUIT"),
-                ("->","next", "Press right arrow to switch to the next tab"),
-                ("<-","previous", "Press left arrow to switch to the previous tab")]
+
+    BINDINGS = [
+        ("q", "quit", "QUIT"),
+        ("->", "next", "Press right arrow to switch to the next tab"),
+        ("<-", "previous", "Press left arrow to switch to the previous tab"),
+    ]
 
     def __init__(self, file_paths):
         super().__init__()
@@ -52,6 +55,7 @@ def run_docs_viewer():
         "out.md",
         "auto.md",
         "history.md",
+        "pymol.md",
     ]
     file_list = [os.path.join(current_dir, file) for file in file_list]
     app = TabbedApp(file_list)

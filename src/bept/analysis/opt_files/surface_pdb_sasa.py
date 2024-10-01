@@ -73,7 +73,6 @@ def meta_data_surface(protein_file: str, surface_residue_csvpath: str):
         f"Protein ID: {protein_id}",
         f"Number of residues: {num_residues}",
         f"Sum of all potentials: {sum_potentials}",
-        f"CSV file path: {surface_residue_csvpath}",
     ]
 
     return "\n".join(metadata)

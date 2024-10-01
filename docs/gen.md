@@ -6,7 +6,7 @@ To see the interactive generation help menu, run `bept gen --help`.
 
 ## PDB2PQR
 
-`pdb2pqr --help` provides a big range of options to choose from. However, it can be overwhelming for beginners to understand what each option does and how to use them. Bept simplifies this process by providing an interactive way to generate PDB2PQR commands, powered by [beaupy](https://github.com/petereon/beaupy).
+`pdb2pqr --help` provides a big range of options to choose from. However, it can be overwhelming for beginners to understand what each option does and how to use them. Bept simplifies this process by providing an interactive way to generate PDB2PQR commands, powered by [textual](https://github.com/Textualize/textual) and [beaupy](https://github.com/petereon/beaupy). By default, we will use the textual interface, but you can choose to use beaupy interface with `-no-tui | -nu` flag.
 
 The inspiration for having an interactive mode for PDB2PQR came from the amazing Web server of APBS. The command options provided here are similar to the ones provided in the web server. The advantage of Bept here is that you can run it as many times as you want, without any delays, and you can save the commands for future references automatically.
 
@@ -16,7 +16,13 @@ Say you have a protein PDB file called `protein.pdb`. You can interactively gene
 bept gen -p protein.pdb
 ```
 
-The output will be `protein.pqr` file.
+Bept has pre-configured default values in the textual interactive interface where the default command generated without any changes is -
+
+```bash
+pdb2pqr --ff=AMBER --whitespace --keep-chain --apbs-input=protein.in --titration-state-method=propka --with-ph=7.0 protein.pdb protein.pqr
+```
+
+These are recommended options for beginners to start with. You can change the options as per your requirements. The output will be `protein.pqr` file along with `protein.in` file which is necessary for running APBS.
 
 ## APBS
 
@@ -44,10 +50,10 @@ To run the interactive APBS input file generator -
 bept gen -i input_file_path.in
 ```
 
-- The input file path can either be relative to current working diretory or be an absolute path, the toml files will be generated in the same directory as the input file. However, the output .in file will be generated in the current working directory.
+- The input file path can be relative to current working diretory or absolute path, the toml files will be generated in the same directory as the input file. However, the output .in file will be generated in the current working directory.
 - You can use the keyboard bindings in the footer to change between tabs(i for Input, m for Misc Options, o for Output Options)/widgets(\<TAB> for next widget, <SHIFT+TAB> for previous widget).
 
-Here is detailed information about each of the options APBS interactive mode has. You can also checkout the official documentation for apbs_input file [here](https://ics.uci.edu/~dock/manuals/apbs/html/user-guide/x674.html) for more information.
+Here is detailed information about the each option in the APBS interactive mode has. You can also checkout official documentation for apbs_input file [here](https://ics.uci.edu/~dock/manuals/apbs/html/user-guide/x674.html) for more information.
 
 ### Interactive APBS input file generator. It runs the InputApp.
 
