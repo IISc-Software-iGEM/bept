@@ -1,4 +1,4 @@
-# Improvised CLI - BEPT
+# Improvised CLI - BEPT ![Static Badge](https://img.shields.io/badge/version-0.1.0-blue)
 
 <p align="center">
     <a><img width=700 alt = "bept logo" src="https://github.com/user-attachments/assets/d9bc6905-1082-42a3-a36d-04e0b253b27c" </a>
@@ -110,7 +110,7 @@ pip install -r requirements.txt
 
 For windows, you might need to set the PATH variable where the tool is downloaded.
 
-## I generated the files, now what?
+## Bept generated the files, now what?
 
 After generating `pqr`, `dx` or `cube` files, you can open them in Pymol to visualise the proteins, their electrostatic gradient maps and much more.
 
