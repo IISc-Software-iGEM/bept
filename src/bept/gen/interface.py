@@ -1,5 +1,4 @@
 import toml
-import warnings
 from copy import deepcopy
 from bept.gen.toml_in_converter import in_toml, toml_in
 from typing import Coroutine, Any
@@ -26,7 +25,7 @@ from textual.widgets.option_list import Option
 TAB_NAMES = ["Input", "Misc-Options", "Output-Settings"]
 possible_inputs = ["mg-auto", "mg-para", "mg-manual", "fe-manual", "mg-dummy"]
 mg_auto_def = {
-    "read": {"mol": ["pqr", "7y6i.pqr"]},
+    "read": {"mol": ["pqr", ""]},
     "elec": {
         "calculation-type": "",
         "dime": ["", "", ""],

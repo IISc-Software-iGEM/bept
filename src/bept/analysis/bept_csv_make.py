@@ -118,8 +118,11 @@ def csv_make(pqr_file: str, pot_dx_file: str, output_dir: str = os.getcwd()):
         err = Error()
         return 0
 
+    bept_dir = os.path.join(output_dir, ".bept")
+    os.makedirs(bept_dir, exist_ok=True)
+
     destination_path = os.path.join(
-        output_dir, os.path.splitext(os.path.basename(pqr_file))[0] + "_bept.csv"
+        bept_dir, os.path.splitext(os.path.basename(pqr_file))[0] + "_bept.csv"
     )
 
     try:

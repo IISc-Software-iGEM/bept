@@ -157,7 +157,3 @@ def get_surface_resi(
         err_surface_calc = True
 
     return destination_surface_resi_path, err_surface_calc
-
-
-if __name__ == "__main__":
-    calc_sasa("../../../../1l2y.pdb")
