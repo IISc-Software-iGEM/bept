@@ -20,6 +20,16 @@ terminal -
 To see the help message, you can run ``bept out --help`` in your
 terminal.
 
+Calculation of the Gradients
+----------------------------
+
+We calculate the gradients of the electric field at each atom in the
+structure. The gradient is calculated using the algorithms used by
+``numpy.gradient`` function. To know more about how we implement the
+gradient calculation, check out the `Gradient
+Calculation <https://github.com/IISc-Software-iGEM/bept/blob/main/bio_docs/electrostatic_gradient.md>`__
+documentation on our repository.
+
 Format of ``{protein}_bept.csv``
 --------------------------------
 
