@@ -29,6 +29,7 @@ Bept is cross-platform and can be installed on MacOS, Linux and Windows. It is b
 Here is series of examples of how to use the tool:
 
 ### Interactive mode for generating PDB2PQR and APBS input files
+
 Here is how you can generate PQR files with BEPT -
 
 https://github.com/user-attachments/assets/64ee9e6f-20e1-4898-878c-c6203a4c4b38
@@ -143,6 +144,8 @@ https://github.com/user-attachments/assets/6058a9fc-2642-4ef0-80f1-2972f0c9218b
 Bept provides a very nice UI for reading documentation offline in your terminal anytime. You can read it with `bept docs`. These documentations are also present as it is in [docs](/docs).
 
 https://github.com/user-attachments/assets/86d8e34a-f898-46f0-891c-f3c47b5acfcb
+
+You can also read the docs online at [ReadTheDocs](https://bept.readthedocs.io/en/latest/).
 
 For any queries or issues, feel free to raise an issue in the repository.
 
