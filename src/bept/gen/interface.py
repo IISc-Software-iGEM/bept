@@ -1817,10 +1817,6 @@ class InputApp(App):
         self.mount(Output_options())
 
 
-if __name__ == "__main__":
-    app = InputApp()
-    app.run()
-
 for i in InputApp.ion:
     if i.count("") == 2 or i.count("") == 1:
         warnings.warn(
