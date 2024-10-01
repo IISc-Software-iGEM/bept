@@ -1,14 +1,14 @@
 import os
+import shutil
 
 import rich_click as click
 from beaupy import confirm, select_multiple
 from rich.console import Console
 from trogon import tui
-import shutil
 
 from bept.analysis.bept_csv_make import bept_make, csv_make
 from bept.analysis.opt_files.cube import cube_make
-from bept.analysis.opt_files.surface_pdb_sasa import get_surface_resi, calc_sasa
+from bept.analysis.opt_files.surface_pdb_sasa import calc_sasa, get_surface_resi
 from bept.analysis.opt_files.xyz import xyz_make
 from bept.auto.auto_execute import apbs_exec, p_exec
 from bept.auto.auto_file import file_runner
@@ -304,7 +304,7 @@ def out(interactive, dx, pqr, pdb, all_types, out_dir):
     bept_csv, err_csv = csv_make(input_pqr, input_dx, output_dir)
     bept_main_path, err_bept = bept_make(input_pqr, input_dx, bept_csv, output_dir)
 
-    if not pdb:
+    if not pdb and (file_options[2] in types or file_options[3] in types):
         protein_path = input(
             "For calculating the surface residues and SASA, we need the PDB file path. Please provide the path: "
         )
