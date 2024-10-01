@@ -1,4 +1,5 @@
 import toml
+import warnings
 from copy import deepcopy
 from bept.gen.toml_in_converter import in_toml, toml_in
 from typing import Coroutine, Any
@@ -1771,6 +1772,7 @@ class InputApp(App):
 
     def action_quit(self) -> Coroutine[Any, Any, None]:
         """Triggers when the App is quit"""
+        self.new_data["read"]["mol"] = ["pqr", data["read"]["mol"][1].split(".")[0] + ".pqr"]
         self.new_data["elec"]["calcforce"] = calcforce
         self.new_data["elec"]["calcenergy"] = calcenergy
         for i in range(len(write_commands)):
@@ -1813,3 +1815,16 @@ class InputApp(App):
         self.query(Collapsible).add_class("hidden")
         self.query(Misc_options).remove()
         self.mount(Output_options())
+
+
+if __name__ == "__main__":
+    app = InputApp()
+    app.run()
+
+for i in InputApp.ion:
+    if i.count("") == 2 or i.count("") == 1:
+        warnings.warn(
+            "All the parameters for ion"
+            + str(InputApp.ion.index(i) + 1)
+            + " are not provided, and it will be ignored in the calculation"
+        )
