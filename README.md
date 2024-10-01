@@ -1,4 +1,8 @@
 # Improvised CLI - BEPT
+<p align="center">
+    <a><img width=700 alt = "bept logo" src="https://github.com/user-attachments/assets/d9bc6905-1082-42a3-a36d-04e0b253b27c" </a>
+</a>
+</p>
 
 Bept - Beginner friendly Electrostatics for Protein analysis Tool, is built by IISc-Software Team and future juniors iGEMers from Indian Institute of Science, Bengaluru India, for iGEM 2024.
 
