@@ -70,7 +70,7 @@ All the commands will be saved to history and can be viewed using the
 the cache directory. See ``history`` docs for more information.
 
 Example for ``commands.txt`` file.
-==================================
+--------------------------------
 
 This file should be a simple ``.txt`` or non executable file. Here is an
 example containing various examples for you to run.

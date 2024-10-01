@@ -59,6 +59,9 @@ def pymol_main(output_dir: str):
         ticked_indices=[0],
         maximal_count=len(pymol_code_opts),
     )
+    if not codes_selected:
+        CONSOLE.print("No code template selected.", style="yellow")
+        return
 
     for opt in codes_selected:
         code = pymol_code_opts[opt]
