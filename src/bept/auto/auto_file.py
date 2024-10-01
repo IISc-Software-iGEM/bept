@@ -75,6 +75,8 @@ def file_runner(input_file: str, interactive: bool = False):
                 CONSOLE.print(f"PROCESS FAILED. Error: {e}", style="bold red")
 
             status_log.append((cmd, return_code))
+        elif cmd.split()[0].strip() == "#":
+            continue
         else:
             CONSOLE.print(f"INVALID COMMAND. SKIPPING {cmd}", style="bold red")
             status_log.append((cmd, 999))

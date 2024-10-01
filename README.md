@@ -1,4 +1,5 @@
 # Improvised CLI - BEPT
+
 <p align="center">
     <a><img width=700 alt = "bept logo" src="https://github.com/user-attachments/assets/d9bc6905-1082-42a3-a36d-04e0b253b27c" </a>
 </a>
@@ -15,6 +16,8 @@ Bept is cross-platform and can be installed on MacOS, Linux and Windows. It is b
 - Interactively generate pdb2pqr command line and APBS `.in` input files without looking into deep documentation.
 - Generate the PQR, Potential DX and BEPT special `.bept` file containing all the information you need for a protein.
 - Automate the process of running PDB2PQR and APBS with optional interactive modes.
+- Generate data on surface residues along with calculating SASA values.
+- Bept provides PyMol python pre-made template codes for various functionalities.
 - Save your `.in` files in cache for future references.
 - Save your PDB2PQR commands in history so you no need to generate it again.
 - If you feel understanding how to write the command itself, don't worry, Bept has a friendly UI for that too.
@@ -79,8 +82,6 @@ pip install .
 
 Check if the tool is successfully installed by running `bept --help` and you are good to go!
 
-### Using Docker
-
 ## APBS and PDB2PQR
 
 `bept` focusses on the automation of the process of running PDB2PQR and APBS. `pdb2pqr` is installed along with `bept` so you need not worry. To install APBS, you can follow the below steps -
@@ -108,6 +109,15 @@ pip install -r requirements.txt
 ```
 
 For windows, you might need to set the PATH variable where the tool is downloaded.
+
+## I generated the files, now what?
+
+After generating `pqr`, `dx` or `cube` files, you can open them in Pymol to visualise the proteins, their electrostatic gradient maps and much more.
+
+> [!Note]
+> The `.bept` is our custom made filetype to contain data about the protein, however it is not a globally recognised filetype hence you cannot input it in Pymol. Use these files for your own analysis.
+
+Here is an example of visualisation of `1l2y` protein after opening the `cube` file generated in Pymol -
 
 ## Too hard to understand even Bept?
 
@@ -147,7 +157,8 @@ APBS -
 Jurrus E, Engel D, Star K, Monson K, Brandi J, Felberg LE, Brookes DH, Wilson L, Chen J, Liles K, Chun M, Li P, Gohara DW, Dolinsky T, Konecny R, Koes DR, Nielsen JE, Head-Gordon T, Geng W, Krasny R, Wei G-W, Holst MJ, McCammon JA, Baker NA. Improvements to the APBS biomolecular solvation software suite. Protein Sci, 27 (1), 112-128, 2018. https://doi.org/10.1002/pro.3280
 ```
 
-Some of the codes for analysis have been adapted from [pdb2pqr](https://github.com/Electrostatics/pdb2pqr) and has been well acknowledged in the codebase.
+> [!Note]
+> The `dx2cube` functionality for analysis have been adapted from [pdb2pqr](https://github.com/Electrostatics/pdb2pqr) Github repository and has been well acknowledged in the source code.
 
 ## License
 

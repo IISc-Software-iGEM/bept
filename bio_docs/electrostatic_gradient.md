@@ -1,16 +1,15 @@
-## **NumPy**
+# Electrostatic Gradient
 
 NumPy.gradient calculates the gradient of an N-dimensional array.
 The gradient is computed using second order accurate central differences in the interior points and either first or second order accurate one-sides (forward or backwards) differences at the boundaries.
 
 It takes four parameters:
-numpy.gradient(f, *varargs, axis=None, edge_order=1)
+numpy.gradient(f, \*varargs, axis=None, edge_order=1)
 
 - **f**: N-dimensional array containing samples of a scalar function.
 - **varargs**: list of scalar or array, optional
 - **axis**: None or int or tuple of ints, optional
 - **edge_order**: {1, 2}, optional
-
 
 ### The Formula:
 
@@ -22,11 +21,11 @@ For the values in the middle we can use central difference, forward difference a
 
 Effectively any point has a hd (the forward step size) and a hs (the backward step size) and the formula is not just (f(x+h<sub>d</sub>)-f(x-h<sub>s</sub>))/(h<sub>d</sub>+h<sub>s</sub>) but instead that bigger expression given in the documentation, where the values of h<sub>d</sub> and h<sub>s</sub> act as some kind of weights. np.gradient is backwards, central, and forward difference combined.
 
-Let h<sub>*</sub> be a non-homogeneous step size, we minimize the “consistency error” nf_i(x_{i+1}) between the true gradient and its estimate from a linear combination of the neighboring grid-points:
+Let h<sub>\*</sub> be a non-homogeneous step size, we minimize the “consistency error” nf*i(x*{i+1}) between the true gradient and its estimate from a linear combination of the neighboring grid-points:
 
 $$n_i = f_i^{(1)} - [a f(x_i) + b f(x_i+h_d) + c f(x_i-h_s)]$$
 
-Given that finite differences do work out, this approach should work as well and generalize the idea. Expand f(x+hd) and f(x-hs) with their Taylor series: $$f(x+h_d) = f(x) + h_d f'(x) + h_d^2 f''(x)/2 + ...$$  $$f(x-h_s) = f(x) - h_s f'(x) + h_s^2 f''(x)/2 + ...$$
+Given that finite differences do work out, this approach should work as well and generalize the idea. Expand f(x+hd) and f(x-hs) with their Taylor series: $$f(x+h_d) = f(x) + h_d f'(x) + h_d^2 f''(x)/2 + ...$$ $$f(x-h_s) = f(x) - h_s f'(x) + h_s^2 f''(x)/2 + ...$$
 
 We get the following equations after substitution:
 
@@ -38,11 +37,9 @@ Resulting approximation of f<sub>i</sub><sup>(1)</sup> is:
 
 $$f_i^{(1)} = {h_s^2f(x_{i} + h_d) + (h_d^2 - h_s^2)f(x_i)- h_d^2f(x_{i} - h_s) \over h_sh_d(hs+h_d)} + O({h_sh_d^2 + h_dh_s^2 \over h_s + h_d})$$
 
-
 If we consider h<sub>s</sub> = h<sub>d</sub> (data is evenly spaced) then we get:
 
 $$f_i^{(1)} = {f(x_{i+1}) - f(x_{i-1}) \over 2h} + O(h^2)$$
-
 
 ### Implementation
 
@@ -53,6 +50,3 @@ $$f_i^{(1)} = {f(x_{i+1}) - f(x_{i-1}) \over 2h} + O(h^2)$$
 - Computing Field: The potential gradient is computed using numpy.gradient. Since the electric field is the negative gradient of the potential, the gradients in the x, y, and z directions are negated.
 
 The function returns the x, y, and z components of the electric field (Ex, Ey, Ez).
-
-
-

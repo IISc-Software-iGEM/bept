@@ -34,7 +34,7 @@ maintainers = [
     {name = "Anirudh Gupta"},
 ]
 license = {file = "LICENSE"}
-keywords = ["apbs", "pdb2pqr", "protein", "electrostatics", "cli"]
+keywords = ["apbs", "pdb2pqr", "protein", "electrostatics", "cli", "dx2cube", "cube", "bept"]
 classifiers=[
     "Development Status :: 4 - Beta",
     "Intended Audience :: Education",
