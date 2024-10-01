@@ -128,7 +128,9 @@ After generating `pqr`, `dx` or `cube` files, you can open them in Pymol to visu
 > [!Note]
 > The `.bept` is our custom made filetype to contain data about the protein, however it is not a globally recognised filetype hence you cannot input it in Pymol. Use these files for your own analysis.
 
-Here is an example of visualisation of `1l2y` protein after opening the `cube` file generated in Pymol -
+Here is an example of visualisation of `1l2y` protein after opening the `cube` and `pqr` file generated in Pymol -
+
+![1l2y_map](https://github.com/user-attachments/assets/99adc4ba-0763-4d71-9a74-08f2b50c77f9)
 
 ## Too hard to understand even Bept?
 
