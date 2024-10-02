@@ -154,11 +154,11 @@ For any queries or issues, feel free to raise an issue in the repository.
 The project was made by members of IISc-Software Team along with the upcoming iGEMers among undergraduates from IISc Bengaluru.
 
 - Anirudh Gupta(Maintainer, Project Leader) - Analysis, History management, Integration of features with CLI.
-- Aditya Thakkar - APBS interactive generation
-- Kishan Gowda - APBS interactive generation
-- Akshita Sunsugu Palaniswami - PDB2PQR interactive generation
+- Aditya Thakkar - APBS interactive generation, Protein Surface Residues output & SASA calculation.
+- Kishan Gowda - APBS interactive generation and Textual base PDB2PQR interactive command generation.
+- Akshita Sunsugu Palaniswami - Beaupy based PDB2PQR interactive command generation.
 - G Hasini - Software Testing
-- Deeptam Bhar - Interactive documentation
+- Deeptam Bhar - Interactive documentation and Bept LOGO design.
 - Aditey Nandan - Biological Backend and Documentation
 - Ritabrata Saha - Biological Backend and Documentation
 - Shreyan Priyadarshi - Biological Backend and Documentation
