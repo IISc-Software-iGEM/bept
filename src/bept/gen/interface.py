@@ -1,26 +1,17 @@
-import toml
 import warnings
 from copy import deepcopy
-from bept.gen.toml_in_converter import in_toml, toml_in
-from typing import Coroutine, Any
+from typing import Any, Coroutine
+
+import toml
 from textual import on
 from textual.app import App
-from textual.containers import Vertical, Horizontal, VerticalScroll
-from textual.widgets import (
-    Footer,
-    Label,
-    Checkbox,
-    RadioSet,
-    RadioButton,
-    TabbedContent,
-    Input,
-    TabPane,
-    Select,
-    Collapsible,
-    Static,
-    OptionList,
-)
+from textual.containers import Horizontal, Vertical, VerticalScroll
+from textual.widgets import (Checkbox, Collapsible, Footer, Input, Label,
+                             OptionList, RadioButton, RadioSet, Select, Static,
+                             TabbedContent, TabPane)
 from textual.widgets.option_list import Option
+
+from bept.gen.toml_in_converter import in_toml, toml_in
 
 # GLOBALS
 TAB_NAMES = ["Input", "Misc-Options", "Output-Settings"]
@@ -55,14 +46,7 @@ data = dict()
 
 
 def generate_toml_file(input_file):
-    global \
-        data, \
-        input_file_name, \
-        write_commands, \
-        calcenergy, \
-        calcforce, \
-        selected_input, \
-        form
+    global data, input_file_name, write_commands, calcenergy, calcforce, selected_input, form
 
     in_toml(input_file)
     toml_input_file_name = input_file_name = input_file[:-3] + ".toml"
@@ -1519,20 +1503,18 @@ class Output_options(Static):
             yield Label("Output")
             with Collapsible(title="FORMAT TO WRITE DATA:"):
                 with RadioSet(id="format"):
-                    yield RadioButton(
-                        "OpenDX", id="dx", value=(self.write_pot[0] == "dx")
-                    )
+                    yield RadioButton("OpenDX", id="dx", value=(self.format[0] == "dx"))
                     yield RadioButton(
                         "AVS UCD",
                         id="avs",
                         disabled=(selected_input != "fe-manual"),
-                        value=(self.write_pot[0] == "avs"),
+                        value=(self.format[0] == "avs"),
                     )
                     yield RadioButton(
                         "UBHD",
                         id="uhbd",
                         disabled=(selected_input == "fe-manual"),
-                        value=(self.write_pot[0] == "uhbd"),
+                        value=(self.format[0] == "uhbd"),
                     )
 
 
@@ -1542,14 +1524,7 @@ class InputApp(App):
         self.input_path = input_path
 
     # Initializations
-    global \
-        data, \
-        input_file_name, \
-        write_commands, \
-        calcenergy, \
-        calcforce, \
-        selected_input, \
-        form
+    global data, input_file_name, write_commands, calcenergy, calcforce, selected_input, form
     new_data = mg_auto_def
     cgcent = ["", "", ""]
     fgcent = ["", "", ""]
@@ -1772,7 +1747,10 @@ class InputApp(App):
 
     def action_quit(self) -> Coroutine[Any, Any, None]:
         """Triggers when the App is quit"""
-        self.new_data["read"]["mol"] = ["pqr", data["read"]["mol"][1].split(".")[0] + ".pqr"]
+        self.new_data["read"]["mol"] = [
+            "pqr",
+            data["read"]["mol"][1].split(".")[0] + ".pqr",
+        ]
         self.new_data["elec"]["calcforce"] = calcforce
         self.new_data["elec"]["calcenergy"] = calcenergy
         for i in range(len(write_commands)):
