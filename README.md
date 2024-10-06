@@ -82,6 +82,20 @@ You can download bept from Homebrew by running the below command -
 brew install anirudhg07/anirudhg07/bept
 ```
 
+### Docker
+
+You can use the docker image to run bept. You can pull the image from DockerHub by running the below command -
+
+```bash
+docker pull anirudhg07/bept
+```
+
+If you do not want to download and run the image directly, you can use the below command -
+
+```bash
+docker run -it --rm anirudhg07/bept --help
+```
+
 ### Building from source
 
 `bept` has been made using `uv` python package manager. You can install `uv` and run the below commands to install `bept` -
