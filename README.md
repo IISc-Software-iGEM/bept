@@ -11,6 +11,27 @@ Bept is a beginner-friendly tool for analysis proteins which uses functionalitie
 
 Bept is cross-platform and can be installed on MacOS, Linux and Windows. It is built using Python, managed by `uv` package manager.
 
+## Table of Contents
+
+- [Features](#features)
+- [Preview](#preview)
+  - [Interactive mode for generating PDB2PQR and APBS input files](#interactive-mode-for-generating-pdb2pqr-and-apbs-input-files)
+  - [Generating PQR, Potential DX and BEPT files](#generating-pqr-potential-dx-and-bept-files)
+  - [Automating the process of running PDB2PQR and APBS](#automating-the-process-of-running-pdb2pqr-and-apbs)
+- [Generating Template Python codes for Pymol](#generating-template-python-codes-for-pymol)
+- [Installation](#installation)
+  - [Using pip](#using-pip)
+  - [Homebrew](#homebrew)
+  - [Docker](#docker)
+  - [Building from source](#building-from-source)
+- [APBS and PDB2PQR](#apbs-and-pdb2pqr)
+- [Dependencies](#dependencies)
+- [Bept generated the files, now what?](#bept-generated-the-files-now-what)
+- [Too hard to understand even Bept?](#too-hard-to-understand-even-bept)
+- [Documentation](#documentation)
+- [Our Team](#our-team)
+- [Citations and Acknowledgements](#citations-and-acknowledgements)
+
 ## Features
 
 - Interactively generate pdb2pqr command line and APBS `.in` input files without looking into deep documentation.
@@ -84,7 +105,7 @@ brew install anirudhg07/anirudhg07/bept
 
 ### Docker
 
-You can use the docker image to run bept. You can pull the image from DockerHub by running the below command -
+You can use the docker image to run bept by pulling the [bept image](https://hub.docker.com/r/anirudhg07/bept) from DockerHub by running the below command -
 
 ```bash
 docker pull anirudhg07/bept
@@ -177,6 +198,8 @@ The project was made by members of IISc-Software Team along with the upcoming iG
 - Ritabrata Saha - Biological Backend and Documentation
 - Shreyan Priyadarshi - Biological Backend and Documentation
 - Soham Paul - Biological Backend and Documentation
+
+Read our blog about bept [here](https://anirudhg07.hashnode.dev/bept-for-proteins). Also read our iGEM [wiki page](https://2024.igem.wiki/iisc-software/index.html) for BEPT [here](https://2024.igem.wiki/iisc-software/contribution).
 
 ## Citations and Acknowledgements
 
