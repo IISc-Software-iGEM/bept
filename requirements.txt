@@ -59,7 +59,7 @@ pytz==2024.2
     # via pandas
 questo==0.3.0
     # via beaupy
-requests==2.32.4
+requests==2.33.0
     # via pdb2pqr
 rich==13.8.1
     # via
